@@ -1952,7 +1952,7 @@
             "dist": {
                 "type": "path",
                 "url": "_bundle",
-                "reference": "9536e5c827fb651386414d19407caee6e8dcb741"
+                "reference": "5016e1b4f6d3dd1f073a0fdb771763ab615404c2"
             },
             "require": {
                 "nhagemann/anycontent-client-php": "dev-analyze-for-robert",
@@ -1961,6 +1961,7 @@
                 "symfony/framework-bundle": "^5.4|^6.0",
                 "symfony/http-kernel": "^6.1",
                 "symfony/routing": "^5.4|^6.0",
+                "symfony/security-bundle": "^5.4|^6.0",
                 "symfony/twig-bundle": "^5.4|^6.0",
                 "twig/twig": "^2.13|^3.0.4"
             },
