@@ -35,6 +35,9 @@
             "migrations/.gitignore"
         ]
     },
+    "nhagemann/anycontent-backup": {
+        "version": "dev-main"
+    },
     "phpunit/phpunit": {
         "version": "9.6",
         "recipe": {

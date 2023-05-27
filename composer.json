@@ -40,7 +40,8 @@
         "symfony/web-link": "6.2.*",
         "symfony/yaml": "6.2.*",
         "twig/extra-bundle": "^2.12|^3.0",
-        "twig/twig": "^2.12|^3.0"
+        "twig/twig": "^2.12|^3.0",
+        "nhagemann/anycontent-backup": "dev-main"
     },
     "config": {
         "allow-plugins": {
@@ -99,5 +100,8 @@
         "symfony/phpunit-bridge": "^6.2",
         "symfony/stopwatch": "6.2.*",
         "symfony/web-profiler-bundle": "6.2.*"
-    }
+    },
+    "repositories": [
+        {"type": "path", "url":  "_bundle"}
+    ]
 }

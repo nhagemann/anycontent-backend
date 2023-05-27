@@ -1,0 +1,3 @@
+anycontent_backend:
+  resource: '@AnyContentBackendBundle/Resources/config/routes.yaml'
+  prefix: /anycontent
