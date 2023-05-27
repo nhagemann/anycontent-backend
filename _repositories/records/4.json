@@ -1,0 +1,24 @@
+{
+    "id": 4,
+    "properties": {
+        "name": "Lao People's Democratic Republic McGlynn-Eichmann Airline",
+        "captain": "Jeff Grant",
+        "numberofplanes": "24",
+        "foundationyear": "1972"
+    },
+    "info": {
+        "revision": 1,
+        "creation": {
+            "timestamp": null,
+            "username": "",
+            "firstname": "",
+            "lastname": ""
+        },
+        "lastchange": {
+            "timestamp": 1674917487,
+            "username": "",
+            "firstname": "",
+            "lastname": ""
+        }
+    }
+}

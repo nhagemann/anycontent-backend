@@ -1,0 +1,24 @@
+{
+    "id": 11,
+    "properties": {
+        "name": "Haiti Strosin, Lindgren and Bechtelar Airline",
+        "captain": "Maybelle Kozey",
+        "numberofplanes": "122",
+        "foundationyear": "1947"
+    },
+    "info": {
+        "revision": 1,
+        "creation": {
+            "timestamp": null,
+            "username": "",
+            "firstname": "",
+            "lastname": ""
+        },
+        "lastchange": {
+            "timestamp": 1675848001,
+            "username": "",
+            "firstname": "",
+            "lastname": ""
+        }
+    }
+}

@@ -1,0 +1,24 @@
+{
+    "id": 2,
+    "properties": {
+        "name": "Bahamas Breitenberg LLC Airline",
+        "captain": "Mohammed Volkman",
+        "numberofplanes": "137",
+        "foundationyear": "1996"
+    },
+    "info": {
+        "revision": 1,
+        "creation": {
+            "timestamp": null,
+            "username": "",
+            "firstname": "",
+            "lastname": ""
+        },
+        "lastchange": {
+            "timestamp": 1674917487,
+            "username": "",
+            "firstname": "",
+            "lastname": ""
+        }
+    }
+}

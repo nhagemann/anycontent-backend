@@ -2,6 +2,7 @@
   "name": "nhagemann/anycontent-backup",
   "description": "Symfony Bundle to add AnyContent Backend to any Symfony project",
   "type": "symfony-bundle",
+  "minimum-stability": "dev",
   "require": {
     "php": ">=8.1",
     "symfony/config": "^5.4|^6.0",
@@ -9,7 +10,8 @@
     "symfony/http-kernel": "^6.1",
     "symfony/routing": "^5.4|^6.0",
     "symfony/twig-bundle": "^5.4|^6.0",
-    "twig/twig": "^2.13|^3.0.4"
+    "twig/twig": "^2.13|^3.0.4",
+    "nhagemann/anycontent-client-php": "dev-analyze-for-robert"
   },
   "autoload": {
     "psr-4": {
@@ -22,6 +24,20 @@
       "name": "Nils Hagemann",
       "email": "mail@nilshagemann.de",
       "homepage": "https://www.nilshagemann.de"
+    }
+  ],
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/nhagemann/anycontent-client-php"
+    },
+    {
+      "type": "vcs",
+      "url": "https://github.com/nhagemann/cmdl-parser-php"
+    },
+    {
+      "type": "vcs",
+      "url": "https://github.com/nhagemann/kvmlogger"
     }
   ]
 }
