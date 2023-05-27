@@ -1,0 +1,61 @@
+{% extends "listing.twig" %}
+
+
+{% block listing_content %}
+
+
+    <div class="row" id="content_view_glossary">
+
+
+            <div role="tabpanel">
+
+                <!-- Nav tabs -->
+                <div id="tabs">
+
+
+                    <ul class="nav nav-tabs" role="tablist">
+                        {% for k,columns in glossary %}
+                            <li role="presentation" {% if loop.first %}class="active"{% endif %}><a
+                                        href="#tab{{ loop.index }}" role="tab"
+                                        data-toggle="tab">{{ k }}</a>
+                            </li>
+
+                        {% endfor %}
+
+                    </ul>
+                </div>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <br/>
+                    {% for k,columns in glossary %}
+                        <div role="tabpanel" class="tab-pane {% if loop.first %}active{% endif %}"
+                             id="tab{{ loop.index }}">
+
+                            <div class="row">
+                                {% for records in columns %}
+                                    <div class="col-xs-4">
+                                        <table class="table table-striped pull-left">
+                                            {% for record in records %}
+                                                <tr>
+                                                    <td class="record-id"><a href="{{ record.editUrl }}"><span
+                                                                class="label label-info">#{{ record.id }}</span></a></td>
+                                                    <td><a href="{{ record.editUrl }}">{{ record.name }}</a>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        </table>
+                                    </div>
+
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+            </div>
+
+
+    </div>
+
+{% endblock %}

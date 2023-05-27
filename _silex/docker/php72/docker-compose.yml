@@ -1,0 +1,22 @@
+version: '2'
+services:
+  anycontent-cms-construction-kit-php72:
+    container_name: anycontent-cms-construction-kit-php72
+    build:
+      context: ./build/php
+      dockerfile: Dockerfile
+    image: anycontent-cms-construction-kit-php72:1.0.0
+    volumes:
+      - ./config/php/php.ini:/usr/local/etc/php/php.ini
+      - ../../:/application:cached
+      - ../../web/:/var/www/html:cached
+      - ../../:/var/www:cached
+      - ../../data/:/var/repositories:cached
+    ports:
+      - "8072:80"
+    networks:
+      - anycontent
+      - hahnair
+networks:
+  anycontent:
+    driver: "bridge"

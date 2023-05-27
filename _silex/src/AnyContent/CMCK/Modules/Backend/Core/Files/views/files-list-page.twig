@@ -1,0 +1,55 @@
+{% extends "layout-default.twig" %}
+
+{% block content %}
+    <div class="row">
+
+        <h3><a href="{{ links.files }}">Files</a></h3>
+
+        <br/>
+    </div>
+
+    {% for folder in folders %}
+        <div class="row folders-list">
+
+            <ul class="nav nav-tabs">
+                {% if loop.first %}
+                    <li{% if root %} class="active"{% endif %}><a href="{{ links.files }}"><span
+                                    class="glyphicon glyphicon-home"></span></a></li>
+                {% endif %}
+                {% for item in folder %}
+
+                    <li class="{{ item.class }}"><a href="{{ item.url }}">{{ item.name }}</a></li>
+                {% endfor %}
+            </ul>
+            <br/>
+        </div>
+    {% endfor %}
+
+
+    <div class="row">
+        <br/>
+        {% for file in files %}
+            {% include "files-list-page-item.twig" %}
+        {% endfor %}
+    </div>
+
+
+
+    {% block buttons %}
+        <div class="row">
+            <hr/>
+            {{ buttons | raw }}
+        </div>
+    {% endblock %}
+
+    {% include "files-modal-create-folder.twig" %}
+    {% include "files-modal-upload-file.twig" %}
+    {% include "files-modal-delete-folder.twig" %}
+    {% include "files-modal-delete-file.twig" %}
+    {% include "files-modal-file-zoom.twig" %}
+    {% include "files-modal-file-edit.twig" %}
+{% endblock %}
+
+
+
+

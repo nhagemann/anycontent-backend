@@ -1,0 +1,96 @@
+<div id="cmdl_quick_start">
+    <h4>CMDL Quick Start</h4>
+    <br/>
+
+    <div style="height:550px;overflow:auto" class="documentation">
+        <p>First write down, <strong>which</strong> <em>properties</em> you want to record, e.g. to
+            manage the news of your
+            company:</p>
+<pre>
+Name
+Date
+Location
+Text
+Abstract
+Target Audience
+Product
+</pre>
+        <p>Now you already have a perfectly valid CMDL definition.</p>
+        <hr/>
+        <p>Next determine <strong>how</strong> you want to edit this <em>properties</em>:</p>
+
+<pre>
+Name
+Date = date
+Location = textfield
+Text = richtext
+Abstract = textarea
+Target Audience = textfield
+Product = textfield
+</pre>
+        <hr/>
+        <p>As you can see the syntax is for each property is:
+        <pre>property = form element type</pre>
+        </p>
+
+        The form element type <em>textfield</em> is the default form element type, so you can leave
+        it
+        out.</p>
+        <hr/>
+        <p>Here's a list of most typical form element types:
+        <ul>
+            <li>textfield</li>
+            <li>email</li>
+            <li>link</li>
+            <li>textarea</li>
+            <li>richtext</li>
+            <li> html</li>
+            <li>checkbox</li>
+            <li>number</li>
+            <li>date</li>
+            <li>file</li>
+            <li>image</li>
+            <li>geolocation</li>
+        </ul>
+        </p>
+        <hr/>
+        <p>Most of the form element types can get specified in detail with additional
+            parameters.</p>
+
+        <p>Some form element type definitions do have mandatory parameters.</p>
+
+        <p>Let's have a look at <em>selection</em> and <em>reference</em> to complete our example:
+        </p>
+<pre>
+Name
+Date = date
+Location = selection (New York,Rio,Tokyo)
+Text = richtext
+Abstract = textarea
+Target Audience = selection (B2B,B2C)
+Product = reference product
+</pre>
+        <p>
+            The form element type <em>selection</em> needs a list of options to select from, e.g.
+            "(New York, Rio, Tokyo)".
+        </p>
+
+        <p>
+            The form element type <em>reference</em> needs the name of the referenced content type
+            to display a select box with all records of that content type. In our example this would
+            be the content type "product".
+        </p>
+    </div>
+
+
+    <br/> <br/>
+
+    <div class="more-info">
+        <p>
+            Take a look at the <a href="http://anycontent.readthedocs.org/en/latest/cmdl"
+                                  target="_blank">Content
+                Definition</a> section of the <a href="http://anycontent.readthedocs.org"
+                                                 target="_blank">AnyContent
+                documentation</a> for further information.</p>
+    </div>
+</div>

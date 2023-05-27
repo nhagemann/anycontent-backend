@@ -1,0 +1,90 @@
+{% extends "layout-default.twig" %}
+
+{% block content %}
+    {% include "editrecord-breadcrumb.twig" %}
+
+    <div class="row">
+        <form class="well" role="form" method="post" name="form_edit" action="" id="form_edit" data-event-countdown="0">
+
+            <fieldset>
+                {{ form | raw }}
+            </fieldset>
+
+            {% if links.edit is defined %}
+                <hr/>
+                <div class="controls">
+                    <div class="btn-toolbar">
+
+                    <span class="btn-group" id="form_edit_button_save">
+                        <input type="submit" class="btn btn-primary" href="#" value="{{ save_operation_title }}"
+                               id="form_edit_button_submit"/>
+                        <input type="hidden" id="form_edit_button_save_operation" name="$hidden[save_operation]"
+                               value="{{ save_operation }}">
+
+                        <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#"><span
+                                    class="caret"></span></a>
+                        <ul class="dropdown-menu" id="form_edit_button_save_options">
+                            <li><a href="#" data-operation="save">Save</a></li>
+                            <li class="divider"></li>
+
+                            {% if links.transfer is defined %}
+                                <li><a href="#" data-operation="save-insert">Save & Insert</a></li>
+                                {% if record %}
+                                    <li><a href="#" data-operation="save-duplicate">Save & Duplicate</a></li>
+                                {% endif %}
+                                <li class="divider"></li>
+                            {% endif %}
+                            <li><a href="#" data-operation="save-list">Save & List</a></li>
+                        </ul>
+                    </span>
+
+                        {% if record %}
+                            {% if links.delete is defined %}
+
+                        <a href="{{ links.delete }}" class="btn btn-danger button_delete">Delete</a>
+
+
+                                <input type="hidden" id="form_edit_button_duplicate" name="$hidden[duplicate]"
+                                       value="0">
+                                {% if links.transfer is defined %}
+                                    <input type="submit" class="btn btn-success" href="#" value="Duplicate"
+                                           onclick="$('#form_edit_button_duplicate').val(1)"/>
+                                    
+                            <a href="{{ links.transfer }}" class="btn btn-success" role="button"
+                               id="form_edit_button_transfer">Transfer</a>
+                               
+                                {% endif %}
+                            {% endif %}
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+            {% endif %}
+
+            <input type="hidden" name="$hidden[workspace]" value="{{ workspaces.current }}">
+            <input type="hidden" name="$hidden[language]" value="{{ languages.current }}">
+        </form>
+    </div>
+
+    {% if record %}
+        <div class="row">
+            <span class="pull-right">Last modification: {{ record.lastChangeUserInfo.timestamp | date('d.m.Y H:i')}} {% if record.lastChangeUserInfo.name %}- {{ record.lastChangeUserInfo.name }}{% endif %}
+                    {%if record.repository.supportsRevisions  %}
+                        &nbsp;<a href="{{ links.revisions }}" class="btn btn-default btn-xs" role="button" id="listing_button_revisions"><span class="glyphicon glyphicon-grain"></span> Show Revisions</a>
+                    {% endif %}
+            </span>
+
+        </div>
+    {% endif %}
+
+    {% block buttons %}
+        <div class="row">
+            <hr/>
+            {{ buttons | raw }}
+        </div>
+    {% endblock %}
+
+    {% include "files-modal-file-zoom.twig" %}
+{% endblock %}

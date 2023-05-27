@@ -1,0 +1,47 @@
+#sortable_tree small {
+    opacity: 0.7;
+}
+
+#sortable_tree .badge {
+    font-size: 60%
+}
+
+#sortable_tree .sortable-item .btn {
+    min-width: 225px;
+    text-align: left;
+}
+
+#sortable_tree_right li {
+    list-style-type: none;
+    list-style-position: inside;
+    margin-left: 0px;
+}
+
+#sortable_tree_left>li {
+    list-style-type: none;
+}
+
+#sortable_tree .ui-sortable-helper {
+    list-style-type: none;
+}
+
+#sortable_tree div.btn {
+    margin: 2px;
+}
+
+#sortable_tree_left {
+    min-height: 700px;
+}
+
+#sortable_tree_right {
+    min-height: 700px;
+}
+
+#sortable_tree_right ol {
+    padding: 0;
+}
+
+#sortable_tree .badges {
+   float:right;
+    padding-left: 10px;
+}

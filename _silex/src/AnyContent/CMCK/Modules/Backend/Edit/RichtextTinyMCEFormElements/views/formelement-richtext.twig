@@ -1,0 +1,9 @@
+{% extends "formelement-textarea.twig" %}
+{% block input %}
+    {{ parent() }}
+    <style>
+        #{{ id }} {
+            padding-bottom:{{ definition.rows *50}}px;
+        }
+    </style>
+{% endblock %}

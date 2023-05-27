@@ -1,0 +1,41 @@
+{% extends "formelement-default.twig" %}
+
+{% block input %}
+    <div class="col-xs-11">
+        <table data-rows="{{ count }}" name="{{ name }}">
+            <thead>
+            <th width="2%">&nbsp;</th>
+
+            {% for column in columns %}
+
+                <th scope="col" width="{{ column.percentage }}%">{{ column.heading }}</th>
+
+            {% endfor %}
+            <th width="35px">&nbsp;</th>
+            </thead>
+            <tbody>
+            {% for row in rows %}
+                <tr>
+                    <td class="handle" width="2%">{{ loop.index }}</td>
+
+                    {% for cell in row %}
+
+                        <td><textarea name="{{ name }}[]"
+                                      {% if definition.isProtected %}disabled="disabled"{% endif %}>{{ cell }}</textarea>
+                        </td>
+
+                    {% endfor %}
+                    <td width="3%">
+                        {% if definition.isProtected %}
+                            &nbsp;
+                        {% else %}
+                            <a class="btn btn-default btn-xs" href="#" tabindex="-1" data-action="plus">+</button></a>
+                            <a class="btn btn-default btn-xs" href="#" tabindex="-1" data-action="minus">-</button></a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

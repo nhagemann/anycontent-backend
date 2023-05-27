@@ -1,0 +1,1 @@
+docker exec -w /application anycontent-cms-construction-kit-php56 php /application/vendor/bin/phpunit $@

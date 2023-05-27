@@ -1,0 +1,144 @@
+{% extends "layout-default.twig" %}
+
+{% block title %}Start{% endblock %}
+
+{% block content %}
+
+
+
+    <div class="row">
+        <div class="col-xs-12">
+            <ol class="breadcrumb">
+                <li><a href="/">Home</a></li>
+            </ol>
+            <a href="{{ repository.link }}"><h2>{{ repository.title }}</h2></a>
+
+        </div>
+        <br/>
+    </div>
+    <div class="row">
+        <br/>
+    </div>
+
+    {% block content_types %}
+        {% if repository.content_types %}
+
+            <div class="row">
+                <div class="col-xs-10">
+                    <h3>Content Types</h3>
+                    <br/>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th class="col-xs-4">Content Type Name</th>
+                            <th class="col-xs-3">Workspace(s)</th>
+                            <th class="col-xs-3">Language(s)</th>
+                            <th class="col-xs-2"></th>
+                        <tr/>
+                        </thead>
+                        <tbody>
+                        {% for contenttype in repository.content_types %}
+                            <tr>
+                                <td><a href="{{ contenttype.link }}"
+                                       title="{{ contenttype.name }}">{% if contenttype.title %}{{ contenttype.title }}{% else %}{{ contenttype.name }}{% endif %}</a>
+                                </td>
+                                <td>
+                                    {% for k,v in contenttype.definition.workspaces %}
+                                        {{ v }}
+                                        <small>({{ k }})</small><br/>
+                                    {% endfor %}
+                                </td>
+                                <td>
+                                    {% for k,v in contenttype.definition.languages %}
+                                        {{ v }}
+                                        <small>({{ k }})</small><br/>
+                                    {% endfor %}
+                                </td>
+                                <td><a href="{{ contenttype.link }}" class="btn btn-default"
+                                       role="button"><span class="glyphicon glyphicon-list"></span> List Records</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        {% endif %}
+    {% endblock %}
+
+    {% block config_types %}
+        {% if repository.config_types %}
+
+            <div class="row">
+                <div class="col-xs-10">
+                    <h3>Config Types</h3>
+                    <br/>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th class="col-xs-4">Config Type Name</th>
+                            <th class="col-xs-3">Workspace(s)</th>
+                            <th class="col-xs-3">Language(s)</th>
+                            <th class="col-xs-2"></th>
+                        <tr/>
+                        </thead>
+                        <tbody>
+                        {% for configtype in repository.config_types %}
+                            <tr>
+                                <td><a href="{{ configtype.link }}"
+                                       title="{{ configtype.name }}">{% if configtype.title %}{{ configtype.title }}{% else %}{{ configtype.name }}{% endif %}</a>
+                                </td>
+                                <td>
+                                    {% for k,v in configtype.definition.workspaces %}
+                                        {{ v }}
+                                        <small>({{ k }})</small><br/>
+                                    {% endfor %}
+                                </td>
+                                <td>
+                                    {% for k,v in configtype.definition.languages %}
+                                        {{ v }}
+                                        <small>({{ k }})</small><br/>
+                                    {% endfor %}
+                                </td>
+                                <td><a href="{{ configtype.link }}" class="btn btn-primary"
+                                       role="button"><span class="glyphicon glyphicon-wrench"></span> Edit</a></td>
+
+                            </tr>
+                        {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        {% endif %}
+    {% endblock %}
+
+    {% block files %}
+        {% if repository.files %}
+            <div class="row">
+                <div class="col-xs-8">
+                    <h3>Files</h3>
+                    <br/>
+                    <a href="{{ repository.files }}" class="btn btn-default"
+                       role="button"><span class="glyphicon glyphicon-folder-open"></span>&nbsp;&nbsp;List Files</a>
+                </div>
+            </div>
+        {% endif %}
+        <br/>
+    {% endblock %}
+
+    {% block api %}
+        <div class="row">
+            <div class="col-xs-8">
+                <h3>API</h3>
+                <br/>
+                <a href="{{ repository.url }}" target="_blank">{{ repository.url }}</a>
+            </div>
+        </div>
+        <br/>
+        <br/>
+    {% endblock %}
+
+
+
+{% endblock %}

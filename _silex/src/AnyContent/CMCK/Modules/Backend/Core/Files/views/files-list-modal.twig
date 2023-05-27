@@ -1,0 +1,106 @@
+{% extends "layout-plain-white.twig" %}
+
+{% block content %}
+    <div class="container files-list-modal">
+
+        <div class="row"><div class="col-xs-12">{% include 'messages.twig' %}</div></div>
+
+        {% for folder in folders %}
+            <div class="row folders-list">
+
+                <ul class="nav nav-tabs">
+                    {% if loop.first %}
+                        <li{% if root %} class="active"{% endif %}><a href="{{ links.files }}"><span
+                                        class="glyphicon glyphicon-home"></span></a></li>
+                    {% endif %}
+                    {% for item in folder %}
+
+                        <li class="{{ item.class }}"><a href="{{ item.url }}">{{ item.name }}</a></li>
+                    {% endfor %}
+                </ul>
+                <br/>
+            </div>
+        {% endfor %}
+
+
+        <div class="row">
+            <table class="table" id="modal_files_table">
+                {% for file in files %}
+
+                    <tr>
+                        <td class="file-select-item" data-src="{{ file.file.getId }}">
+                            {% if file.file.isImage %}
+                                <div class="file-item-preview pull-left">
+                                    <a href="#">
+                                        <img class="media-object" src="{{ file.links.view }}" width="60" alt="...">
+                                    </a>
+                                </div>
+                            {% endif %}
+                        </td>
+                        <td class="file-select-item" data-src="{{ file.file.getId }}">
+                            {{ file.file.getName }}
+                        </td>
+                        <td> {{ (file.file.getSize/1024) |number_format(1) }} Kb <br/>
+                            {% if file.file.isImage() %}
+                                {% if file.file.getWidth != 0 %}
+                                    ({{ file.file.getWidth }} x {{ file.file.getHeight }})
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if file.file.getTimestampLastChange %}
+                                <small>{{ file.file.getTimestampLastChange|date('d.m.Y H:i') }}</small>
+                                <br/>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{{ file.links.view }}" target="_blank"><span
+                                        class="glyphicon glyphicon-share-alt"></span></a>
+                        </td>
+                    </tr>
+
+
+                {% endfor %}
+            </table>
+            <script>
+                $(document).ready(function () {
+                    $('#modal_files_table').filterTable({'placeholder': '', 'containerClass': 'pull-right'});
+                });
+            </script>
+        </div>
+
+
+    </div>
+    </div>
+    <div id="files-list-modal-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-6">
+                    <form action="" method="post" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input type="file" name="upload_file" class="pull-left">
+                                <button type="submit" class="btn btn-default" id="modal_files_button_upload_file"><span
+                                            class="glyphicon glyphicon-cloud-upload"></span> Upload File</a>  </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-xs-6">
+                    <span class="pull-right">
+                        <a href="{{ links.newwindow }}" target="_blank" class="btn btn-default" role="button">
+                            <span class="glyphicon glyphicon-share-alt"></span>&nbsp;&nbsp;Files Window</a>
+                        <a href="#" class="btn btn-default" role="button" onclick="window.location.reload(true);">
+                            <span class="glyphicon glyphicon-refresh"></span></a>
+
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+
+

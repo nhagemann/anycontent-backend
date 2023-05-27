@@ -1,0 +1,14 @@
+<div class="row feedback" id="messages">
+    {% for message in messages.success %}
+        <div class="alert alert-success">{{ message.message }}</div>
+    {% endfor %}
+    {% for message in messages.info %}
+        <div class="alert alert-info">{{ message.message }}</div>
+    {% endfor %}
+    {% for message in messages.alert %}
+        <div class="alert alert-warning">{{ message.message }}</div>
+    {% endfor %}
+    {% for message in messages.error %}
+        <div class="alert alert-danger">{{ message.message }}</div>
+    {% endfor %}
+</div>

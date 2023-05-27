@@ -1,0 +1,26 @@
+{% extends "formelement-default.twig" %}
+
+{% block input %}
+    <div class="col-xs-2">
+        <input type="text" class="form-control formelement-tooltip" id="{{ id }}" name="{{ name }}[]"
+               placeholder="{{ definition.placeholder }}" value="{{ value }}" data-toggle="tooltip" data-trigger="hover"
+               data-placement="right" data-content="{{ definition.hint }}"
+               {% if definition.selectionType=='fixed' or definition.isProtected == true %}disabled{% endif %}>
+    </div>
+     {% if definition.options | length > 0 %}
+        <div class="col-xs-2">
+            <select class="form-control input-sm col-xs-2" name="{{ name }}[]" data-target="{{ id }}"{% if definition.isProtected %} disabled="disabled"{% endif %}>
+                <option value="">Select ...</option>
+                {% for k,v in definition.options %}
+
+                    {% if k == value %}
+
+                        <option selected="selected" value="{{ k }}">{{ v }}</option>
+                    {% else %}
+                        <option value="{{ k }}">{{ v }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+    {% endif %}
+{% endblock %}

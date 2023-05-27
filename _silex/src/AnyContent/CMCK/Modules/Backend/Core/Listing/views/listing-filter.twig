@@ -1,0 +1,40 @@
+<div class="row pull-right listing-filter">
+
+    <form class="form-inline" action="{{ links.self }}" method="get" id="listing_filter">
+        {% if filter %}
+            <div class="form-group">
+
+                <span class="glyphicon glyphicon-filter"></span>
+
+                <select class="form-control" name="q">
+                    <option disabled="disabled">Filter</option>
+                    {% if searchTerm in filter|keys %}
+                        <option value="">...</option>
+                    {% else %}
+                        <option value="{{ searchTerm }}">...</option>
+                    {% endif %}
+
+                    {% for k,v in filter %}
+                        <option value="{{ k }}"{% if k == searchTerm %} selected="selected"{% endif %}>{{ v }}</option>
+                    {% endfor %}
+                </select>
+
+            </div>
+            &nbsp;
+        {% endif %}
+        <div class="form-group">
+            <span class="glyphicon glyphicon-resize-vertical"></span>
+            <select class="form-control" name="c">
+                <option disabled="disabled">Items per page</option>
+                <option{% if itemsPerPage == 10 %} selected="selected"{% endif %}>10</option>
+                <option{% if itemsPerPage == 25 %} selected="selected"{% endif %}>25</option>
+                <option{% if itemsPerPage == 50 %} selected="selected"{% endif %}>50</option>
+                <option{% if itemsPerPage == 100 %} selected="selected"{% endif %}>100</option>
+
+            </select>
+
+        </div>
+    </form>
+
+
+</div>

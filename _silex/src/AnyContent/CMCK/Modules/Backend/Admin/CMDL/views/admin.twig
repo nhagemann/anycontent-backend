@@ -1,0 +1,145 @@
+{% extends "layout-default.twig" %}
+
+{% block title %}Admin{% endblock %}
+
+{% block content %}
+
+    <ol class="breadcrumb">
+        <li><a href="/">Home</a></li>
+    </ol>
+    <h2>Admin</h2>
+
+    {% for repository in repositories %}
+        {% if not loop.first %}
+            <hr/>
+        {% endif %}
+        <br/>
+        <h3>
+            <a href="{{ repository.link }}">{{ repository.title }}</a>
+            <a href="{{ repository.url }}">
+                <small>{{ repository.url }}</small>
+            </a>
+        </h3>
+        <br/>
+
+        <div class="row">
+
+            {% block admin_content_types_list %}
+                <div class="col-xs-6">
+
+                    {% if repository.content_types %}
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>Content Type Name</th>
+                                <th></th>
+                            <tr/>
+                            </thead>
+                            <tbody>
+                            {% for contenttype in repository.content_types %}
+                                <tr>
+                                    <td>
+                                        <a href="{{ contenttype.edit }}">{{ contenttype.name }}</a>{% if contenttype.name != contenttype.title %}&nbsp;&nbsp;
+                                        <small>({{ contenttype.title }})</small>{% endif %}</td>
+                                    <td class="text-right"><a href="{{ contenttype.edit }}" class="btn btn-primary"
+                                                              role="button"><span
+                                                    class="glyphicon glyphicon-pencil"></span>
+                                            Configure</a>&nbsp;
+                                        <a href="{{ contenttype.backup }}" class="btn btn-primary"
+                                           role="button"><span
+                                                    class="glyphicon glyphicon-download-alt"></span>
+                                            Backup</a>&nbsp;
+                                        <a href="{{ contenttype.delete }}"
+                                           class="btn btn-danger admin_button_delete_content_type"><span
+                                                    class="glyphicon glyphicon-remove"></span> Delete</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    {% endif %}
+
+                </div>
+            {% endblock %}
+
+            {% block admin_config_types_list %}
+                <div class="col-xs-6">
+
+                    {% if repository.config_types %}
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>Config Type Name</th>
+                                <th></th>
+                            <tr/>
+                            </thead>
+                            <tbody>
+                            {% for configtype in repository.config_types %}
+                                <tr>
+                                    <td>
+                                        <a href="{{ configtype.edit }}">{{ configtype.name }}</a>{% if configtype.name != configtype.title %}&nbsp;&nbsp;
+                                        <small>({{ configtype.title }})</small>{% endif %}</td>
+                                    <td class="text-right"><a href="{{ configtype.edit }}" class="btn btn-primary"
+                                                              role="button"><span
+                                                    class="glyphicon glyphicon-pencil"></span>
+                                            Configure</a>&nbsp;
+                                        <a href="{{ configtype.delete }}"
+                                           class="btn btn-danger admin_button_delete_config_type"><span
+                                                    class="glyphicon glyphicon-remove"></span> Delete</a></td>
+
+                                </tr>
+                            {% endfor %}
+
+                            </tbody>
+                        </table>
+                    {% endif %}
+
+                </div>
+            {% endblock %}
+
+        </div>
+        <div class="row">
+
+            {% block admin_content_types_add %}
+                <div class="col-xs-6">
+                    <form action="{{ repository.links.post_backup_repository }}" method="post"
+                          enctype="multipart/form-data">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input type="file" name="upload_file" class="pull-left">
+                                <button type="submit" class="btn btn-default" id="modal_files_button_upload_file"><span
+                                            class="glyphicon glyphicon-cloud-upload"></span> Import Backup
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    <p></p>
+                    <a href="{{ repository.links.backup_repository }}"
+                       class="btn btn-default"
+                       role="button"><span class="glyphicon glyphicon-download-alt"></span> Backup All Content Types</a>
+                    <p></p>
+                    <a href="{{ repository.links.add_content_type }}"
+                       class="btn btn-default admin_button_create_content_type"
+                       role="button"><span class="glyphicon glyphicon-plus"></span> Add Content Type</a>
+                    <p></p>
+                </div>
+            {% endblock %}
+
+            {% block admin_config_types_add %}
+                <div class="col-xs-6">
+                    <a href="{{ repository.links.add_config_type }}"
+                       class="btn btn-default admin_button_create_config_type"
+                       role="button"><span class="glyphicon glyphicon-plus"></span> Add Config Type</a>
+                </div>
+            {% endblock %}
+        </div>
+        <div class="row">
+            <br/>
+            <br/>
+        </div>
+    {% endfor %}
+
+    {% include "admin-modal-create-content-type.twig" %}
+    {% include "admin-modal-create-config-type.twig" %}
+
+{% endblock %}

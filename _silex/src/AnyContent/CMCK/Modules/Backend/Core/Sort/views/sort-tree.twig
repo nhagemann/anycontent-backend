@@ -1,0 +1,144 @@
+{% extends "layout-default.twig" %}
+
+{% block title %}{% if definition.Title %}{{ definition.Title }}{% else %}{{ definition.Name }}{% endif %}{% endblock %}
+
+
+{% block content %}
+
+    <div class="row">
+
+        <ol class="breadcrumb">
+            <li><a href="/">Home</a></li>
+            <li><a href="{{ links.repository }}">{% if repository.title %}{{ repository.title }}{% else %}{{ repository.name }}{% endif %}</a></li>
+        </ol>
+
+        <a href="{{ links.reset }}">
+            <h2>{% if definition.Title %}{{ definition.Title }}{% else %}{{ definition.Name }}{% endif %}</h2></a>
+
+        <br/>
+    </div>
+    <div id="sortable_tree" class="row contenttype-{{ definition.name | lower }}">
+        <div class="col-xs-8">
+
+            <ol class="sortable sortable-tree well" id="sortable_tree_left">
+                <li id="list_0">
+                    <div class="btn btn-default disabled">&nbsp;Root&nbsp;</div>
+                    <ol>
+
+                        {% set level = 1 %}
+                        {% for record in records_left %}
+                        {% if record.level > level %}
+                        <ol>
+                            {% endif %}
+                            {% if record.level < level %}
+                </li>
+                {% for i in 1 .. (level-record.level) %}
+            </ol>
+            {% endfor %}
+            {% endif %}
+            {% if record.level < level %}
+                </li>
+            {% endif %}
+
+
+            <li class="sortable-item" id="list_{{ record.id }}">
+                <div class="btn btn-success">
+                    <small>#{{ record.id }}</small>
+                    &nbsp;{{ record.name }}<span class="badges">{% if definition.hasSubtypes() %} <span
+                                class="badge subtype subtype-{{ record.getSubtype | lower }}">{{ record.subtypeLabel }}</span>{% endif %}{% if definition.hasStatusList() %}
+                            <span class="badge status stats-{{ record.getStatus | lower }}">{{ record.statusLabel }}</span>{% endif %}</span></div>
+
+
+                {% set level = record.level %}
+                {% endfor %}
+            </li>
+            <!--<?php while ($level > 1): ?>-->
+            {% for i in 1 .. (level) %}
+                </ol>
+            {% endfor %}
+            {% set level = 1 %}
+            <!--<?php $level-- ?>
+            <?php endwhile; ?>-->
+
+            </ol>
+        </div>
+        <div class="col-xs-4">
+
+
+            <!--
+            </li>
+            <li class="well test" id="list_void">
+                <div class="btn btn-danger">&nbsp;Unlinked&nbsp;<li class="test">test</li></div>
+                <ol>
+
+                    <?php foreach ($records_void as $record): ?>
+
+                    <li id="list_<?php echo $record->id ?>">
+                        <div class="btn btn-sort" style="background-color:<?php _h($record->getSubtypeColor('#B1BEC9')) ?>">
+                            <span class="label label-inverse"
+                                  style="background-color:<?php _h($record->getStatusColor('#333')) ?>"><?php _h($record->
+                                id) ?></span>&nbsp;<?php _h($record->name) ?>&nbsp;</div>
+                        <div class="btn"><a href="<?php _url($repository, $record->content_type, $record->id) ?>"><i
+                                        class="icon-chevron-right"></i></a></div>
+                    </li>
+
+                    <?php endforeach; ?>
+                </ol>
+            </li>
+
+            </ol>   -->
+
+            <ol class="sortable sortable-tree well" id="sortable_tree_right">
+                <li id="list_0">
+                    <div class="btn btn-default disabled">&nbsp;Unlinked&nbsp;</div>
+                    <ol>
+                        {% for record in records_right %}
+
+
+                            <li class="sortable-item" id="list_{{ record.id }}">
+                                <div class="btn btn-success">
+                                    <small>#{{ record.id }}</small>
+                                    &nbsp;{{ record.name }}<span class="badges">{% if definition.hasSubtypes() %} <span
+                                                class="badge subtype">{{ record.subtypeLabel }}</span>{% endif %}{% if definition.hasStatusList() %}
+                                            <span class="badge status">{{ record.statusLabel }}</span>{% endif %}</span>
+                                </div>
+
+
+                            </li>
+
+                        {% endfor %}
+
+                    </ol>
+                </li>
+            </ol>
+        </div>
+    </div>
+    <div class="row">
+        <hr/>
+        <div class="col-xs-12">
+            <div class="controls">
+                <div class="btn-toolbar">
+                    <form action="{{ links.sort }}" method="post">
+                        <input type="hidden" id="form_sort_list" name="list"/>
+                    <span class="btn-group" id="form_sort_button_save">
+                        <input type="submit" class="btn btn-primary" href="#" value="Save"/>
+                        </span>
+
+                        <input type="hidden" name="$hidden[workspace]" value="{{ workspaces.current }}">
+                        <input type="hidden" name="$hidden[language]" value="{{ languages.current }}">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    {% block buttons %}
+        <div class="row">
+            <hr/>
+            {{ buttons | raw }}
+        </div>
+    {% endblock %}
+
+{% endblock %}

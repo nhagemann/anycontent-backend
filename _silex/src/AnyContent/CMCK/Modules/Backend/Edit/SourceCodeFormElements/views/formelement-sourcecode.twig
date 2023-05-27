@@ -1,0 +1,10 @@
+{% extends "formelement-textarea.twig" %}
+
+{% block input %}
+    <div class="{{ class.size }}">
+
+        <textarea id="{{ id }}" name="{{ name }}" placeholder="{{ definition.placeholder }}" class="form-control textarea-codemirror"
+                  rows="{{ definition.rows }}" data-mode="{{ mode }}" data-options="{{ options }}"{% if definition.isProtected %} disabled="disabled"{% endif %}>{{ value }}</textarea>
+
+    </div>
+{% endblock %}

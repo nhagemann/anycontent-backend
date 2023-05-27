@@ -1,0 +1,10 @@
+{% extends "formelement-default.twig" %}
+
+{% block input %}
+    <div class="col-xs-11">
+        <input type="hidden" id="{{ id }}" name="{{ name }}" value="{{ value }}">
+
+            <div class="alert alert-danger" role="alert">Error during rendering of sequence form element.</div>
+
+    </div>
+{% endblock %}

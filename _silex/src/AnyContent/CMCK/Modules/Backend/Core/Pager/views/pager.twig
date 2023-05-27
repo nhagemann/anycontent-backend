@@ -1,0 +1,15 @@
+<hr/>
+
+<div class="col-xs-8">
+    <ul class="pagination">
+        {% for item in items %}
+            <li{% if item.active %} class="active"{% endif %}><a href="{{ item.url }}">{{ item.label | raw }}</a></li>
+        {% endfor %}
+    </ul>
+</div>
+<div class="col-xs-4">
+    <ul class="pagination pull-right">
+        <li{% if prev.disabled %} class="disabled"{% endif %}><a href="{{ prev.url }}">&larr;</a></li>
+        <li{% if next.disabled %} class="disabled"{% endif %}><a href="{{ next.url }}">&rarr;</a></li>
+    </ul>
+</div>

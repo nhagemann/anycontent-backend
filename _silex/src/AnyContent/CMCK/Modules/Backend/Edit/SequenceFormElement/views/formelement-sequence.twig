@@ -1,0 +1,8 @@
+{% extends "formelement-default.twig" %}
+
+{% block input %}
+    <div class="col-xs-11">
+        <input type="hidden" id="{{ id }}" name="{{ name }}" value="{{ value }}">
+        <iframe id="{{ id }}_iframe"  src="{{ src }}" class="well sequence-iframe" scrolling="no"></iframe>
+    </div>
+{% endblock %}

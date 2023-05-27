@@ -1,0 +1,127 @@
+<div class="modal-dialog" style="width:900px">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">Transfer Content
+
+            </h4>
+        </div>
+
+        {% if record %}
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-xs-12">
+
+
+                        <br/>
+
+
+                        <form role="form" method="post" name="form_edit" action="{{ links.transfer }}" id="form_transfer"
+                              class="form-horizontal">
+                            <fieldset>
+
+                                <legend>Record</legend>
+
+                                <div class="form-group">
+                                    <label class="col-xs-3 control-label">Source</label>
+
+                                    <div class="col-xs-6">
+                                        <span class="label label-info">#{{ record.id }}</span> <strong>{{ record.name }}</strong>{% if definition.hasSubtypes() %}
+                                            <span class="badge primary subtype">{{ record.subtypeLabel }}</span>{% endif %}{% if definition.hasStatusList() %}
+                                            <span class="badge primary status">{{ record.statusLabel }}</span>{% endif %}
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-xs-3 control-label">Target</label>
+
+                                    <div class="col-xs-6">
+                                        <select name="id" class="form-control">
+                                            <option value="">Create New Record</option>
+                                            {% for key,value in records %}
+                                                <option value="{{ key }}"{% if key == record.id %} selected="selected"{% endif %}>{{ value }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+
+                                {% if app.context.canChangeWorkspace %}
+                                    <legend>Workspace</legend>
+
+
+
+                                    <div class="form-group">
+                                        <label class="col-xs-3 control-label">Source</label>
+
+                                        <div class="col-xs-6">
+                                            <strong>{{ workspaces.currentName }}</strong>
+
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-xs-3 control-label">Target </label>
+
+                                        <div class="col-xs-6">
+                                            <select name="target_workspace" class="form-control">
+                                                {% for key,value in workspaces.list %}
+                                                    <option value="{{ key }}"{% if key == workspaces.current %} selected="selected"{% endif %}>{{ value }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                {% endif %}
+
+                                {% if app.context.canChangeLanguage %}
+                                    <legend>Language</legend>
+
+                                    <div class="form-group">
+                                        <label class="col-xs-3 control-label">Source</label>
+
+                                        <div class="col-xs-6">
+                                            <strong>{{ languages.currentName }}</strong>
+
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-xs-3 control-label">Target</label>
+
+                                        <div class="col-xs-6">
+                                            <select id="selectbasic" name="target_language" class="form-control">
+                                                {% for key,value in languages.list %}
+                                                    <option value="{{ key }}"{% if key == languages.current %} selected="selected"{% endif %}>{{ value }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                {% endif %}
+
+                            </fieldset>
+                        </form>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="modal_button_transfer"
+                            onclick="$('#form_transfer').submit();">Transfer
+                    </button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
+
+            </div>
+        {% else %}
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="alert alert-danger">Could not load record.</div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>

@@ -1,0 +1,44 @@
+{% extends "formelement-default.twig" %}
+
+{% block input %}
+    <div class="col-xs-4">
+
+        <div class="input-group">
+
+            <span class="input-group-addon">Latitude</span>
+
+            <input type="text" class="form-control" id="{{ tempid }}_lat" name="{{ name }}[]"
+                   placeholder="{{ definition.placeholder }}" value="{{ lat }}">
+
+                <span class="input-group-addon"><span
+                            class="glyphicon glyphicon-globe"></span></span>
+
+        </div>
+    </div>
+    <div class="col-xs-4">
+        <div class="input-group">
+
+            <span class="input-group-addon">Longitude</span>
+
+            <input type="text" class="form-control" id="{{ tempid }}_long" name="{{ name }}[]"
+                   placeholder="{{ definition.placeholder }}" value="{{ long }}">
+
+                <span class="input-group-addon"><span
+                            class="glyphicon glyphicon-globe"></span></span>
+
+        </div>
+    </div>
+
+    <div class="col-xs-4">
+
+
+    <a data-input="#{{ tempid }}" href="{{ url_modal }}" name="{{ name }}"
+       class="btn btn-default formelement-geolocation-modal-button"><span
+                class="glyphicon glyphicon-map-marker"></span> Select</a>
+
+    <div class="modal fade bs-modal-lg" id="modal_{{ id }}" tabindex="-1" role="dialog"
+         aria-hidden="true"></div>
+
+
+    </div>
+{% endblock %}

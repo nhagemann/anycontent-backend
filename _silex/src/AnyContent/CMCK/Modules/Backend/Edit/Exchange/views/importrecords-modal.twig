@@ -1,0 +1,131 @@
+<div class="modal-dialog" style="width:900px">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">Import Content
+
+            </h4>
+        </div>
+
+
+        <div class="modal-body">
+
+            <div class="row">
+                <div class="col-xs-12">
+
+                    <form role="form" method="post" name="form_import" action="{{ links.execute }}" id="form_import"
+                          enctype="multipart/form-data"
+                          class="form-horizontal">
+                        <fieldset>
+                            <legend>File</legend>
+                            <div class="form-group">
+                                <label class="col-xs-3 control-label">File</label>
+
+                                <div class="col-xs-6"><br/>
+                                    <input type="file" name="file"/>
+                                </div>
+                            </div>
+
+                            {% if app.context.canChangeWorkspace %}
+                                <legend>Workspace</legend>
+
+                                <div class="form-group">
+                                    <label class="col-xs-3 control-label">Target </label>
+
+                                    <div class="col-xs-6">
+                                        <select name="workspace" class="form-control">
+                                            {% for key,value in workspaces.list %}
+                                                <option value="{{ key }}"{% if key == workspaces.current %} selected="selected"{% endif %}>{{ value }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                            {% if app.context.canChangeLanguage %}
+                                <legend>Language</legend>
+
+
+                                <div class="form-group">
+                                    <label class="col-xs-3 control-label">Target</label>
+
+                                    <div class="col-xs-6">
+                                        <select name="language" class="form-control">
+                                            {% for key,value in languages.list %}
+                                                <option value="{{ key }}"{% if key == languages.current %} selected="selected"{% endif %}>{{ value }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                            <legend>Format</legend>
+                            <div class="form-group">
+                                <label class="col-xs-3 control-label">Source</label>
+
+                                <div class="col-xs-6">
+                                    <select name="format" class="form-control">
+
+                                        <option value="x" selected="selected">Excel (2007)</option>
+                                        <option value="j">JSON</option>
+
+                                    </select>
+                                </div>
+                            </div>
+
+                            <legend>Options</legend>
+                            <div class="form-group">
+                                <label class="col-xs-3 control-label">Truncate</label>
+
+                                <div class="col-xs-6">
+                                    <input type="checkbox" name="truncate" value="1"> Delete all existing records upon
+                                    import
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+                                <label class="col-xs-3 control-label">ID Management</label>
+
+
+                                <div class="col-xs-6">
+                                    <input type="checkbox" name="newids" value="1"> Generate new ID for
+                                    <strong>every</strong> record
+                                </div>
+                            </div>
+                        </fieldset>
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label">Updates</label>
+
+                            <div class="col-xs-9">
+                                <input type="checkbox" name="propertyupdate" value="1" checked="checked"> Update only those records that have different property values
+                            </div>
+                            <div class="col-xs-9">
+                                <input type="checkbox" name="protectedrevisions" value="1"> Ignore records whose revision number has increased (revision number must be
+                                provided)
+                            </div>
+                        </div>
+                        </fieldset>
+                    </form>
+                    <br/>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="modal_button_import">Import
+                </button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+
+        </div>
+        <script type="text/javascript">
+
+            $('#modal_button_import').click(function () {
+
+                cmck_modal_hide();
+                $.blockUI({message: null});
+                $('#form_import').submit();
+                return false;
+            });
+
+        </script>
+    </div>
+</div>

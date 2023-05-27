@@ -1,0 +1,14 @@
+<div class="form-group formelement-{{ definition.FormElementType }}">
+    <div class="row">
+        {% block label %}
+        {% if not first %}
+        <hr/>
+        {% endif %}
+        <div class="col-xs-8">
+
+            <h3>{{ definition.label }}</h3>
+
+        </div>
+        {% endblock %}
+    </div>
+</div>

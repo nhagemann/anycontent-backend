@@ -1,0 +1,38 @@
+{% extends "layout-plain.twig" %}
+
+{% block content %}
+
+    <form role="form" method="post" name="form_sequence" action="{{ action.submit }}" id="form_sequence"
+          data-property="{{ property }}" data-count="{{ count }}" data-action-add="{{ action.add }}"
+          data-active-item="0">
+        <fieldset>
+
+            <div class="sequence-accordion sortable">
+                {% for item in items %}
+                    <div class="sequence-item" id="form_sequence_item_{{ loop.index }}" data-item="{{ loop.index }}">
+                        <h3 class="accordionTitle">{{ loop.index }}. {{ item.title }}</h3>
+
+                        {% include "editsequence-item.twig" %}
+                    </div>
+                {% endfor %}
+            </div>
+            <br/>
+
+            <div class="btn-group">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    +
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu sequence-add-item" data-item="0">
+                    {% for name,title in inserts %}
+                        <li>
+                            <a data-insert="{{ name }}">Add {{ title }}</a>
+                        </li>
+                    {% endfor %}
+                    <?php endforeach ?>
+                </ul>
+            </div>
+        </fieldset>
+    </form>
+
+{% endblock %}

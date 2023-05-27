@@ -1,0 +1,39 @@
+{% extends "formelement-default.twig" %}
+
+{% block input %}
+
+    {% if type=='list' %}
+        <div class="col-xs-5">
+            <select multiple class="form-control" id="{{ id }}" name="{{ name }}[]">
+                {% for k,v in options %}
+                    {% if k in value %}
+                        <option value="{{ k }}" selected="selected">{{ v }}</option>
+                    {% else %}
+                        <option value="{{ k }}">{{ v }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+    {% endif %}
+    {% if type=='checkbox' %}
+        <div class="col-xs-8">
+            {% for k,v in options %}
+                <div class="radio">
+                    <label>
+                        {% if k in value %}
+                            <input type="checkbox" name="{{ name }}[]" id="{{ id }}_{{ loop.index }}" value="{{ k }}"
+                                   checked="checked"> {{ v }}
+                        {% else %}
+                            <input type="checkbox" name="{{ name }}[]" id="{{ id }}_{{ loop.index }}"
+                                   value="{{ k }}"> {{ v }}
+                        {% endif %}
+
+                    </label>
+                </div>
+
+            {% endfor %}
+        </div>
+    {% endif %}
+
+
+{% endblock %}
