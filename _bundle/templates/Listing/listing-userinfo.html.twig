@@ -1,0 +1,5 @@
+<div class="pull-left gravatar">{{ record.gravatar | raw }}</div>
+<div class="userinfo">{% if record.username %}{{ record.username }}{% else %}Unknown{% endif %}<br/>
+    <small>{{ record.lastChangeDate }}</small>
+</div>
+

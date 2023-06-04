@@ -1,0 +1,17 @@
+{% extends "@AnyContentBackend/Listing/listing.html.twig" %}
+
+{% block listing_filter %}
+    {% include "@AnyContentBackend/Listing/listing-filter.html.twig" %}
+{% endblock %}
+
+{% block listing_content %}
+
+    <div class="{# { class }#}">
+        {% if table is defined %}
+            {% include "@AnyContentBackend/Listing/listing-table.html.twig" %}
+
+            {{ pager | raw }}
+        {% endif %}
+    </div>
+{% endblock %}
+

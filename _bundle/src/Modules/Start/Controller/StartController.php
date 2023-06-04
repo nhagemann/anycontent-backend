@@ -3,7 +3,9 @@
 namespace AnyContent\Backend\Modules\Start\Controller;
 
 
+use AnyContent\Backend\Controller\AbstractAnyContentBackendController;
 use AnyContent\Backend\Services\RepositoryManager;
+use AnyContent\CMCK\Modules\Backend\Core\Application\Application;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -11,11 +13,10 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[IsGranted('ROLE_ANYCONTENT')]
-class StartController extends AbstractController
+class StartController extends AbstractAnyContentBackendController
 {
-    public function __construct(private RepositoryManager $repositoryManager){}
-    #[Route('/main')]
-    public function index(): Response
+    #[Route('/','anycontent_start')]
+    public function start(): Response
     {
         $vars = [];
 
@@ -24,12 +25,30 @@ class StartController extends AbstractController
         $items = array();
         foreach ($this->repositoryManager->listRepositories() as $repositoryName => $repositoryItem)
         {
-            $items[] = self::extractRepositoryInfos($repositoryName, $repositoryItem, false);
+            $items[] = $this->extractRepositoryInfos($repositoryName, $repositoryItem, false);
         }
 
         $vars['repositories'] = $items;
 
         return $this->render('@AnyContentBackend/Start/index.html.twig', $vars);
+    }
+
+    #[Route('/{repositoryAccessHash}','anycontent_repository')]
+    public function repository(string $repositoryAccessHash)
+    {
+
+        $vars['menu_mainmenu'] = [];
+
+       foreach ($this->repositoryManager->listRepositories() as $repositoryName => $repositoryItem)
+        {
+            if ($repositoryAccessHash == $repositoryItem['accessHash'])
+            {
+                $item               = $this->extractRepositoryInfos($repositoryName, $repositoryItem, true);
+                $vars['repository'] = $item;
+            }
+        }
+
+        return $this->render('@AnyContentBackend/Start/index-repository.html.twig', $vars);
     }
 
 
@@ -41,7 +60,7 @@ class StartController extends AbstractController
         $item          = array();
         $item['title'] = $repositoryItem['title'];
         $item['url']   = $repository->getPublicUrl();
-        $item['link']  = '';//$app['url_generator']->generate('indexRepository', array( 'repositoryAccessHash' => $repositoryItem['accessHash'] ));
+        $item['link']  = $this->generateUrl('anycontent_repository',['repositoryAccessHash' => $repositoryItem['accessHash'] ]);
         $item['files'] = false;
 
         $item['content_types'] = array();
@@ -49,8 +68,8 @@ class StartController extends AbstractController
         foreach ($this->repositoryManager->listContentTypes($repositoryName) as $contentTypeName => $contentTypeItem)
         {
 
-            $info = array( 'name' => $contentTypeItem['name'], 'title' => $contentTypeItem['title'], 'link' => '', 'page' => 1  );
-            //$info = array( 'name' => $contentTypeItem['name'], 'title' => $contentTypeItem['title'], 'link' => $app['url_generator']->generate('listRecords', array( 'contentTypeAccessHash' => $contentTypeItem['accessHash'], 'page' => 1 )) );
+            //$info = array( 'name' => $contentTypeItem['name'], 'title' => $contentTypeItem['title'], 'link' => '', 'page' => 1  );
+            $info = array( 'name' => $contentTypeItem['name'], 'title' => $contentTypeItem['title'], 'link' => $this->generateUrl('anycontent_records', [ 'contentTypeAccessHash' => $contentTypeItem['accessHash'], 'page' => 1 ]) );
 
             if ($definition)
             {

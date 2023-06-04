@@ -1,0 +1,85 @@
+<nav class="navbar navbar-default navbar-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            {% block logo %}
+                <a class="navbar-brand" href="{{ path('anycontent_start') }}"><img src="{{ asset('/bundles/anycontentbackend/img/anycontent-logo.png') }}" alt="AnyContent" title="AnyContent"></a>
+            {% endblock %}
+        </div>
+
+        {% if links is defined %}
+            <div>
+                <ul class="nav navbar-nav navbar-form navbar-right">
+
+                    {% if anycontent.context.canChangeWorkspace %}
+                        <li>
+                            <form class="form-inline" action="{{ links.workspaces }}" method="post">
+
+                                <div class="form-group">
+                                    Workspace:&nbsp;
+                                </div>
+                                <div class="form-group">
+                                    <select class="form-control" onchange="this.form.submit()" name="workspace">
+                                        {% for key,value in workspaces.list %}
+                                            <option value="{{ key }}"{% if key == workspaces.current %} selected="selected"{% endif %}>{{ value }}</option>
+                                        {% endfor %}
+
+                                    </select>
+
+
+                                </div>
+                            </form>
+                        </li>
+                    {% endif %}
+                    {% if anycontent.context.canChangeLanguage %}
+                        <li>
+                            <form class="form-inline" action="{{ links.languages }}" method='post'>
+
+                                <div class="form-group">
+                                    Language:&nbsp;
+                                </div>
+                                <div class="form-group">
+                                    <select class="form-control" onchange="this.form.submit()" name="language">
+                                        {% for key,value in languages.list %}
+                                            <option value="{{ key }}"{% if key == languages.current %} selected="selected"{% endif %}>{{ value }}</option>
+                                        {% endfor %}
+                                    </select>
+
+
+                                </div>
+                            </form>
+                        </li>
+                    {% endif %}
+                    {% if anycontent.context.canDoTimeshift %}
+                        {% if timeshift.active %}
+                            <li class="nav-timeshift-display">
+                                TimeShift:&nbsp;<span class="timeshift-blink">{{ timeshift.date }}&nbsp;{{ timeshift.time }}</span>
+                            </li>
+                        {% endif %}
+                    {% endif %}
+                    {% if anycontent.context.canDoSearch %}
+                        <li>
+                            <form role="search" action="{{ links.search }}">
+
+                                <div class="input-group" style="width:350px">
+                                    <input type="text" class="form-control" name="q"
+                                           placeholder="Enter search term or record id ...">
+                          <span class="input-group-btn">
+
+                        <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span>
+                            Search
+                        </button>
+                              </span>
+                                </div>
+                            </form>
+                        </li>
+                    {% endif %}
+
+                </ul>
+
+
+            </div>
+        {% endif %}
+    </div>
+    <!-- /.container-fluid -->
+</nav>
