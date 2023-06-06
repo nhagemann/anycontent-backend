@@ -2,6 +2,7 @@
 
 namespace AnyContent\Backend\Modules\Listing\ContentViews\Default;
 
+use AnyContent\Backend\Services\ContextManager;
 use AnyContent\CMCK\Modules\Backend\Core\Application\Application;
 use AnyContent\Filter\PropertyFilter;
 use CMDL\ContentTypeDefinition;
@@ -10,19 +11,23 @@ use CMDL\Util;
 class FilterUtil
 {
 
-    public static function normalizeFilterQuery(Application $app, $query, ContentTypeDefinition $contentTypeDefinition)
+    public function __construct(private ContextManager $contextManager){
+
+    }
+
+    public function normalizeFilterQuery($query, ContentTypeDefinition $contentTypeDefinition)
     {
         $query = str_replace('><', '*=', $query);
 
         try
         {
-            $condition = self::parseCondition($query);
+            $condition = $this->parseCondition($query);
             if (is_array($condition) && count($condition) == 3)
             {
                 $property = Util::generateValidIdentifier($condition[0]);
                 if (!$contentTypeDefinition->hasProperty($property))
                 {
-                    $app['context']->addAlertMessage('Cannot filter by property ' . $property . '.');
+                    $this->contextManager->addAlertMessage('Cannot filter by property ' . $property . '.');
                     $query = '';
                 }
 
@@ -38,20 +43,20 @@ class FilterUtil
         }
         catch (\Exception $e)
         {
-            $app['context']->addAlertMessage('Could not parse query.');
-            $app['context']->setCurrentSearchTerm('');
+            $this->contextManager->addAlertMessage('Could not parse query.');
+            $this->contextManager->setCurrentSearchTerm('');
             //$query  = '';
             $filter = '';
         }
 
-        //$app['context']->setCurrentSearchTerm($query);
+        //$this->contextManager->setCurrentSearchTerm($query);
 
         return $filter;
 
     }
 
 
-    protected static function escape($s)
+    protected function escape($s)
     {
         $s = str_replace('\\+', '&#43;', $s);
         $s = str_replace('\\,', '&#44;', $s);
@@ -61,7 +66,7 @@ class FilterUtil
     }
 
 
-    protected static function decode($s)
+    protected function decode($s)
     {
         $s = str_replace('&#43;', '+', $s);
         $s = str_replace('&#44;', ',', $s);
@@ -90,7 +95,7 @@ class FilterUtil
      *
      * @return bool
      */
-    protected static function parseCondition($s)
+    protected function parseCondition($s)
     {
 
         $match = preg_match("/([^>=|<=|!=|>|<|=|\*=)]*)(>=|<=|!=|>|<|=|\*=)(.*)/", $s, $matches);
@@ -98,9 +103,9 @@ class FilterUtil
         if ($match)
         {
             $condition   = array();
-            $condition[] = self::decode(trim($matches[1]));
+            $condition[] = $this->decode(trim($matches[1]));
             $condition[] = trim($matches[2]);
-            $condition[] = self::decode(trim($matches[3]));
+            $condition[] = $this->decode(trim($matches[3]));
 
             return $condition;
         }

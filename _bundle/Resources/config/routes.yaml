@@ -1,5 +1,5 @@
 controllers:
     resource:
-        path: ../../src/Modules
-        namespace: AnyContent\Backend\Modules
+        path: ../../src/
+        namespace: AnyContent\Backend
     type: attribute

@@ -7,6 +7,7 @@ use AnyContent\Backend\Controller\AbstractAnyContentBackendController;
 use AnyContent\Backend\Modules\Listing\ContentViews\DefaultContentView;
 use AnyContent\Backend\Services\ContentViewsManager;
 use AnyContent\Backend\Services\ContextManager;
+use AnyContent\Backend\Services\MenuManager;
 use AnyContent\Backend\Services\RepositoryManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -24,11 +25,12 @@ class ListingController extends AbstractAnyContentBackendController
     public function __construct(
         protected RepositoryManager $repositoryManager,
         protected ContextManager $contextManager,
+        protected MenuManager $menuManager,
         private DefaultContentView $defaultContentView
 
     )
     {
-        parent::__construct($this->repositoryManager,$this->contextManager);
+        parent::__construct($this->repositoryManager,$this->contextManager, $this->menuManager);
     }
 
     /**
@@ -48,7 +50,7 @@ class ListingController extends AbstractAnyContentBackendController
 
         $vars = array();
 
-        $vars['menu_mainmenu'] = [];//$app['menus']->renderMainMenu();
+        $vars['menu_mainmenu'] = $this->menuManager->renderMainMenu();
 
         /** @var Repository $repository */
         $repository = $this->repositoryManager->getRepositoryByContentTypeAccessHash($contentTypeAccessHash);
@@ -196,7 +198,7 @@ class ListingController extends AbstractAnyContentBackendController
             $buttons[500] = array( 'label' => 'Import Records', 'url' => $this->generateUrl('importRecords', array( 'contentTypeAccessHash' => $contentTypeAccessHash )), 'glyphicon' => 'glyphicon-cloud-upload', 'id' => 'listing_button_import' );
         //}
         */
-        $vars['buttons'] = '';//$app['menus']->renderButtonGroup($buttons);
+        $vars['buttons'] = $this->menuManager->renderButtonGroup($buttons);
 
         $vars = $currentContentView->apply($this->contextManager, $vars);
 

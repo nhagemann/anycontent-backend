@@ -25,8 +25,9 @@ class DefaultContentView //extends AbstractContentView
 
     public function __construct(
         private ContextManager $contextManager,
-        private CellRenderer $cellRenderer,
-        private PagingHelper $pagingHelper
+        private CellRenderer   $cellRenderer,
+        private PagingHelper   $pagingHelper,
+        private FilterUtil $filterUtil
     )
     {
 
@@ -36,7 +37,6 @@ class DefaultContentView //extends AbstractContentView
 //    {
 //        parent::__construct($nr, $repository, $contentTypeDefinition, $contentTypeAccessHash, $customAnnotation);
 //    }
-
 
 
     public function getTemplate(): string
@@ -56,8 +56,7 @@ class DefaultContentView //extends AbstractContentView
         //parent::apply($contextManager,$vars);
 
         // reset chained save operations (e.g. 'save-insert') to 'save' only upon listing of a content type
-        if (key($this->contextManager->getCurrentSaveOperation()) != 'save-list')
-        {
+        if (key($this->contextManager->getCurrentSaveOperation()) != 'save-list') {
             $this->contextManager->setCurrentSaveOperation('save', 'Save');
         }
 
@@ -70,17 +69,16 @@ class DefaultContentView //extends AbstractContentView
 
         $filter = $this->getFilter();
 
-        $vars['searchTerm']   = $this->contextManager->getCurrentSearchTerm();
+        $vars['searchTerm'] = $this->contextManager->getCurrentSearchTerm();
         $vars['itemsPerPage'] = $this->contextManager->getCurrentItemsPerPage();
 
-        $vars['table']  = false;
-        $vars['pager']  = false;
+        $vars['table'] = false;
+        $vars['pager'] = false;
         $vars['filter'] = false;
 
         $records = $this->getRecords($filter);
 
-        if (count($records) > 0)
-        {
+        if (count($records) > 0) {
             $columns = $this->getColumnsDefinition();
 
             $vars['table'] = $this->buildTable($columns, $records);
@@ -88,12 +86,12 @@ class DefaultContentView //extends AbstractContentView
             $count = $this->countRecords($filter);
 
             $vars['pager'] = $this->pagingHelper->renderPager($count, $this->contextManager
-                                                                         ->getCurrentItemsPerPage(), $this->contextManager
-                                                                                                          ->getCurrentListingPage(), 'anycontent_records', array( 'contentTypeAccessHash' => $this->contextManager->getCurrentContentTypeAccessHash() ));
+                ->getCurrentItemsPerPage(), $this->contextManager
+                ->getCurrentListingPage(), 'anycontent_records', array('contentTypeAccessHash' => $this->contextManager->getCurrentContentTypeAccessHash()));
 
         }
 
-        $vars['class']='row contenttype-'.strtolower($this->contextManager->getCurrentContentType()->getName());
+        $vars['class'] = 'row contenttype-' . strtolower($this->contextManager->getCurrentContentType()->getName());
 
         return $vars;
     }
@@ -106,13 +104,12 @@ class DefaultContentView //extends AbstractContentView
     {
         $sorting = $this->contextManager->getCurrentSortingOrder();
 
-        $map = [ '.lastchange' => '.info.lastchange.timestamp', '.lastchange+' => '.info.lastchange.timestamp', '.lastchange-' => '.info.lastchange.timestamp-',
-                 'change'      => '.info.lastchange.timestamp', 'change+' => '.info.lastchange.timestamp', 'change-' => '.info.lastchange.timestamp-',
-                 'pos'         => 'position', 'pos+' => 'position', 'pos-' => 'position-'
+        $map = ['.lastchange' => '.info.lastchange.timestamp', '.lastchange+' => '.info.lastchange.timestamp', '.lastchange-' => '.info.lastchange.timestamp-',
+            'change' => '.info.lastchange.timestamp', 'change+' => '.info.lastchange.timestamp', 'change-' => '.info.lastchange.timestamp-',
+            'pos' => 'position', 'pos+' => 'position', 'pos-' => 'position-'
         ];
 
-        if (array_key_exists($sorting, $map))
-        {
+        if (array_key_exists($sorting, $map)) {
             $sorting = $map[$sorting];
         }
 
@@ -125,9 +122,8 @@ class DefaultContentView //extends AbstractContentView
         $filter = null;
 
         $searchTerm = $this->contextManager->getCurrentSearchTerm();
-        if ($searchTerm != '')
-        {
-            $filter = FilterUtil::normalizeFilterQuery($this->app, $searchTerm, $this->getContentTypeDefinition());
+        if ($searchTerm != '') {
+            $filter = $this->filterUtil->normalizeFilterQuery($searchTerm, $this->contextManager->getCurrentDataTypeDefinition());
         }
 
         return $filter;
@@ -138,7 +134,7 @@ class DefaultContentView //extends AbstractContentView
     {
         $contentTypeDefinition = $this->contextManager->getCurrentDataTypeDefinition();
 
-        $columns = [ ];
+        $columns = [];
 
         $column = new AttributeColumn();
         $column->setTitle('ID');
@@ -146,8 +142,7 @@ class DefaultContentView //extends AbstractContentView
         $column->setLinkToRecord(true);
         $columns[] = $column;
 
-        if ($contentTypeDefinition->hasSubtypes())
-        {
+        if ($contentTypeDefinition->hasSubtypes()) {
             $column = new SubtypeColumn();
             $column->setTitle('Subtype');
             $columns[] = $column;
@@ -157,13 +152,10 @@ class DefaultContentView //extends AbstractContentView
         $column->setTitle('Name');
         $column->setProperty('name');
         $column->setLinkToRecord(true);
-        try
-        {
+        try {
             $column->setFormElementDefinition($contentTypeDefinition->getViewDefinition('default')
-                                                                    ->getFormElementDefinition('name'));
-        }
-        catch (CMDLParserException $e)
-        {
+                ->getFormElementDefinition('name'));
+        } catch (CMDLParserException $e) {
             // If default view does not have a name form element
         }
 
@@ -174,15 +166,13 @@ class DefaultContentView //extends AbstractContentView
         $column->setAttribute('lastchange');
         $columns[] = $column;
 
-        if ($contentTypeDefinition->hasStatusList())
-        {
+        if ($contentTypeDefinition->hasStatusList()) {
             $column = new StatusColumn();
             $column->setTitle('Status');
             $columns[] = $column;
         }
 
-        if ($contentTypeDefinition->isSortable())
-        {
+        if ($contentTypeDefinition->isSortable()) {
             $column = new AttributeColumn();
             $column->setTitle('Pos');
             $column->setAttribute('position');
@@ -195,13 +185,12 @@ class DefaultContentView //extends AbstractContentView
         $buttonColumn->setEditButton(true);
         //if ($this->canDo('delete', $this->getRepository(), $this->getContentTypeDefinition()))
         //{
-            $buttonColumn->setDeleteButton(true);
+        $buttonColumn->setDeleteButton(true);
         //}
         $buttonColumn->setRenderer($this->getCellRenderer());
         $columns[] = $buttonColumn;
 
-        foreach ($columns as $column)
-        {
+        foreach ($columns as $column) {
             $column->setRenderer($this->getCellRenderer());
         }
 
@@ -211,20 +200,17 @@ class DefaultContentView //extends AbstractContentView
 
     public function buildTable($columns, $records)
     {
-        $table = [ ];
+        $table = [];
 
-        foreach ($columns as $column)
-        {
+        foreach ($columns as $column) {
             $table['header'][] = $column;
         }
 
-        $table['body'] = [ ];
+        $table['body'] = [];
 
-        foreach ($records as $record)
-        {
-            $line = [ ];
-            foreach ($columns as $column)
-            {
+        foreach ($records as $record) {
+            $line = [];
+            foreach ($columns as $column) {
                 $line[] = $column->formatValue($record);
             }
             $table['body'][] = $line;
@@ -247,7 +233,7 @@ class DefaultContentView //extends AbstractContentView
     {
         $repository = $this->contextManager->getCurrentRepository();
 
-        $page         = $this->contextManager->getCurrentListingPage();
+        $page = $this->contextManager->getCurrentListingPage();
         $itemsPerPage = $this->contextManager->getCurrentItemsPerPage();
         //$viewName     = 'default';
 
@@ -266,7 +252,7 @@ class DefaultContentView //extends AbstractContentView
     {
         $repository = $this->contextManager->getCurrentRepository();
 
-        $page         = $this->contextManager->getCurrentListingPage();
+        $page = $this->contextManager->getCurrentListingPage();
         $itemsPerPage = $this->contextManager->getCurrentItemsPerPage();
         //$viewName     = 'default';
 

@@ -15,10 +15,16 @@ security:
             security: false
         anycontent:
             pattern: ^/anycontent
-            lazy: true
+            lazy: false
             provider: users_in_memory
-            http_basic:
-                realm: Secured Area
+            form_login:
+                login_path: anycontent_login
+                check_path: anycontent_login
+            logout:
+                path: anycontent_logout
+                target: anycontent_start
+            #http_basic:
+            #    realm: Secured Area
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall

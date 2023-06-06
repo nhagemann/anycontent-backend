@@ -20,7 +20,7 @@ class StartController extends AbstractAnyContentBackendController
     {
         $vars = [];
 
-        $vars['menu_mainmenu'] = [];
+        $vars['menu_mainmenu'] = $this->menuManager->renderMainMenu();
 
         $items = array();
         foreach ($this->repositoryManager->listRepositories() as $repositoryName => $repositoryItem)
@@ -33,11 +33,11 @@ class StartController extends AbstractAnyContentBackendController
         return $this->render('@AnyContentBackend/Start/index.html.twig', $vars);
     }
 
-    #[Route('/{repositoryAccessHash}','anycontent_repository')]
+    #[Route('/repository/{repositoryAccessHash}','anycontent_repository')]
     public function repository(string $repositoryAccessHash)
     {
 
-        $vars['menu_mainmenu'] = [];
+        $vars['menu_mainmenu'] = $this->menuManager->renderMainMenu();
 
        foreach ($this->repositoryManager->listRepositories() as $repositoryName => $repositoryItem)
         {

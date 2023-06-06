@@ -4,6 +4,7 @@ namespace AnyContent\Backend\Controller;
 
 use AnyContent\Backend\Services\ContentViewsManager;
 use AnyContent\Backend\Services\ContextManager;
+use AnyContent\Backend\Services\MenuManager;
 use AnyContent\Backend\Services\RepositoryManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,6 +15,7 @@ abstract class AbstractAnyContentBackendController extends AbstractController
     public function __construct(
         protected RepositoryManager $repositoryManager,
         protected ContextManager $contextManager,
+        protected MenuManager $menuManager
     )
     {
     }
