@@ -15,6 +15,11 @@ class AnyContentBackendExtension extends Extension
     {
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../../config'));
         $loader->load('services.yaml');
+
+        $configuration = new Configuration();
+
+        $config = $this->processConfiguration($configuration, $configs);
+        var_dump($config);
     }
 
 }

@@ -83,22 +83,22 @@ class RepositoryManager
         )] = ['repositoryId' => $repository->getName()];
     }
 
-    public function getRepositoryAccessHash(Repository $repository)
+    public function getRepositoryAccessHash(Repository $repository): string
     {
         return md5($repository->getName());
     }
 
-    public function getContentTypeAccessHash(Repository $repository, $contentTypeName)
+    public function getContentTypeAccessHash(Repository $repository, $contentTypeName): string
     {
         return md5($repository->getName() . '-contentType-' . $contentTypeName);
     }
 
-    public function getConfigTypeAccessHash(Repository $repository, $configTypeName)
+    public function getConfigTypeAccessHash(Repository $repository, $configTypeName): string
     {
         return md5($repository->getName() . '-contentType-' . $configTypeName);
     }
 
-    public function getAccessHash($repository, $contentTypeDefinition = null)
+    public function getAccessHash($repository, $contentTypeDefinition = null): string
     {
 
         if ($contentTypeDefinition != null) {
@@ -185,18 +185,6 @@ class RepositoryManager
         }
 
         return false;
-    }
-
-    public function listApps($id)
-    {
-        $config = $this->getConfigService()->getAppsConfiguration($id);
-
-        $result = [];
-        foreach ($config as $item) {
-            $result[$item['name']] = $item;
-        }
-
-        return $result;
     }
 
     public function getRepositoryById($id)

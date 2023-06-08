@@ -3,17 +3,19 @@
 namespace AnyContent\Backend\Services;
 
 
-
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Twig\Environment;
 
 class MenuManager
 {
 
     public function __construct(
-        private RepositoryManager $repositoryManager,
-        private UrlGeneratorInterface $urlGenerator,
-        private Environment $twig
+        private RepositoryManager             $repositoryManager,
+        private UrlGeneratorInterface         $urlGenerator,
+        private Environment                   $twig,
+        private AuthorizationCheckerInterface $authorizationChecker
 
     )
     {
@@ -25,61 +27,44 @@ class MenuManager
     {
 
 
-            $items = array();
+        $items = array();
 
-            foreach ($this->repositoryManager->listRepositories() as $repositoryName => $repositoryItem)
-            {
+        foreach ($this->repositoryManager->listRepositories() as $repositoryName => $repositoryItem) {
 
-                $url     = $this->urlGenerator->generate('anycontent_repository', array( 'repositoryAccessHash' => $repositoryItem['accessHash'] ));
-                $items[] = array( 'type' => 'header', 'text' => $repositoryItem['title'], 'url' => $url );
+            $url = $this->urlGenerator->generate('anycontent_repository', array('repositoryAccessHash' => $repositoryItem['accessHash']));
+            $items[] = array('type' => 'header', 'text' => $repositoryItem['title'], 'url' => $url);
 
-                foreach ($this->repositoryManager->listContentTypes($repositoryName) as $contentTypName => $contentTypeItem)
-                {
-                    $url     = $this->urlGenerator->generate('anycontent_records', array( 'contentTypeAccessHash' => $contentTypeItem['accessHash'], 'page' => 1 ));
-                    $items[] = array( 'type' => 'link', 'text' => $contentTypeItem['title'], 'url' => $url, 'glyphicon' => 'glyphicon-file' );
-                }
-                foreach ($this->repositoryManager->listConfigTypes($repositoryName) as $configTypeName => $configTypeItem)
-                {
-                    $url     = $this->urlGenerator->generate('anycontent_config', array( 'configTypeAccessHash' => $configTypeItem['accessHash'] ));
-                    $items[] = array( 'type' => 'link', 'text' => $configTypeItem['title'], 'url' => $url, 'glyphicon' => 'glyphicon-wrench' );
-                }
-                if ($this->repositoryManager->hasFiles($repositoryName))
-                {
-                    $url     = $this->urlGenerator->generate('anycontent_files', array( 'repositoryAccessHash' => $repositoryItem['accessHash'], 'path' => '' ));
-                    $items[] = array( 'type' => 'link', 'text' => 'Files', 'url' => $url, 'glyphicon' => 'glyphicon-folder-open' );
-                }
-//                foreach ($this->repositoryManager->listApps($repositoryName) as $appName => $appItem)
-//                {
-//
-//                    $url     = rtrim($appItem['url'], '/') . '/' . $repositoryItem['accessHash'];
-//                    $items[] = array( 'type' => 'link', 'text' => $appName, 'url' => $url, 'glyphicon' => 'glyphicon-dashboard' );
-//                }
-                $items[] = array( 'type' => 'divider' );
+            foreach ($this->repositoryManager->listContentTypes($repositoryName) as $contentTypName => $contentTypeItem) {
+                $url = $this->urlGenerator->generate('anycontent_records', array('contentTypeAccessHash' => $contentTypeItem['accessHash'], 'page' => 1));
+                $items[] = array('type' => 'link', 'text' => $contentTypeItem['title'], 'url' => $url, 'glyphicon' => 'glyphicon-file');
+            }
+            foreach ($this->repositoryManager->listConfigTypes($repositoryName) as $configTypeName => $configTypeItem) {
+                $url = $this->urlGenerator->generate('anycontent_config', array('configTypeAccessHash' => $configTypeItem['accessHash']));
+                $items[] = array('type' => 'link', 'text' => $configTypeItem['title'], 'url' => $url, 'glyphicon' => 'glyphicon-wrench');
+            }
+            if ($this->repositoryManager->hasFiles($repositoryName)) {
+                $url = $this->urlGenerator->generate('anycontent_files', array('repositoryAccessHash' => $repositoryItem['accessHash'], 'path' => ''));
+                $items[] = array('type' => 'link', 'text' => 'Files', 'url' => $url, 'glyphicon' => 'glyphicon-folder-open');
             }
 
-            // Add menu items Admin and/or Help if appropriate routes exist
-
-//            if ($this->app->routeExists('admin') || $this->app->routeExists('help'))
-//            {
-//                if ($this->app->routeExists('admin'))
-//                {
-//                    $url     = $this->urlGenerator->generate('admin');
-//                    $items[] = array( 'type' => 'link', 'text' => 'Admin', 'url' => $url, 'glyphicon' => 'glyphicon-cog' );
-//
-//                }
-//                if ($this->app->routeExists('help'))
-//                {
-//                    $url     = $this->urlGenerator->generate('help');
-//                    $items[] = array( 'type' => 'link', 'text' => 'Help', 'url' => $url, 'glyphicon' => 'glyphicon-book' );
-//
-//                }
-//                $items[] = array( 'type' => 'divider' );
-//            }
-
-            $url     = $this->urlGenerator->generate('anycontent_logout');
-            $items[] = array( 'type' => 'link', 'text' => 'Logout', 'url' => $url, 'glyphicon' => 'glyphicon-user' );
+            $items[] = array('type' => 'divider');
+        }
 
 
+        if ($this->authorizationChecker->isGranted('ROLE_ANYCONTENT_ADMIN')) {
+            $url = $this->urlGenerator->generate('anycontent_admin');
+            $items[] = array('type' => 'link', 'text' => 'Admin', 'url' => $url, 'glyphicon' => 'glyphicon-cog');
+
+        }
+
+        $url = $this->urlGenerator->generate('anycontent_help');
+        $items[] = array('type' => 'link', 'text' => 'Help', 'url' => $url, 'glyphicon' => 'glyphicon-book');
+
+        $items[] = array('type' => 'divider');
+
+
+        $url = $this->urlGenerator->generate('anycontent_logout');
+        $items[] = array('type' => 'link', 'text' => 'Logout', 'url' => $url, 'glyphicon' => 'glyphicon-user');
 
 
         $html = $this->renderDropDown($items, 'mainmenu');
@@ -90,7 +75,7 @@ class MenuManager
 
     public function renderDropDown($items, $id = null)
     {
-        $vars = array( 'items' => $items, 'id' => $id );
+        $vars = array('items' => $items, 'id' => $id);
 
 //        $event = new MenuMainMenuRenderEvent($this->app, 'core_menu_dropdown.twig', $vars);
 //
@@ -117,7 +102,7 @@ class MenuManager
 //
 //        $buttons = $event->getButtons();
 
-        return $this->twig->render('@AnyContentBackend\Menu\core_menu_buttongroup.twig', array( 'buttons' => $buttons ));
+        return $this->twig->render('@AnyContentBackend\Menu\core_menu_buttongroup.twig', array('buttons' => $buttons));
     }
 
 

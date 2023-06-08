@@ -1,6 +1,6 @@
 <?php
 
-namespace AnyContent\Backend\Modules\Edit\Controller;
+namespace AnyContent\Backend\Modules\Export\Controller;
 
 
 use AnyContent\Backend\Controller\AbstractAnyContentBackendController;
@@ -13,14 +13,10 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[IsGranted('ROLE_ANYCONTENT')]
-class EditController extends AbstractAnyContentBackendController
+class ExportController extends AbstractAnyContentBackendController
 {
-    #[Route('/xxx','anycontent_record_edit')]
-    #[Route('/xxx','anycontent_record_delete')]
-    public function xxx(): Response
+    #[Route('/','anycontent_records_export')]
+    public function start(): Response
     {
-
     }
-
-
 }

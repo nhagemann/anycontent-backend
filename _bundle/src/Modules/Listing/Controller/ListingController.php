@@ -179,25 +179,18 @@ class ListingController extends AbstractAnyContentBackendController
         $buttons      = array();
         $buttons[100] = array( 'label' => 'List Records', 'url' => $this->generateUrl('anycontent_records_reset', array( 'contentTypeAccessHash' => $contentTypeAccessHash, 'workspace' => $this->contextManager->getCurrentWorkspace(), 'language' => $this->contextManager->getCurrentLanguage() )), 'glyphicon' => 'glyphicon-list' );
 
-        /*
-        //if ($contentTypeDefinition->isSortable() && $user->canDo('sort', $repository, $contentTypeDefinition))
+
         if ($contentTypeDefinition->isSortable())
         {
-            $buttons[200] = array( 'label' => 'Sort Records', 'url' => $this->generateUrl('sortRecords', array( 'contentTypeAccessHash' => $contentTypeAccessHash, 'workspace' => $this->contextManager->getCurrentWorkspace(), 'language' => $this->contextManager->getCurrentLanguage() )), 'glyphicon' => 'glyphicon-move' );
+            $buttons[200] = array( 'label' => 'Sort Records', 'url' => $this->generateUrl('anycontent_records_sort', array( 'contentTypeAccessHash' => $contentTypeAccessHash, 'workspace' => $this->contextManager->getCurrentWorkspace(), 'language' => $this->contextManager->getCurrentLanguage() )), 'glyphicon' => 'glyphicon-move' );
         }
-        //if ($user->canDo('add', $repository, $contentTypeDefinition))
-        //{
-            $buttons[300] = array( 'label' => 'Add Record', 'url' => $this->generateUrl('addRecord', array( 'contentTypeAccessHash' => $contentTypeAccessHash, 'workspace' => $this->contextManager->getCurrentWorkspace(), 'language' => $this->contextManager->getCurrentLanguage() )), 'glyphicon' => 'glyphicon-plus' );
-        //}
-        //if ($user->canDo('export', $repository, $contentTypeDefinition))
-        //{
-            $buttons[400] = array( 'label' => 'Export Records', 'url' => $this->generateUrl('exportRecords', array( 'contentTypeAccessHash' => $contentTypeAccessHash )), 'glyphicon' => 'glyphicon-cloud-download', 'id' => 'listing_button_export' );
-        //}
-        //if ($user->canDo('import', $repository, $contentTypeDefinition))
-        //{
-            $buttons[500] = array( 'label' => 'Import Records', 'url' => $this->generateUrl('importRecords', array( 'contentTypeAccessHash' => $contentTypeAccessHash )), 'glyphicon' => 'glyphicon-cloud-upload', 'id' => 'listing_button_import' );
-        //}
-        */
+
+            $buttons[300] = array( 'label' => 'Add Record', 'url' => $this->generateUrl('anycontent_record_add', array( 'contentTypeAccessHash' => $contentTypeAccessHash, 'workspace' => $this->contextManager->getCurrentWorkspace(), 'language' => $this->contextManager->getCurrentLanguage() )), 'glyphicon' => 'glyphicon-plus' );
+
+            $buttons[400] = array( 'label' => 'Export Records', 'url' => $this->generateUrl('anycontent_records_import', array( 'contentTypeAccessHash' => $contentTypeAccessHash )), 'glyphicon' => 'glyphicon-cloud-download', 'id' => 'listing_button_export' );
+
+            $buttons[500] = array( 'label' => 'Import Records', 'url' => $this->generateUrl('anycontent_records_export', array( 'contentTypeAccessHash' => $contentTypeAccessHash )), 'glyphicon' => 'glyphicon-cloud-upload', 'id' => 'listing_button_import' );
+
         $vars['buttons'] = $this->menuManager->renderButtonGroup($buttons);
 
         $vars = $currentContentView->apply($this->contextManager, $vars);

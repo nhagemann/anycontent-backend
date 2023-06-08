@@ -1,0 +1,3 @@
+any_content_backend:
+  connections:
+    - { name: 'test', type: 'contentarchive' }
