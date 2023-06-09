@@ -33,18 +33,7 @@ class ListingController extends AbstractAnyContentBackendController
         parent::__construct($this->repositoryManager,$this->contextManager, $this->menuManager);
     }
 
-    /**
-     *$app->get('/content/list/{contentTypeAccessHash}/{nr}/page/{page}/{workspace}/{language}', 'AnyContent\CMCK\Modules\Backend\Core\Listing\Controller::listRecords')
-    ->bind('listRecords')->value('page', 1)->value('workspace', null)->value('language', null)->value('nr', 0);
-    $app->get('/content/list/{contentTypeAccessHash}/{workspace}/{language}', 'AnyContent\CMCK\Modules\Backend\Core\Listing\Controller::listRecords')
-    ->bind('listRecordsReset')->value('workspace', null)->value('language', null)->value('nr', 1);
-
-    $app['contentViews']->registerContentView('default', 'AnyContent\CMCK\Modules\Backend\Core\Listing\ContentViewDefault');
-     */
-
-    #[Route('/content/list/{contentTypeAccessHash}/{nr}/page/{page}/{workspace}/{language}','anycontent_records')]
-    #[Route('/content/list/{contentTypeAccessHash}/{nr}','anycontent_records_reset')]
-    //#[Route('/content/list/{contentTypeAccessHash}','anycontent_list_records')]
+    #[Route('/content/list/{contentTypeAccessHash}/{nr}/{page}/{workspace}/{language}','anycontent_records', methods: ['GET'])]
     public function listRecords(#[CurrentUser] ?UserInterface $user, Request $request, ContentViewsManager $contentViewsManager, $contentTypeAccessHash, $page = 1, $workspace = null, $language = null, $nr = 0)
     {
 
@@ -172,12 +161,12 @@ class ListingController extends AbstractAnyContentBackendController
 
         // context links
         $vars['links']['timeshift']  = '';//$this->generateUrl('timeShiftListRecords', array( 'contentTypeAccessHash' => $contentTypeAccessHash, 'page' => $page ));
-        $vars['links']['workspaces'] = '';//$this->generateUrl('changeWorkspaceListRecords', array( 'contentTypeAccessHash' => $contentTypeAccessHash, 'page' => $page ));
-        $vars['links']['languages']  = '';//$this->generateUrl('changeLanguageListRecords', array( 'contentTypeAccessHash' => $contentTypeAccessHash, 'page' => $page ));
-        $vars['links']['reset']      = '';//$this->generateUrl('listRecordsReset', array( 'contentTypeAccessHash' => $contentTypeAccessHash ));
+        $vars['links']['workspaces'] = $this->generateUrl('anycontent_records_change_workspace', array( 'contentTypeAccessHash' => $contentTypeAccessHash, 'page' => $page));
+        $vars['links']['languages'] = $this->generateUrl('anycontent_records_change_language', array( 'contentTypeAccessHash' => $contentTypeAccessHash, 'page' => $page));
+        $vars['links']['reset']      = $this->generateUrl('anycontent_records', array( 'contentTypeAccessHash' => $contentTypeAccessHash, 'page'=>1, 'q'=>'' ));
 
         $buttons      = array();
-        $buttons[100] = array( 'label' => 'List Records', 'url' => $this->generateUrl('anycontent_records_reset', array( 'contentTypeAccessHash' => $contentTypeAccessHash, 'workspace' => $this->contextManager->getCurrentWorkspace(), 'language' => $this->contextManager->getCurrentLanguage() )), 'glyphicon' => 'glyphicon-list' );
+        $buttons[100] = array( 'label' => 'List Records', 'url' => $this->generateUrl('anycontent_records', array( 'contentTypeAccessHash' => $contentTypeAccessHash, 'workspace' => $this->contextManager->getCurrentWorkspace(), 'language' => $this->contextManager->getCurrentLanguage(), 'q'=>'' )), 'glyphicon' => 'glyphicon-list' );
 
 
         if ($contentTypeDefinition->isSortable())
