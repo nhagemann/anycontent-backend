@@ -59,7 +59,7 @@ class StartController extends AbstractAnyContentBackendController
 
         $item          = array();
         $item['title'] = $repositoryItem['title'];
-        $item['url']   = $repository->getPublicUrl();
+        $item['url']   = '';//$repository->getPublicUrl();
         $item['link']  = $this->generateUrl('anycontent_repository',['repositoryAccessHash' => $repositoryItem['accessHash'] ]);
         $item['files'] = false;
 

@@ -1,0 +1,24 @@
+{
+    "id": 6,
+    "properties": {
+        "name": "Faroe Islands Rath Ltd Airline",
+        "captain": "Rodrigo Keebler",
+        "numberofplanes": "27",
+        "foundationyear": "2019"
+    },
+    "info": {
+        "revision": 1,
+        "creation": {
+            "timestamp": null,
+            "username": "",
+            "firstname": "",
+            "lastname": ""
+        },
+        "lastchange": {
+            "timestamp": 1674924829,
+            "username": "",
+            "firstname": "",
+            "lastname": ""
+        }
+    }
+}

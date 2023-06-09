@@ -1,0 +1,24 @@
+{
+    "id": 9,
+    "properties": {
+        "name": "Lebanon Ullrich Inc Airline",
+        "captain": "Rudolph Schulist",
+        "numberofplanes": "141",
+        "foundationyear": "1940"
+    },
+    "info": {
+        "revision": 1,
+        "creation": {
+            "timestamp": null,
+            "username": "",
+            "firstname": "",
+            "lastname": ""
+        },
+        "lastchange": {
+            "timestamp": 1674924829,
+            "username": "",
+            "firstname": "",
+            "lastname": ""
+        }
+    }
+}

@@ -19,7 +19,10 @@ class AnyContentBackendExtension extends Extension
         $configuration = new Configuration();
 
         $config = $this->processConfiguration($configuration, $configs);
-        var_dump($config);
+
+        // @see https://stackoverflow.com/questions/65765693/symfony-bundle-access-config-value
+        $service = $container->getDefinition(RepositoryAdder::class);
+        $service->setArgument('$connections',$config['connections']);
     }
 
 }

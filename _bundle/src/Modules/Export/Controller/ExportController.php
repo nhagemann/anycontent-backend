@@ -15,7 +15,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[IsGranted('ROLE_ANYCONTENT')]
 class ExportController extends AbstractAnyContentBackendController
 {
-    #[Route('/','anycontent_records_export')]
+    #[Route('/xxxxx','anycontent_records_export')]
     public function start(): Response
     {
     }

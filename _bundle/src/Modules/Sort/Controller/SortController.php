@@ -15,7 +15,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[IsGranted('ROLE_ANYCONTENT')]
 class SortController extends AbstractAnyContentBackendController
 {
-    #[Route('/','anycontent_sort')]
+    #[Route('/xxxxx','anycontent_sort')]
     public function start(): Response
     {
     }

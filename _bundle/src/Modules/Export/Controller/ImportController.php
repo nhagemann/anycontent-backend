@@ -15,7 +15,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[IsGranted('ROLE_ANYCONTENT')]
 class ImportController extends AbstractAnyContentBackendController
 {
-    #[Route('/','anycontent_records_import')]
+    #[Route('/xxxxx','anycontent_records_import')]
     public function start(): Response
     {
     }
