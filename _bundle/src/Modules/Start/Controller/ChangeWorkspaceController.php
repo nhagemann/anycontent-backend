@@ -54,11 +54,12 @@ class ChangeWorkspaceController extends AbstractAnyContentBackendController
     }
 
 
-    public static function changeWorkspaceEditRecord(Application $app, Request $request, $contentTypeAccessHash, $recordId)
+    #[Route('/change-workspace/edit-record/{contentTypeAccessHash}/{recordId]','anycontent_record_edit_change_workspace', methods: ['POST'])]
+    public function changeLanguageEditRecord(Request $request, $contentTypeAccessHash, $recordId)
     {
-        $app['context']->setCurrentWorkspace($request->get('workspace'));
+        $this->contextManager->setCurrentWorkspace($request->get('workspace'));
 
-        return $app->redirect($app['url_generator']->generate('editRecord', array( 'contentTypeAccessHash' => $contentTypeAccessHash, 'recordId' => $recordId )),303);
+        return $this->redirect($this->generateUrl('anycontent_record_edit', array( 'contentTypeAccessHash' => $contentTypeAccessHash, 'record' => $recordId )),303);
     }
 
 

@@ -36,13 +36,15 @@ class ChangeLanguageController extends AbstractAnyContentBackendController
         return $this->redirect($this->generateUrl('anycontent_records', array( 'contentTypeAccessHash' => $contentTypeAccessHash, 'page' => $page )),303);
     }
 
-
-    public static function changeLanguageEditRecord(Application $app, Request $request, $contentTypeAccessHash, $recordId)
+    #[Route('/change-language/edit-record/{contentTypeAccessHash}/{recordId]','anycontent_record_edit_change_language', methods: ['POST'])]
+    public function changeLanguageEditRecord(Request $request, $contentTypeAccessHash, $recordId)
     {
-        $app['context']->setCurrentLanguage($request->get('language'));
+        $this->contextManager->setCurrentLanguage($request->get('language'));
 
-        return $app->redirect($app['url_generator']->generate('editRecord', array( 'contentTypeAccessHash' => $contentTypeAccessHash, 'recordId' => $recordId )),303);
+        return $this->redirect($this->generateUrl('anycontent_record_edit', array( 'contentTypeAccessHash' => $contentTypeAccessHash, 'record' => $recordId )),303);
     }
+
+
 
 
     public static function changeLanguageAddRecord(Application $app, Request $request, $contentTypeAccessHash)

@@ -1,0 +1,30 @@
+<div class="form-group formelement-{{ definition.FormElementType }}{%if definition.isMandatory == true %} mandatory{% endif %}" data-formelement="{{ id }}">
+    <div class="row">
+        {% block label %}
+            <div class="col-xs-8">
+                <label for="{{ id }}">{{ definition.label }}{% if definition.isMandatory == true %}*{% endif %}{% if definition.isProtected %}<sup>§</sup>{% endif %}
+
+                </label>
+                {% if definition.info %}
+                    &nbsp;<span class="glyphicon glyphicon-info-sign formelement-popover" data-container="body"
+                                data-toggle="popover" data-placement="right"
+                                data-content="{{ definition.info | raw }}"></span>
+                {% endif %}
+                {% if definition.help %}
+                    &nbsp;<span class="glyphicon glyphicon-question-sign formelement-popover" data-container="body"
+                                data-toggle="popover" data-placement="right"
+                                data-content="{{ definition.help | raw }}"></span>
+                {% endif %}
+            </div>
+        {% endblock %}
+    </div>
+    <div class="row">
+        {% block input %}
+            <div class="col-xs-6">
+                <textarea id="{{ id }}" name="{{ name }}" placeholder="{{ definition.placeholder }}"
+                          class="form-control"
+                          rows="3"{% if definition.isProtected %} disabled="disabled"{% endif %}>{{ value }}</textarea>
+            </div>
+        {% endblock %}
+    </div>
+</div>

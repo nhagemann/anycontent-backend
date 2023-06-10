@@ -165,26 +165,15 @@ class ListingController extends AbstractAnyContentBackendController
         $vars['links']['languages'] = $this->generateUrl('anycontent_records_change_language', array( 'contentTypeAccessHash' => $contentTypeAccessHash, 'page' => $page));
         $vars['links']['reset']      = $this->generateUrl('anycontent_records', array( 'contentTypeAccessHash' => $contentTypeAccessHash, 'page'=>1, 'q'=>'' ));
 
-        $buttons      = array();
-        $buttons[100] = array( 'label' => 'List Records', 'url' => $this->generateUrl('anycontent_records', array( 'contentTypeAccessHash' => $contentTypeAccessHash, 'workspace' => $this->contextManager->getCurrentWorkspace(), 'language' => $this->contextManager->getCurrentLanguage(), 'q'=>'' )), 'glyphicon' => 'glyphicon-list' );
-
-
-        if ($contentTypeDefinition->isSortable())
-        {
-            $buttons[200] = array( 'label' => 'Sort Records', 'url' => $this->generateUrl('anycontent_records_sort', array( 'contentTypeAccessHash' => $contentTypeAccessHash, 'workspace' => $this->contextManager->getCurrentWorkspace(), 'language' => $this->contextManager->getCurrentLanguage() )), 'glyphicon' => 'glyphicon-move' );
-        }
-
-            $buttons[300] = array( 'label' => 'Add Record', 'url' => $this->generateUrl('anycontent_record_add', array( 'contentTypeAccessHash' => $contentTypeAccessHash, 'workspace' => $this->contextManager->getCurrentWorkspace(), 'language' => $this->contextManager->getCurrentLanguage() )), 'glyphicon' => 'glyphicon-plus' );
-
-            $buttons[400] = array( 'label' => 'Export Records', 'url' => $this->generateUrl('anycontent_records_import', array( 'contentTypeAccessHash' => $contentTypeAccessHash )), 'glyphicon' => 'glyphicon-cloud-download', 'id' => 'listing_button_export' );
-
-            $buttons[500] = array( 'label' => 'Import Records', 'url' => $this->generateUrl('anycontent_records_export', array( 'contentTypeAccessHash' => $contentTypeAccessHash )), 'glyphicon' => 'glyphicon-cloud-upload', 'id' => 'listing_button_import' );
-
+        $buttons = $this->getButtons($contentTypeAccessHash, $contentTypeDefinition);
         $vars['buttons'] = $this->menuManager->renderButtonGroup($buttons);
 
         $vars = $currentContentView->apply($this->contextManager, $vars);
 
         return $this->render($currentContentView->getTemplate(), $vars);
     }
+
+
+
 
 }
