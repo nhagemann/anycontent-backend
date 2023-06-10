@@ -7,6 +7,8 @@ use AnyContent\Backend\Controller\AbstractAnyContentBackendController;
 use AnyContent\Backend\Services\RepositoryManager;
 use AnyContent\CMCK\Modules\Backend\Core\Application\Application;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,11 +19,10 @@ class RecordsController extends AbstractAnyContentBackendController
 {
 
     #[Route('/xxx','anycontent_record_add')]
-
     #[Route('/xxx','anycontent_record_delete')]
     public function xxx(): Response
     {
-
+        return new Response('');
     }
 
     public static function addRecord(Application $app, $contentTypeAccessHash, $recordId = null)
@@ -51,13 +52,13 @@ class RecordsController extends AbstractAnyContentBackendController
                 array(
                     'contentTypeAccessHash' => $contentTypeAccessHash,
                     'page' => 1,
-                    'workspace' => $app['context']->getCurrentWorkspace(),
-                    'language' => $app['context']->getCurrentLanguage(),
+                    'workspace' => $this->contextManager->getCurrentWorkspace(),
+                    'language' => $this->contextManager->getCurrentLanguage(),
                 )
             );
 
-            $app['context']->setCurrentRepository($repository);
-            $app['context']->setCurrentContentType($repository->getContentTypeDefinition());
+            $this->contextManager->setCurrentRepository($repository);
+            $this->contextManager->setCurrentContentType($repository->getContentTypeDefinition());
 
             $formManager->setDataTypeDefinition($repository->getContentTypeDefinition());
 
@@ -90,8 +91,8 @@ class RecordsController extends AbstractAnyContentBackendController
                     $viewDefinition->getFormElementDefinitions(),
                     $properties,
                     array(
-                        'workspace' => $app['context']->getCurrentWorkspace(),
-                        'language' => $app['context']->getCurrentLanguage(),
+                        'workspace' => $this->contextManager->getCurrentWorkspace(),
+                        'language' => $this->contextManager->getCurrentLanguage(),
                     )
                 );
 
@@ -103,8 +104,8 @@ class RecordsController extends AbstractAnyContentBackendController
                         array(
                             'contentTypeAccessHash' => $contentTypeAccessHash,
                             'page' => 1,
-                            'workspace' => $app['context']->getCurrentWorkspace(),
-                            'language' => $app['context']->getCurrentLanguage(),
+                            'workspace' => $this->contextManager->getCurrentWorkspace(),
+                            'language' => $this->contextManager->getCurrentLanguage(),
                         )
                     ),
                     'glyphicon' => 'glyphicon-list',
@@ -116,8 +117,8 @@ class RecordsController extends AbstractAnyContentBackendController
                             'sortRecords',
                             array(
                                 'contentTypeAccessHash' => $contentTypeAccessHash,
-                                'workspace' => $app['context']->getCurrentWorkspace(),
-                                'language' => $app['context']->getCurrentLanguage(),
+                                'workspace' => $this->contextManager->getCurrentWorkspace(),
+                                'language' => $this->contextManager->getCurrentLanguage(),
                             )
                         ),
                         'glyphicon' => 'glyphicon-move',
@@ -134,7 +135,7 @@ class RecordsController extends AbstractAnyContentBackendController
 
                 $vars['buttons'] = $app['menus']->renderButtonGroup($buttons);
 
-                $saveoperation = $app['context']->getCurrentSaveOperation();
+                $saveoperation = $this->contextManager->getCurrentSaveOperation();
 
                 $vars['save_operation'] = key($saveoperation);
                 $vars['save_operation_title'] = array_shift($saveoperation);
@@ -145,8 +146,8 @@ class RecordsController extends AbstractAnyContentBackendController
                         'contentTypeAccessHash' => $contentTypeAccessHash,
                         'page' => 1,
                         's' => 'name',
-                        'workspace' => $app['context']->getCurrentWorkspace(),
-                        'language' => $app['context']->getCurrentLanguage(),
+                        'workspace' => $this->contextManager->getCurrentWorkspace(),
+                        'language' => $this->contextManager->getCurrentLanguage(),
                     )
                 );
                 $vars['links']['timeshift'] = false;
@@ -168,7 +169,7 @@ class RecordsController extends AbstractAnyContentBackendController
     }
 
 
-    #[Route('/content/edit/{contentTypeAccessHash}/{recordId}/{workspace}/{language}','anycontent_record_edit')]
+    #[Route('/content/edit/{contentTypeAccessHash}/{recordId}/{workspace}/{language}','anycontent_record_edit', methods: ['GET'])]
     public function editRecord($contentTypeAccessHash, $recordId, $workspace, $language)
     {
 
@@ -260,8 +261,8 @@ class RecordsController extends AbstractAnyContentBackendController
 //                    array(
 //                        'contentTypeAccessHash' => $contentTypeAccessHash,
 //                        'recordId' => $recordId,
-//                        'workspace' => $app['context']->getCurrentWorkspace(),
-//                        'language' => $app['context']->getCurrentLanguage(),
+//                        'workspace' => $this->contextManager->getCurrentWorkspace(),
+//                        'language' => $this->contextManager->getCurrentLanguage(),
 //                    )
 //                );
 //            }
@@ -282,8 +283,8 @@ class RecordsController extends AbstractAnyContentBackendController
 //                array(
 //                    'contentTypeAccessHash' => $contentTypeAccessHash,
 //                    'recordId' => $recordId,
-//                    'workspace' => $app['context']->getCurrentWorkspace(),
-//                    'language' => $app['context']->getCurrentLanguage(),
+//                    'workspace' => $this->contextManager->getCurrentWorkspace(),
+//                    'language' => $this->contextManager->getCurrentLanguage(),
 //                )
 //            );
 //
@@ -292,8 +293,8 @@ class RecordsController extends AbstractAnyContentBackendController
 //                array(
 //                    'recordId'=>$recordId,
 //                    'contentTypeAccessHash' => $contentTypeAccessHash,
-//                    'workspace' => $app['context']->getCurrentWorkspace(),
-//                    'language' => $app['context']->getCurrentLanguage(),
+//                    'workspace' => $this->contextManager->getCurrentWorkspace(),
+//                    'language' => $this->contextManager->getCurrentLanguage(),
 //                )
 //            );
 
@@ -330,12 +331,9 @@ class RecordsController extends AbstractAnyContentBackendController
         return $this->render('@AnyContentBackend/Login/forbidden.twig', $vars);
     }
 
-
-    public static function saveRecord(Application $app, Request $request, $contentTypeAccessHash, $recordId = null)
+    #[Route('/content/edit/{contentTypeAccessHash}/{recordId}/{workspace}/{language}','anycontent_record_save', methods: ['POST'])]
+    public function saveRecord(Request $request, $contentTypeAccessHash, $recordId = null)
     {
-        /** @var UserManager $user */
-        $user = $app['user'];
-
         $hidden = $request->get('$hidden');
 
         $saveOperationTitle = 'Save';
@@ -361,54 +359,48 @@ class RecordsController extends AbstractAnyContentBackendController
                 $saveOperation = 'save-list';
                 $list = true;
                 break;
-            case 'save-insert':
-                $saveOperationTitle = 'Save & Insert';
-                $saveOperation = 'save-insert';
-                $insert = true;
-                break;
         }
 
         if ( isset($hidden['duplicate']) && $hidden['duplicate']==1 ) {
             $duplicate = true;
         }
 
-        /** @var Repository $repository */
-        $repository = $app['repos']->getRepositoryByContentTypeAccessHash($contentTypeAccessHash);
 
-        if ($repository && $user->canDo('add', $repository, $repository->getContentTypeDefinition())) {
-            $app['context']->setCurrentRepository($repository);
-            $app['context']->setCurrentContentType($repository->getContentTypeDefinition());
+        $repository = $this->repositoryManager->getRepositoryByContentTypeAccessHash($contentTypeAccessHash);
 
-            $app['form']->setDataTypeDefinition($repository->getContentTypeDefinition());
+        if ($repository) {
+            $this->contextManager->setCurrentRepository($repository);
+            $this->contextManager->setCurrentContentType($repository->getContentTypeDefinition());
 
-            $app['context']->setCurrentSaveOperation($saveOperation, $saveOperationTitle);
+            $this->formManager->setDataTypeDefinition($repository->getContentTypeDefinition());
 
-            $app['context']->setCurrentWorkspace($hidden['workspace']);
-            $app['context']->setCurrentLanguage($hidden['language']);
+            $this->contextManager->setCurrentSaveOperation($saveOperation, $saveOperationTitle);
 
-            $repository->selectWorkspace($app['context']->getCurrentWorkspace());
-            $repository->selectLanguage($app['context']->getCurrentLanguage());
-            $repository->setTimeShift($app['context']->getCurrentTimeShift());
+            $this->contextManager->setCurrentWorkspace($hidden['workspace']);
+            $this->contextManager->setCurrentLanguage($hidden['language']);
+
+            $repository->selectWorkspace($this->contextManager->getCurrentWorkspace());
+            $repository->selectLanguage($this->contextManager->getCurrentLanguage());
+            $repository->setTimeShift($this->contextManager->getCurrentTimeShift());
             $repository->selectView('default');
 
             if ($recordId) {
-                /** @var Record $record */
-                //$record = $repository->getRecord($recordId, $app['context']->getCurrentWorkspace(), 'default', $app['context']->getCurrentLanguage(), $app['context']->getCurrentTimeShift());
+                 //$record = $repository->getRecord($recordId, $this->contextManager->getCurrentWorkspace(), 'default', $this->contextManager->getCurrentLanguage(), $this->contextManager->getCurrentTimeShift());
                 $record = $repository->getRecord($recordId);
 
                 if (!$record) // if we don't have a record with the given id (there never was one, or it has been deleted), create a new one with the given id.
                 {
                     $record = $repository->createRecord('New Record');
-                    //$record = new Record($repository->getContentTypeDefinition(), 'New Record', 'default', $app['context']->getCurrentWorkspace(), 'default', $app['context']->getCurrentLanguage());
+                    //$record = new Record($repository->getContentTypeDefinition(), 'New Record', 'default', $this->contextManager->getCurrentWorkspace(), 'default', $this->contextManager->getCurrentLanguage());
                     $record->setId($recordId);
                 }
             } else {
                 $record = $repository->createRecord('New Record');
-                //$record = new Record($repository->getContentTypeDefinition(), 'New Record', 'default', $app['context']->getCurrentWorkspace(), 'default', $app['context']->getCurrentLanguage());
+                //$record = new Record($repository->getContentTypeDefinition(), 'New Record', 'default', $this->contextManager->getCurrentWorkspace(), 'default', $this->contextManager->getCurrentLanguage());
             }
 
             if ($record) {
-                $app['context']->setCurrentRecord($record);
+                $this->contextManager->setCurrentRecord($record);
 
                 /** @var ContentTypeDefinition $contentTypeDefinition */
                 $contentTypeDefinition = $repository->getContentTypeDefinition();
@@ -422,7 +414,7 @@ class RecordsController extends AbstractAnyContentBackendController
 
                 //TODO Attributes ??
                 //$values = $app['form']->extractFormElementValuesFromPostRequest($request, $viewDefinition->getFormElementDefinitions(), $record->getProperties(), $record->getAttributes());
-                $values = $app['form']->extractFormElementValuesFromPostRequest(
+                $values = $this->formManager->extractFormElementValuesFromPostRequest(
                     $request,
                     $viewDefinition->getFormElementDefinitions(),
                     $record->getProperties(),
@@ -452,7 +444,7 @@ class RecordsController extends AbstractAnyContentBackendController
                                     $formElementDefinition->getName()
                                 );
 
-                            //$records = $repository->getRecords($app['context']->getCurrentWorkspace(), $viewDefinition->getName(), $app['context']->getCurrentLanguage(), 'id', array(), 2, 1, $filter);
+                            //$records = $repository->getRecords($this->contextManager->getCurrentWorkspace(), $viewDefinition->getName(), $this->contextManager->getCurrentLanguage(), 'id', array(), 2, 1, $filter);
                             $records = $repository->getRecords($filter);
 
                             if (count($records) > 1) {
@@ -482,40 +474,40 @@ class RecordsController extends AbstractAnyContentBackendController
                 }
 
                 if ($save) {
-                    if ($recordId) {
-                        $event = new EditRecordSaveEvent($app, $record);
-                        $app['dispatcher']->dispatch(Module::EVENT_EDIT_RECORD_BEFORE_UPDATE, $event);
-                    } else {
-                        $event = new EditRecordInsertEvent($app, $record);
-                        $app['dispatcher']->dispatch(Module::EVENT_EDIT_RECORD_BEFORE_INSERT, $event);
-                    }
-
-
-                    if ($event->hasErrorMessage()) {
-
-                        $response = array(
-                            'success' => false,
-                            'error' => true,
-                            'message' => 'Could not save record: '.$event->getErrorMessage(),
-                            'properties' => array(''),
-                        );
-
-                        return new JsonResponse($response);
-                    }
-
-                    if ($event->hasInfoMessage()) {
-                        $app['context']->addInfoMessage($event->getInfoMessage());
-                    }
-
-                    if ($event->hasAlertMessage()) {
-                        $app['context']->addAlertMessage($event->getAlertMessage());
-                    }
+//                    if ($recordId) {
+//                        $event = new EditRecordSaveEvent($app, $record);
+//                        $app['dispatcher']->dispatch(Module::EVENT_EDIT_RECORD_BEFORE_UPDATE, $event);
+//                    } else {
+//                        $event = new EditRecordInsertEvent($app, $record);
+//                        $app['dispatcher']->dispatch(Module::EVENT_EDIT_RECORD_BEFORE_INSERT, $event);
+//                    }
+//
+//
+//                    if ($event->hasErrorMessage()) {
+//
+//                        $response = array(
+//                            'success' => false,
+//                            'error' => true,
+//                            'message' => 'Could not save record: '.$event->getErrorMessage(),
+//                            'properties' => array(''),
+//                        );
+//
+//                        return new JsonResponse($response);
+//                    }
+//
+//                    if ($event->hasInfoMessage()) {
+//                        $this->contextManager->addInfoMessage($event->getInfoMessage());
+//                    }
+//
+//                    if ($event->hasAlertMessage()) {
+//                        $this->contextManager->addAlertMessage($event->getAlertMessage());
+//                    }
 
                     $recordId = $repository->saveRecord($record);
 
-                    $app['context']->resetTimeShift();
+                    $this->contextManager->resetTimeShift();
                     if ($recordId) {
-                        $app['context']->addSuccessMessage('Record saved.');
+                        $this->contextManager->addSuccessMessage('Record saved.');
 
 
                     } else {
@@ -534,16 +526,16 @@ class RecordsController extends AbstractAnyContentBackendController
                     $record->setId(null);
                     $recordId = $repository->saveRecord(
                         $record,
-                        $app['context']->getCurrentWorkspace(),
+                        $this->contextManager->getCurrentWorkspace(),
                         'default',
-                        $app['context']->getCurrentLanguage()
+                        $this->contextManager->getCurrentLanguage()
                     );
-                    $app['context']->resetTimeShift();
+                    $this->contextManager->resetTimeShift();
                 }
 
                 if ($insert) {
                     $url = $this->generateUrl(
-                        'addRecord',
+                        'anycontent_record_add',
                         array('contentTypeAccessHash' => $contentTypeAccessHash)
                     );
                     $response = array('success' => true, 'redirect' => $url);
@@ -553,10 +545,10 @@ class RecordsController extends AbstractAnyContentBackendController
 
                 if ($list) {
                     $url = $this->generateUrl(
-                        'listRecords',
+                        'anycontent_records',
                         array(
                             'contentTypeAccessHash' => $contentTypeAccessHash,
-                            'page' => $app['context']->getCurrentListingPage(),
+                            'page' => $this->contextManager->getCurrentListingPage(),
                         )
                     );
                     $response = array('success' => true, 'redirect' => $url);
@@ -565,8 +557,8 @@ class RecordsController extends AbstractAnyContentBackendController
                 }
 
                 $url = $this->generateUrl(
-                    'editRecord',
-                    array('contentTypeAccessHash' => $contentTypeAccessHash, 'recordId' => $recordId)
+                    'anycontent_record_edit',
+                    array('contentTypeAccessHash' => $contentTypeAccessHash, 'recordId' => $recordId, 'workspace'=>$this->contextManager->getCurrentWorkspace(), 'language'=>$this->contextManager->getCurrentLanguage())
                 );
                 $response = array('success' => true, 'redirect' => $url);
 
@@ -609,24 +601,24 @@ class RecordsController extends AbstractAnyContentBackendController
                     $recordId
                 )
             ) {
-                $app['context']->setCurrentRepository($repository);
+                $this->contextManager->setCurrentRepository($repository);
                 $contentTypeDefinition = $repository->getContentTypeDefinition();
-                $app['context']->setCurrentContentType($contentTypeDefinition);
+                $this->contextManager->setCurrentContentType($contentTypeDefinition);
 
                 if ($workspace != null && $contentTypeDefinition->hasWorkspace($workspace)) {
-                    $app['context']->setCurrentWorkspace($workspace);
+                    $this->contextManager->setCurrentWorkspace($workspace);
                 }
                 if ($language != null && $contentTypeDefinition->hasLanguage($language)) {
-                    $app['context']->setCurrentLanguage($language);
+                    $this->contextManager->setCurrentLanguage($language);
                 }
 
-                $repository->selectWorkspace($app['context']->getCurrentWorkspace());
-                $repository->selectLanguage($app['context']->getCurrentLanguage());
+                $repository->selectWorkspace($this->contextManager->getCurrentWorkspace());
+                $repository->selectLanguage($this->contextManager->getCurrentLanguage());
 
                 if ($repository->deleteRecord($recordId)) {
-                    $app['context']->addSuccessMessage('Record '.$recordId.' deleted.');
+                    $this->contextManager->addSuccessMessage('Record '.$recordId.' deleted.');
                 } else {
-                    $app['context']->addErrorMessage('Could not delete record.');
+                    $this->contextManager->addErrorMessage('Could not delete record.');
                 }
 
                 return new RedirectResponse(
@@ -634,7 +626,7 @@ class RecordsController extends AbstractAnyContentBackendController
                         'listRecords',
                         array(
                             'contentTypeAccessHash' => $contentTypeAccessHash,
-                            'page' => $app['context']->getCurrentListingPage(),
+                            'page' => $this->contextManager->getCurrentListingPage(),
                         )
                     ), 303
                 );
@@ -677,27 +669,27 @@ class RecordsController extends AbstractAnyContentBackendController
 
             if ($repository) {
                 $contentTypeDefinition = $repository->getContentTypeDefinition();
-                $app['context']->setCurrentRepository($repository);
-                $app['context']->setCurrentContentType($contentTypeDefinition);
+                $this->contextManager->setCurrentRepository($repository);
+                $this->contextManager->setCurrentContentType($contentTypeDefinition);
 
                 if ($workspace != null && $contentTypeDefinition->hasWorkspace($workspace)) {
-                    $app['context']->setCurrentWorkspace($workspace);
+                    $this->contextManager->setCurrentWorkspace($workspace);
                 }
                 if ($language != null && $contentTypeDefinition->hasLanguage($language)) {
-                    $app['context']->setCurrentLanguage($language);
+                    $this->contextManager->setCurrentLanguage($language);
                 }
 
-                $repository->selectWorkspace($app['context']->getCurrentWorkspace());
-                $repository->selectLanguage($app['context']->getCurrentLanguage());
-                $repository->setTimeShift($app['context']->getCurrentTimeShift());
+                $repository->selectWorkspace($this->contextManager->getCurrentWorkspace());
+                $repository->selectLanguage($this->contextManager->getCurrentLanguage());
+                $repository->setTimeShift($this->contextManager->getCurrentTimeShift());
                 $repository->selectView('default');
 
                 /** @var Record $record */
-                //$record = $repository->getRecord($recordId, $app['context']->getCurrentWorkspace(), 'default', $app['context']->getCurrentLanguage(), $app['context']->getCurrentTimeShift());
+                //$record = $repository->getRecord($recordId, $this->contextManager->getCurrentWorkspace(), 'default', $this->contextManager->getCurrentLanguage(), $this->contextManager->getCurrentTimeShift());
                 $record = $repository->getRecord($recordId);
 
                 if ($record) {
-                    $app['context']->setCurrentRecord($record);
+                    $this->contextManager->setCurrentRecord($record);
                     $vars['record'] = $record;
 
                     /** @var ContentTypeDefinition $contentTypeDefinition */
@@ -719,8 +711,8 @@ class RecordsController extends AbstractAnyContentBackendController
                         array(
                             'contentTypeAccessHash' => $contentTypeAccessHash,
                             'recordId' => $recordId,
-                            "workspace" => $app['context']->getCurrentWorkspace(),
-                            "language" => $app['context']->getCurrentLanguage(),
+                            "workspace" => $this->contextManager->getCurrentWorkspace(),
+                            "language" => $this->contextManager->getCurrentLanguage(),
                         )
                     );
                 }
@@ -746,22 +738,22 @@ class RecordsController extends AbstractAnyContentBackendController
             $repository = $app['repos']->getRepositoryByContentTypeAccessHash($contentTypeAccessHash);
 
             if ($repository) {
-                $app['context']->setCurrentRepository($repository);
-                $app['context']->setCurrentContentType($repository->getContentTypeDefinition());
+                $this->contextManager->setCurrentRepository($repository);
+                $this->contextManager->setCurrentContentType($repository->getContentTypeDefinition());
 
                 /** @var ContentTypeDefinition $contentTypeDefinition */
                 $contentTypeDefinition = $repository->getContentTypeDefinition();
 
                 if ($workspace != null && $contentTypeDefinition->hasWorkspace($workspace)) {
-                    $app['context']->setCurrentWorkspace($workspace);
+                    $this->contextManager->setCurrentWorkspace($workspace);
                 }
                 if ($language != null && $contentTypeDefinition->hasLanguage($language)) {
-                    $app['context']->setCurrentLanguage($language);
+                    $this->contextManager->setCurrentLanguage($language);
                 }
 
-                $repository->selectWorkspace($app['context']->getCurrentWorkspace());
-                $repository->selectLanguage($app['context']->getCurrentLanguage());
-                $repository->setTimeShift($app['context']->getCurrentTimeShift());
+                $repository->selectWorkspace($this->contextManager->getCurrentWorkspace());
+                $repository->selectLanguage($this->contextManager->getCurrentLanguage());
+                $repository->setTimeShift($this->contextManager->getCurrentTimeShift());
                 $repository->selectView($contentTypeDefinition->getExchangeViewDefinition()->getName());
 
                 /** @var Record $record */
@@ -772,22 +764,22 @@ class RecordsController extends AbstractAnyContentBackendController
 
                     if ($request->request->has('target_workspace')) {
                         $workspace = $request->get('target_workspace');
-                        $app['context']->setCurrentWorkspace($workspace);
+                        $this->contextManager->setCurrentWorkspace($workspace);
                     }
 
                     if ($request->request->has('target_language')) {
                         $language = $request->get('target_language');
-                        $app['context']->setCurrentLanguage($language);
+                        $this->contextManager->setCurrentLanguage($language);
                     }
 
-                    $repository->selectWorkspace($app['context']->getCurrentWorkspace());
-                    $repository->selectLanguage($app['context']->getCurrentLanguage());
+                    $repository->selectWorkspace($this->contextManager->getCurrentWorkspace());
+                    $repository->selectLanguage($this->contextManager->getCurrentLanguage());
                     $repository->setTimeShift(0);
 
                     $recordId = $repository->saveRecord($record);
-                    $app['context']->resetTimeShift();
+                    $this->contextManager->resetTimeShift();
 
-                    $app['context']->addSuccessMessage('Record '.$recordId.' transfered.');
+                    $this->contextManager->addSuccessMessage('Record '.$recordId.' transfered.');
 
                     return new RedirectResponse(
                         $this->generateUrl(
@@ -799,14 +791,14 @@ class RecordsController extends AbstractAnyContentBackendController
             }
         }
 
-        $app['context']->addErrorMessage('Could not load source record.');
+        $this->contextManager->addErrorMessage('Could not load source record.');
 
         return new RedirectResponse(
             $this->generateUrl(
                 'listRecords',
                 array(
                     'contentTypeAccessHash' => $contentTypeAccessHash,
-                    'page' => $app['context']->getCurrentListingPage(),
+                    'page' => $this->contextManager->getCurrentListingPage(),
                 )
             ), 303
         );

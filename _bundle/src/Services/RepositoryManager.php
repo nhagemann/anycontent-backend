@@ -273,21 +273,21 @@ class RepositoryManager
         return false;
     }
 
-    public function init()
-    {
-
-        if ($this->getConfigService()->hasConfigurationSection('repositories')) {
-            $config = $this->getConfigService()->getConfigurationSection('repositories');
-
-            $repositoryFactory = new RepositoryFactory();
-
-            foreach ($config as $k => $params) {
-
-                $repository = $repositoryFactory->createRepositoryFromConfigArray($k, $params);
-                $repository = $this->app->getClient()->addRepository($repository);
-                $this->addRepository($repository->getName(), $repository, $repository->getTitle());
-            }
-        }
-    }
+//    public function init()
+//    {
+//
+//        if ($this->getConfigService()->hasConfigurationSection('repositories')) {
+//            $config = $this->getConfigService()->getConfigurationSection('repositories');
+//
+//            $repositoryFactory = new RepositoryFactory();
+//
+//            foreach ($config as $k => $params) {
+//
+//                $repository = $repositoryFactory->createRepositoryFromConfigArray($k, $params);
+//                $repository = $this->app->getClient()->addRepository($repository);
+//                $this->addRepository($repository->getName(), $repository, $repository->getTitle());
+//            }
+//        }
+//    }
 
 }

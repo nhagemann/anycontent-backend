@@ -163,7 +163,7 @@ class FormManager
             $class    = $concrete['class'];
             $options  = $concrete['options'];
 
-            $formElement = new $class(null, $name, $formElementDefinition, $this->app, null, $options);
+            $formElement = new $class(null, $name, $formElementDefinition, null, $options);
 
             $property = $formElementDefinition->getName();
             if ($property)
