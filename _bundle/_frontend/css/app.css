@@ -1,0 +1,162 @@
+/* add margin to compensate the space used by the permanent navbars and make sure, that all buttons are always visible (at least with scrolling) */
+body {
+    margin-bottom: 150px;
+}
+
+html {
+    overflow-y: scroll;
+}
+
+/* subtle pattern background */
+
+body.layout-default {
+    background-image: url(/bundles/anycontentbackend/img/subtle_dots.png);
+}
+
+body.layout-plain {
+    background-color: #f5f5f5;
+}
+
+body.layout-plain-white {
+    background-color: #ffffff;
+}
+
+.navbar {
+    border-radius: 0px;
+}
+
+/* position of AnyContent logo in navbar */
+
+.navbar-top li {
+    margin-left: 10px;
+}
+
+.navbar-brand img {
+    margin-top: -8px
+}
+
+/* same level for timeshift display and nav form elements */
+
+.nav-timeshift-display {
+    padding-top: 9px;
+    padding-bottom: 9px;
+    width: 175px;
+    text-align: center;
+}
+
+.timeshift-blink{
+    color: red;
+}
+
+.body-timeshift {
+    background-image: url(/bundles/anycontentbackend/img/gplaypattern.png) !important;
+}
+
+/* smaller margins for h-tags used within the print form element*/
+.formelement-print h1, h2, h3, h4, h5, h6 {
+    margin: 8px 0px 8px 0px;
+    padding: 0px;
+}
+
+.formelement-print > div {
+    line-height: 1.8;
+}
+
+#form_timeshift .bfh-timepicker-popover {
+    top: -52px;
+    left: -192px;
+}
+
+#form_timeshift .bfh-datepicker-calendar {
+    top: -211px;
+    left: -231px;
+}
+
+/* small curved corners for tables */
+
+.table-striped {
+    border: 1px solid #ccc;
+    border-collapse: separate;
+    border-radius: 3px;
+}
+
+/* fixed sizes for record listings table */
+.col-listing-attribute-id {
+    width: 60px;
+}
+
+.col-listing-attribute-position {
+    width: 80px;
+}
+
+.col-listing-subtype {
+    width: 120px;
+}
+
+.col-listing-status {
+    width: 120px;
+}
+
+.col-listing-attribute-creation {
+    white-space: nowrap;
+    overflow: hidden;
+    width: 250px;
+
+}
+
+.col-listing-attribute-lastchange {
+    white-space: nowrap;
+    overflow: hidden;
+    width: 250px;
+
+}
+
+.col-listing-buttons {
+    width: 140px;
+}
+
+.table-listing tr td:last-of-type{
+    text-align:right;
+}
+
+.listing-filter{
+    padding-bottom: 15px;
+}
+
+/* default background for gravatar images*/
+
+.gravatar {
+    padding-right: 5px;
+
+}
+
+.gravatar > img {
+    background-color: #0B74B5;
+}
+
+/* allow small within label */
+
+span.label > small {
+    color: #fff;
+}
+
+/* smaller breadcrumb font */
+
+.breadcrumb {
+    font-size: 12px;
+}
+
+/* add some extra space beneath glyphicon icons */
+.glyphicon {
+    padding-right: 4px;
+}
+
+/* remove padding from grid on sort page */
+
+#sortable_tree .col-xs-8 {
+    padding-left: 0px;
+}
+
+#sortable_tree .col-xs-4 {
+    padding-right: 0px;
+}

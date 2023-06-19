@@ -7,6 +7,7 @@ use AnyContent\Backend\Controller\AbstractAnyContentBackendController;
 use AnyContent\Backend\Modules\Listing\ContentViews\DefaultContentView;
 use AnyContent\Backend\Services\ContentViewsManager;
 use AnyContent\Backend\Services\ContextManager;
+use AnyContent\Backend\Services\FormManager;
 use AnyContent\Backend\Services\MenuManager;
 use AnyContent\Backend\Services\RepositoryManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -25,12 +26,13 @@ class ListingController extends AbstractAnyContentBackendController
     public function __construct(
         protected RepositoryManager $repositoryManager,
         protected ContextManager $contextManager,
+        protected FormManager $formManager,
         protected MenuManager $menuManager,
         private DefaultContentView $defaultContentView
 
     )
     {
-        parent::__construct($this->repositoryManager,$this->contextManager, $this->menuManager);
+        parent::__construct($this->repositoryManager,$this->contextManager, $this->formManager, $this->menuManager);
     }
 
     #[Route('/content/list/{contentTypeAccessHash}/{nr}/{page}/{workspace}/{language}','anycontent_records', methods: ['GET'])]
@@ -84,7 +86,7 @@ class ListingController extends AbstractAnyContentBackendController
                 {
                     $this->contextManager->setCurrentSearchTerm('');
 
-                    return new RedirectResponse($this->generateUrl('anycontent_edit', array( 'contentTypeAccessHash' => $contentTypeAccessHash, 'recordId' => $recordId )), 303);
+                    return new RedirectResponse($this->generateUrl('anycontent_record_edit', array( 'contentTypeAccessHash' => $contentTypeAccessHash, 'recordId' => $recordId, 'workspace'=>$this->contextManager->getCurrentWorkspace(), 'language'=>$this->contextManager->getCurrentLanguage() )), 303);
                 }
             }
 
