@@ -15,9 +15,10 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class RecordsController extends AbstractAnyContentBackendController
 {
     #[Route('/content/add/{contentTypeAccessHash}/{workspace}/{language}', 'anycontent_record_add', methods: ['GET'])]
-    public function addRecord($contentTypeAccessHash, $workspace = null, $language = null)
+    #[Route('/content/add/{contentTypeAccessHash}/{recordId}/{workspace}/{language}', 'anycontent_record_add_distinct', methods: ['GET'])]
+    public function addRecord($contentTypeAccessHash, ?int $recordId = null, $workspace = null, $language = null)
     {
-        return $this->editRecord($contentTypeAccessHash, null, $workspace, $language);
+        return $this->editRecord($contentTypeAccessHash, $recordId, $workspace, $language, true);
 
 //        $vars = array();
 //
@@ -155,7 +156,7 @@ class RecordsController extends AbstractAnyContentBackendController
     }
 
     #[Route('/content/edit/{contentTypeAccessHash}/{recordId}/{workspace}/{language}', 'anycontent_record_edit', methods: ['GET'])]
-    public function editRecord($contentTypeAccessHash, ?int $recordId, $workspace = null, $language = null)
+    public function editRecord($contentTypeAccessHash, ?int $recordId, $workspace = null, $language = null, bool $addRecord = false)
     {
         $repository = $this->updateContext($contentTypeAccessHash, $workspace, $language);
         $contentTypeDefinition = $repository->getContentTypeDefinition();
@@ -164,18 +165,6 @@ class RecordsController extends AbstractAnyContentBackendController
         $vars = [];
         $vars['repository'] = $repository;
         $vars['definition'] = $contentTypeDefinition;
-
-        // Try to fetch record by id - if given
-        $record = false;
-        if ($recordId !== null) {
-            $record = $repository->getRecord($recordId);
-            if (!$record) {
-                $vars['id'] = $recordId;
-                return $this->render('@AnyContentBackend/Content/record-not-found.html.twig', $vars);
-            }
-            $this->contextManager->setCurrentRecord($record);
-        }
-        $vars['record'] = $record;
 
         // Links
         $vars['links']['edit'] = true;
@@ -267,6 +256,23 @@ class RecordsController extends AbstractAnyContentBackendController
         $viewDefinition = $contentTypeDefinition->getInsertViewDefinition();
         $properties = [];
 
+        // Try to fetch record by id - if given
+        $record = false;
+        if ($addRecord == false) {
+            $record = $repository->getRecord($recordId);
+            if (!$record) {
+                $vars['id'] = $recordId;
+                $vars['links']['addrecordversion'] = $this->generateUrl(
+                    'anycontent_record_add_distinct',
+                    ['contentTypeAccessHash' => $contentTypeAccessHash, 'recordId' => $recordId, 'workspace' => $this->contextManager->getCurrentWorkspace(), 'language' => $this->contextManager->getCurrentLanguage()]
+                );
+
+                return $this->render('@AnyContentBackend/Content/record-not-found.html.twig', $vars);
+            }
+            $this->contextManager->setCurrentRecord($record);
+        }
+        $vars['record'] = $record;
+
         if ($record) {
             $viewDefinition = $contentTypeDefinition->getViewDefinition('default');
             $properties = $record->getProperties();
@@ -311,9 +317,9 @@ class RecordsController extends AbstractAnyContentBackendController
     }
 
     #[Route('/content/edit/{contentTypeAccessHash}/{recordId}/{workspace}/{language}', 'anycontent_record_save', methods: ['POST'])]
-//    #[Route('/content/add/{contentTypeAccessHash}/{workspace}/{language}', 'anycontent_record_insert', methods: ['POST'])]
-
-    #[Route('/content/add/{contentTypeAccessHash}', 'anycontent_record_insert', methods: ['POST'])]
+    #[Route('/content/add/{contentTypeAccessHash}/{workspace}/{language}', 'anycontent_record_insert', methods: ['POST'])]
+    #[Route('/content/add/{contentTypeAccessHash}/{recordId}/{workspace}/{language}', 'anycontent_record_insert_distinct', methods: ['POST'])]
+    //#[Route('/content/add/{contentTypeAccessHash}', 'anycontent_record_insert', methods: ['POST'])]
     public function saveRecord(Request $request, $contentTypeAccessHash, $recordId = null)
     {
         $hidden = $request->get('$hidden');
@@ -502,12 +508,7 @@ class RecordsController extends AbstractAnyContentBackendController
                 if ($duplicate) {
                     $record->setName('Duplicate from ' . $record->getId() . ' - ' . $record->getName());
                     $record->setId(null);
-                    $recordId = $repository->saveRecord(
-                        $record,
-                        $this->contextManager->getCurrentWorkspace(),
-                        'default',
-                        $this->contextManager->getCurrentLanguage()
-                    );
+                    $recordId = $repository->saveRecord($record);
                     $this->contextManager->resetTimeShift();
                 }
 
