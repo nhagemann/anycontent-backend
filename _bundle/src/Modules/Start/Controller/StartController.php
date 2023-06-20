@@ -30,6 +30,7 @@ class StartController extends AbstractAnyContentBackendController
     #[Route('/repository/{repositoryAccessHash}', 'anycontent_repository')]
     public function repository(string $repositoryAccessHash)
     {
+        $vars = [];
         $vars['menu_mainmenu'] = $this->menuManager->renderMainMenu();
 
         foreach ($this->repositoryManager->listRepositories() as $repositoryName => $repositoryItem) {

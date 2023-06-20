@@ -105,6 +105,7 @@ class CellRenderer
 
     protected function getUserInfoVars(UserInfo $userInfo)
     {
+        $vars = [];
         $vars['username'] = $userInfo->getName();
         $date             = new \DateTime();
         $date->setTimestamp($userInfo->getTimestamp());

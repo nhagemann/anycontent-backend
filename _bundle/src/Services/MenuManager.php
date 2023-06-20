@@ -24,11 +24,11 @@ class MenuManager
             $url = $this->urlGenerator->generate('anycontent_repository', ['repositoryAccessHash' => $repositoryItem['accessHash']]);
             $items[] = ['type' => 'header', 'text' => $repositoryItem['title'], 'url' => $url];
 
-            foreach ($this->repositoryManager->listContentTypes($repositoryName) as $contentTypName => $contentTypeItem) {
+            foreach ($this->repositoryManager->listContentTypes($repositoryName) as $contentTypeItem) {
                 $url = $this->urlGenerator->generate('anycontent_records', ['contentTypeAccessHash' => $contentTypeItem['accessHash'], 'page' => 1]);
                 $items[] = ['type' => 'link', 'text' => $contentTypeItem['title'], 'url' => $url, 'glyphicon' => 'glyphicon-file'];
             }
-            foreach ($this->repositoryManager->listConfigTypes($repositoryName) as $configTypeName => $configTypeItem) {
+            foreach ($this->repositoryManager->listConfigTypes($repositoryName) as $configTypeItem) {
                 $url = $this->urlGenerator->generate('anycontent_config', ['configTypeAccessHash' => $configTypeItem['accessHash']]);
                 $items[] = ['type' => 'link', 'text' => $configTypeItem['title'], 'url' => $url, 'glyphicon' => 'glyphicon-wrench'];
             }

@@ -216,16 +216,6 @@ class DefaultContentView //extends AbstractContentView
     public function countRecords($filter)
     {
         $repository = $this->contextManager->getCurrentRepository();
-
-        $page = $this->contextManager->getCurrentListingPage();
-        $itemsPerPage = $this->contextManager->getCurrentItemsPerPage();
-        //$viewName     = 'default';
-
-        $sorting = $this->getSortingOrder();
-
-        //$count = $repository->countRecords($this->contextManager->getCurrentWorkspace(), $viewName, $this->contextManager
-        //->getCurrentLanguage(), $sorting[0], $sorting[1], $itemsPerPage, $page, $filter, null, $this->contextManager->getCurrentTimeShift());
-
         return $repository->countRecords($filter);
     }
 
