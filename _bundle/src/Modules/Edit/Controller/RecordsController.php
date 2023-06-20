@@ -51,55 +51,6 @@ class RecordsController extends AbstractAnyContentBackendController
         $vars['save_operation'] = key($saveOperation);
         $vars['save_operation_title'] = array_shift($saveOperation);
 
-//        $vars['links']['search'] = $this->generateUrl(
-//            'anycontent_records',
-//            array('contentTypeAccessHash' => $contentTypeAccessHash, 'page' => 1, 's' => 'name')
-//        );
-
-
-//            $this->contextManager->setCurrentRepository($repository);
-//
-//            $contentTypeDefinition = $repository->getContentTypeDefinition();
-//            $this->contextManager->setCurrentContentType($contentTypeDefinition);
-        //$this->contextManager->setDataTypeDefinition($contentTypeDefinition);
-
-//            if ($workspace != null && $contentTypeDefinition->hasWorkspace($workspace)) {
-//                $this->contextManager->setCurrentWorkspace($workspace);
-//            }
-//            if ($language != null && $contentTypeDefinition->hasLanguage($language)) {
-//                $this->contextManager->setCurrentLanguage($language);
-//            }
-//
-//            $repository->selectWorkspace($this->contextManager->getCurrentWorkspace());
-//            $repository->selectLanguage($this->contextManager->getCurrentLanguage());
-//            $repository->setTimeShift($this->contextManager->getCurrentTimeShift());
-//            $repository->selectView('default');
-
-//            $buttons = $this->getButtons($contentTypeAccessHash, $contentTypeDefinition);
-//            $vars['buttons'] = $this->menuManager->renderButtonGroup($buttons);
-
-
-//            $vars['links']['search'] = $this->generateUrl(
-//                'anycontent_records',
-//                array(
-//                    'contentTypeAccessHash' => $contentTypeAccessHash,
-//                    'page' => 1,
-//                    's' => 'name',
-//                    'workspace' => $this->contextManager->getCurrentWorkspace(),
-//                    'language' => $this->contextManager->getCurrentLanguage(),
-//                )
-//            );
-
-
-//            $vars['links']['timeshift'] = $this->generateUrl(
-//                'timeShiftEditRecord',
-//                array('contentTypeAccessHash' => $contentTypeAccessHash, 'recordId' => $recordId)
-//            );
-
-
-//        $contentTypeDefinition = $repository->getContentTypeDefinition();
-
-
         $viewDefinition = $contentTypeDefinition->getInsertViewDefinition();
         $properties = [];
         foreach ($viewDefinition->getFormElementDefinitions() as $formElementDefinition) {
