@@ -50,19 +50,20 @@ class ChangeWorkspaceController extends AbstractAnyContentBackendController
         return $this->redirect($this->generateUrl('anycontent_records', array('contentTypeAccessHash' => $contentTypeAccessHash, 'page' => $page)), 303);
     }
 
-    #[Route('/change-workspace/edit-record/{contentTypeAccessHash}/{recordId]', 'anycontent_record_edit_change_workspace', methods: ['POST'])]
+    #[Route('/change-workspace/edit-record/{contentTypeAccessHash}/{recordId}', 'anycontent_record_edit_change_workspace', methods: ['POST'])]
     public function changeLanguageEditRecord(Request $request, $contentTypeAccessHash, $recordId)
     {
         $this->contextManager->setCurrentWorkspace($request->get('workspace'));
 
-        return $this->redirect($this->generateUrl('anycontent_record_edit', array('contentTypeAccessHash' => $contentTypeAccessHash, 'record' => $recordId)), 303);
+        return $this->redirect($this->generateUrl('anycontent_record_edit', array('contentTypeAccessHash' => $contentTypeAccessHash, 'recordId' => $recordId)), 303);
     }
 
-    public static function changeWorkspaceAddRecord(Application $app, Request $request, $contentTypeAccessHash)
+    #[Route('/change-workspace/add-record/{contentTypeAccessHash}', 'anycontent_record_add_change_workspace', methods: ['POST'])]
+    public function changeWorkspaceAddRecord(Request $request, $contentTypeAccessHash)
     {
-        $app['context']->setCurrentWorkspace($request->get('workspace'));
+        $this->contextManager->setCurrentWorkspace($request->get('workspace'));
 
-        return $app->redirect($app['url_generator']->generate('addRecord', array('contentTypeAccessHash' => $contentTypeAccessHash)), 303);
+        return $this->redirect($this->generateUrl('anycontent_record_add', array('contentTypeAccessHash' => $contentTypeAccessHash)), 303);
     }
 
     public static function changeWorkspaceSortRecords(Application $app, Request $request, $contentTypeAccessHash)
