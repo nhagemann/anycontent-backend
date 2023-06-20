@@ -3,6 +3,8 @@
 namespace AnyContent\Backend\Modules\Edit\Controller;
 
 use AnyContent\Backend\Controller\AbstractAnyContentBackendController;
+use AnyContent\Backend\Modules\Edit\Events\RecordBeforeSaveEvent;
+use AnyContent\Backend\Modules\Edit\Events\RecordSavedEvent;
 use AnyContent\Client\Repository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -460,36 +462,12 @@ class RecordsController extends AbstractAnyContentBackendController
                 }
 
                 if ($save) {
-//                    if ($recordId) {
-//                        $event = new EditRecordSaveEvent($app, $record);
-//                        $app['dispatcher']->dispatch(Module::EVENT_EDIT_RECORD_BEFORE_UPDATE, $event);
-//                    } else {
-//                        $event = new EditRecordInsertEvent($app, $record);
-//                        $app['dispatcher']->dispatch(Module::EVENT_EDIT_RECORD_BEFORE_INSERT, $event);
-//                    }
-//
-//
-//                    if ($event->hasErrorMessage()) {
-//
-//                        $response = array(
-//                            'success' => false,
-//                            'error' => true,
-//                            'message' => 'Could not save record: '.$event->getErrorMessage(),
-//                            'properties' => array(''),
-//                        );
-//
-//                        return new JsonResponse($response);
-//                    }
-//
-//                    if ($event->hasInfoMessage()) {
-//                        $this->contextManager->addInfoMessage($event->getInfoMessage());
-//                    }
-//
-//                    if ($event->hasAlertMessage()) {
-//                        $this->contextManager->addAlertMessage($event->getAlertMessage());
-//                    }
+
+                    $this->dispatcher->dispatch(new RecordBeforeSaveEvent($record));
 
                     $recordId = $repository->saveRecord($record);
+
+                    $this->dispatcher->dispatch(new RecordSavedEvent($record));
 
                     $this->contextManager->resetTimeShift();
                     if ($recordId) {

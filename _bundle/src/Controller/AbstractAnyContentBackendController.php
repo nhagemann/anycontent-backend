@@ -8,7 +8,9 @@ use AnyContent\Backend\Services\MenuManager;
 use AnyContent\Backend\Services\RepositoryManager;
 use CMDL\ContentTypeDefinition;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 abstract class AbstractAnyContentBackendController extends AbstractController
 {
@@ -16,7 +18,8 @@ abstract class AbstractAnyContentBackendController extends AbstractController
         protected RepositoryManager $repositoryManager,
         protected ContextManager $contextManager,
         protected FormManager $formManager,
-        protected MenuManager $menuManager
+        protected MenuManager $menuManager,
+        protected EventDispatcherInterface $dispatcher
     ) {
     }
 

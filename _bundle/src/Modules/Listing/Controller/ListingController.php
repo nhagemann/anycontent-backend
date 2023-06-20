@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class ListingController extends AbstractAnyContentBackendController
 {
@@ -23,9 +24,10 @@ class ListingController extends AbstractAnyContentBackendController
         protected ContextManager $contextManager,
         protected FormManager $formManager,
         protected MenuManager $menuManager,
+        protected EventDispatcherInterface $dispatcher,
         private DefaultContentView $defaultContentView
     ) {
-        parent::__construct($this->repositoryManager, $this->contextManager, $this->formManager, $this->menuManager);
+        parent::__construct($this->repositoryManager, $this->contextManager, $this->formManager, $this->menuManager, $this->dispatcher);
     }
 
     #[Route('/content/list/{contentTypeAccessHash}/{nr}/{page}/{workspace}/{language}', 'anycontent_records', methods: ['GET'])]
