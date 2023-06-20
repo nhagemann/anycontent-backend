@@ -72,6 +72,11 @@ body.layout-plain-white {
     left: -231px;
 }
 
+/* add space between main nav and content */
+body.layout-default .container {
+    margin-top: 10px;
+}
+
 /* small curved corners for tables */
 
 .table-striped {

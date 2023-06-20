@@ -16,7 +16,8 @@ module.exports = function (grunt) {
             dist3: {
                 src: [
                     'node_modules/blockui/jquery.blockUI.js',
-                    'Libs/NestedSortable/mjsarfatti-nestedSortable/jquery.mjs.nestedSortable.js'
+                    'Libs/NestedSortable/mjsarfatti-nestedSortable/jquery.mjs.nestedSortable.js',
+                    //'Libs/bootbox/bootbox.js'
                 ],
 
                 dest: 'build/anycontent.libs.js'

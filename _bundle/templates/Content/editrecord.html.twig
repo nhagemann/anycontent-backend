@@ -4,7 +4,7 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ asset('bundles/anycontentbackend/js/editrecord.js') }}" rel="stylesheet"></script>
+    {# <script src="{{ asset('bundles/anycontentbackend/js/editrecord.js') }}" rel="stylesheet"></script>#}
 {% endblock %}
 
 {% block content %}
@@ -34,13 +34,13 @@
                             <li><a href="#" data-operation="save">Save</a></li>
                             <li class="divider"></li>
 
-                            {% if links.transfer is defined %}
+                            {# % if links.transfer is defined %#}
                                 <li><a href="#" data-operation="save-insert">Save & Insert</a></li>
-                                {% if record %}
+                                {#  % if record %#}
                                     <li><a href="#" data-operation="save-duplicate">Save & Duplicate</a></li>
-                                {% endif %}
+                                {#  % endif %#}
                                 <li class="divider"></li>
-                            {% endif %}
+                            {#  % endif %#}
                             <li><a href="#" data-operation="save-list">Save & List</a></li>
                         </ul>
                     </span>
@@ -53,10 +53,10 @@
 
                                 <input type="hidden" id="form_edit_button_duplicate" name="$hidden[duplicate]"
                                        value="0">
-                                {% if links.transfer is defined %}
+
                                     <input type="submit" class="btn btn-success" href="#" value="Duplicate"
                                            onclick="$('#form_edit_button_duplicate').val(1)"/>
-                                    
+                                {% if links.transfer is defined %}
                             <a href="{{ links.transfer }}" class="btn btn-success" role="button"
                                id="form_edit_button_transfer">Transfer</a>
                                

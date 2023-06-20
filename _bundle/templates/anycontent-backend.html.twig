@@ -33,6 +33,7 @@
     {% block javascripts %}
         <script src="{{ asset('bundles/anycontentbackend/anycontent.min.js') }}" rel="stylesheet"></script>
         <script src="{{ asset('bundles/anycontentbackend/anycontent.libs.min.js') }}" rel="stylesheet"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/6.0.0/bootbox.min.js" integrity="sha512-oVbWSv2O4y1UzvExJMHaHcaib4wsBMS5tEP3/YkMP6GmkwRJAa79Jwsv+Y/w7w2Vb/98/Xhvck10LyJweB8Jsw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     {% endblock %}
 
 </head>
@@ -51,12 +52,12 @@
 
 
     <div class="container">
-        <br/>
         {% block content_before %}{% endblock %}
 
         {% include '@AnyContentBackend/messages.twig' %}
 
         {% block content %}{% endblock %}
+
         {% block content_after %}{% endblock %}
     </div>
 

@@ -5,13 +5,10 @@
 {% endblock %}
 
 {% block listing_content %}
-
-    <div class="{# { class }#}">
         {% if table is defined %}
             {% include "@AnyContentBackend/Listing/listing-table.html.twig" %}
 
             {{ pager | raw }}
         {% endif %}
-    </div>
 {% endblock %}
 
