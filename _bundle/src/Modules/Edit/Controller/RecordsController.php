@@ -20,7 +20,6 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class RecordsController extends AbstractAnyContentBackendController
 {
 
-
     #[Route('/content/add/{contentTypeAccessHash}/{workspace}/{language}', 'anycontent_record_add', methods: ['GET'])]
     public function addRecord($contentTypeAccessHash, $workspace, $language)
     {

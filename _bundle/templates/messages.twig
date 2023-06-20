@@ -1,14 +1,14 @@
-{# <div class="row feedback" id="messages">
-    {% for message in messages.success %}
-        <div class="alert alert-success">{{ message.message }}</div>
+<div class="row feedback" id="messages">
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">{{ message }}</div>
     {% endfor %}
-    {% for message in messages.info %}
-        <div class="alert alert-info">{{ message.message }}</div>
+    {% for message in app.flashes('info') %}
+        <div class="alert alert-info">{{ message }}</div>
     {% endfor %}
-    {% for message in messages.alert %}
-        <div class="alert alert-warning">{{ message.message }}</div>
+    {% for message in app.flashes('alert') %}
+        <div class="alert alert-warning">{{ message }}</div>
     {% endfor %}
-    {% for message in messages.error %}
-        <div class="alert alert-danger">{{ message.message }}</div>
+    {% for message in app.flashes('error') %}
+        <div class="alert alert-danger">{{ message }}</div>
     {% endfor %}
-</div>#}
+</div>
