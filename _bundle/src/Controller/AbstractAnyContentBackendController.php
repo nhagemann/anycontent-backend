@@ -2,7 +2,6 @@
 
 namespace AnyContent\Backend\Controller;
 
-use AnyContent\Backend\Services\ContentViewsManager;
 use AnyContent\Backend\Services\ContextManager;
 use AnyContent\Backend\Services\FormManager;
 use AnyContent\Backend\Services\MenuManager;
@@ -13,20 +12,19 @@ use Symfony\Component\HttpFoundation\Response;
 
 abstract class AbstractAnyContentBackendController extends AbstractController
 {
-
     public function __construct(
         protected RepositoryManager $repositoryManager,
         protected ContextManager $contextManager,
         protected FormManager $formManager,
         protected MenuManager $menuManager
-    )
-    {
+    ) {
     }
+
     public function render(string $view, array $parameters = [], Response $response = null): Response
     {
-        $parameters['anycontent']=[];
-        $parameters['anycontent']['context']=$this->contextManager;
-        $parameters['anycontent']['repositories']=$this->repositoryManager;
+        $parameters['anycontent'] = [];
+        $parameters['anycontent']['context'] = $this->contextManager;
+        $parameters['anycontent']['repositories'] = $this->repositoryManager;
 
         $workspaces = [];
         $workspaces['active'] = false;
@@ -34,10 +32,8 @@ abstract class AbstractAnyContentBackendController extends AbstractController
         /** @var ContentTypeDefinition $contentType */
         $contentTypeDefinition = $this->contextManager->getCurrentContentType();
 
-        if ($contentTypeDefinition)
-        {
-            if (count($contentTypeDefinition->getWorkspaces()) > 1)
-            {
+        if ($contentTypeDefinition) {
+            if (count($contentTypeDefinition->getWorkspaces()) > 1) {
                 $workspaces['list']   = $contentTypeDefinition->getWorkspaces();
                 $workspaces['active'] = true;
                 $workspaces['current'] = $this->contextManager->getCurrentWorkspace();
@@ -45,7 +41,7 @@ abstract class AbstractAnyContentBackendController extends AbstractController
             }
         }
 
-        $parameters['workspaces']=$workspaces;
+        $parameters['workspaces'] = $workspaces;
 
         $languages = [];
         $languages['active'] = false;
@@ -53,10 +49,8 @@ abstract class AbstractAnyContentBackendController extends AbstractController
         /** @var ContentTypeDefinition $contentType */
         $contentTypeDefinition = $this->contextManager->getCurrentContentType();
 
-        if ($contentTypeDefinition)
-        {
-            if ($contentTypeDefinition->hasLanguages())
-            {
+        if ($contentTypeDefinition) {
+            if ($contentTypeDefinition->hasLanguages()) {
                 $languages['active'] = true;
                 $languages['list']   = $contentTypeDefinition->getLanguages();
                 $languages['current'] = $this->contextManager->getCurrentLanguage();
@@ -64,7 +58,7 @@ abstract class AbstractAnyContentBackendController extends AbstractController
             }
         }
 
-        $parameters['languages']=$languages;
+        $parameters['languages'] = $languages;
 
         $parameters['menu_mainmenu'] = $this->menuManager->renderMainMenu();
 
@@ -87,5 +81,4 @@ abstract class AbstractAnyContentBackendController extends AbstractController
         $buttons[500] = array('label' => 'Import Records', 'url' => $this->generateUrl('anycontent_records_export', array('contentTypeAccessHash' => $contentTypeAccessHash)), 'glyphicon' => 'glyphicon-cloud-upload', 'id' => 'listing_button_import');
         return $buttons;
     }
-
 }

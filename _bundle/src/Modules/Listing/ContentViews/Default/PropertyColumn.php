@@ -7,7 +7,6 @@ use CMDL\FormElementDefinition;
 
 class PropertyColumn extends BaseColumn
 {
-
     protected $type = 'Property';
 
     protected $property;
@@ -19,7 +18,6 @@ class PropertyColumn extends BaseColumn
      */
     protected $formElementDefinition;
 
-
     /**
      * @return mixed
      */
@@ -27,7 +25,6 @@ class PropertyColumn extends BaseColumn
     {
         return $this->property;
     }
-
 
     /**
      * @param mixed $property
@@ -37,12 +34,10 @@ class PropertyColumn extends BaseColumn
         $this->property = $property;
     }
 
-
     public function getValue(Record $record)
     {
         return ($record->getProperty($this->getProperty()));
     }
-
 
     /**
      * @param FormElementDefinition $formElementDefinition
@@ -52,7 +47,6 @@ class PropertyColumn extends BaseColumn
         $this->formElementDefinition = $formElementDefinition;
     }
 
-
     /**
      * @return FormElementDefinition
      */
@@ -60,7 +54,6 @@ class PropertyColumn extends BaseColumn
     {
         return $this->formElementDefinition;
     }
-
 
     public function getClass()
     {
@@ -71,5 +64,4 @@ class PropertyColumn extends BaseColumn
     {
         return $this->getProperty();
     }
-
 }

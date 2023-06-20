@@ -3,11 +3,9 @@
 namespace AnyContent\Backend\Modules\Listing\ContentViews\Default;
 
 use AnyContent\Client\Record;
-use CMDL\FormElementDefinition;
 
 class StatusColumn extends PropertyColumn
 {
-
     protected $type = 'Status';
 
     protected $badge = true;
@@ -19,10 +17,8 @@ class StatusColumn extends PropertyColumn
         return $record->getStatusLabel();
     }
 
-
     public function getClass()
     {
         return 'col-listing-status';
     }
-
 }

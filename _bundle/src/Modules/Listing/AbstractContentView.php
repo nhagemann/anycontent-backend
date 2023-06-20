@@ -2,19 +2,10 @@
 
 namespace AnyContent\Backend\Modules\Listing;
 
-use AnyContent\Client\Repository;
-
 use AnyContent\Backend\Services\ContextManager;
-use CMDL\Annotations\CustomAnnotation;
-use CMDL\ContentTypeDefinition;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Generator\UrlGenerator;
 
 abstract class AbstractContentView
 {
-
-
-
 //    protected $nr;
 //
 //    protected ContextManager $contextManager;
@@ -155,8 +146,8 @@ abstract class AbstractContentView
 //    }
 
 
-    public function apply(ContextManager $contextManager, $vars){
-
+    public function apply(ContextManager $contextManager, $vars)
+    {
     }
 
     public function canDo($action, $object1 = null, $object2 = null, $object3 = null)
@@ -166,6 +157,5 @@ abstract class AbstractContentView
         $user = $this->app['user'];
 
         return $user->canDo($action, $object1, $object2, $object3);
-
     }
 }

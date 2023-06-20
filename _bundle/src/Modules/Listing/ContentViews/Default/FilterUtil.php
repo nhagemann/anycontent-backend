@@ -3,46 +3,34 @@
 namespace AnyContent\Backend\Modules\Listing\ContentViews\Default;
 
 use AnyContent\Backend\Services\ContextManager;
-use AnyContent\CMCK\Modules\Backend\Core\Application\Application;
 use AnyContent\Filter\PropertyFilter;
 use CMDL\ContentTypeDefinition;
 use CMDL\Util;
 
 class FilterUtil
 {
-
-    public function __construct(private ContextManager $contextManager){
-
+    public function __construct(private ContextManager $contextManager)
+    {
     }
 
     public function normalizeFilterQuery($query, ContentTypeDefinition $contentTypeDefinition)
     {
         $query = str_replace('><', '*=', $query);
 
-        try
-        {
+        try {
             $condition = $this->parseCondition($query);
-            if (is_array($condition) && count($condition) == 3)
-            {
+            if (is_array($condition) && count($condition) == 3) {
                 $property = Util::generateValidIdentifier($condition[0]);
-                if (!$contentTypeDefinition->hasProperty($property))
-                {
+                if (!$contentTypeDefinition->hasProperty($property)) {
                     $this->contextManager->addAlertMessage('Cannot filter by property ' . $property . '.');
                     $query = '';
                 }
-
-            }
-            else
-            {
-
+            } else {
                 $query = 'name *= ' . $query;
-
             }
 
             $filter = new PropertyFilter($query);
-        }
-        catch (\Exception $e)
-        {
+        } catch (\Exception $e) {
             $this->contextManager->addAlertMessage('Could not parse query.');
             $this->contextManager->setCurrentSearchTerm('');
             //$query  = '';
@@ -52,9 +40,7 @@ class FilterUtil
         //$this->contextManager->setCurrentSearchTerm($query);
 
         return $filter;
-
     }
-
 
     protected function escape($s)
     {
@@ -65,7 +51,6 @@ class FilterUtil
         return $s;
     }
 
-
     protected function decode($s)
     {
         $s = str_replace('&#43;', '+', $s);
@@ -73,20 +58,14 @@ class FilterUtil
         $s = str_replace('&#61;', '=', $s);
 
         // remove surrounding quotes
-        if (substr($s, 0, 1) == '"')
-        {
-
+        if (substr($s, 0, 1) == '"') {
             $s = trim($s, '"');
-        }
-        else
-        {
-
+        } else {
             $s = trim($s, "'");
         }
 
         return $s;
     }
-
 
     /**
      * http://stackoverflow.com/questions/4955433/php-multiple-delimiters-in-explode
@@ -97,11 +76,9 @@ class FilterUtil
      */
     protected function parseCondition($s)
     {
-
         $match = preg_match("/([^>=|<=|!=|>|<|=|\*=)]*)(>=|<=|!=|>|<|=|\*=)(.*)/", $s, $matches);
 
-        if ($match)
-        {
+        if ($match) {
             $condition   = array();
             $condition[] = $this->decode(trim($matches[1]));
             $condition[] = trim($matches[2]);

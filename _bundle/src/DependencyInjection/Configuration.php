@@ -19,12 +19,11 @@ class Configuration implements ConfigurationInterface
                     ->prototype('array')
                         ->children()
                         ->scalarNode('name')->isRequired()->end()
-                        ->enumNode('type')->values(['mysql','recordfiles','recordsfile','contentarchive'])->end()
+                        ->enumNode('type')->values(['mysql', 'recordfiles', 'recordsfile', 'contentarchive'])->end()
                         ->scalarNode('path')->end()
                     ->end()
                 ->end()
             ->end();
-
 
         // ToDo: Think about key repositories, to restrict repositories and role to restrict connections
 

@@ -2,7 +2,6 @@
 
 namespace AnyContent\Backend\DependencyInjection;
 
-use AnyContent\Backend\Services\RepositoryManager;
 use AnyContent\Backend\Setup\RepositoryAdder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -13,7 +12,7 @@ class AnyContentBackendExtension extends Extension
 {
     public function load(array $configs, ContainerBuilder $container)
     {
-        $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../../config'));
+        $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../../config'));
         $loader->load('services.yaml');
 
         $configuration = new Configuration();
@@ -22,7 +21,6 @@ class AnyContentBackendExtension extends Extension
 
         // @see https://stackoverflow.com/questions/65765693/symfony-bundle-access-config-value
         $service = $container->getDefinition(RepositoryAdder::class);
-        $service->setArgument('$connections',$config['connections']);
+        $service->setArgument('$connections', $config['connections']);
     }
-
 }

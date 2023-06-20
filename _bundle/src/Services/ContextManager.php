@@ -2,21 +2,17 @@
 
 namespace AnyContent\Backend\Services;
 
+use AnyContent\Client\Config;
+use AnyContent\Client\Record;
 use AnyContent\Client\Repository;
-
-use CMDL\DataTypeDefinition;
 use CMDL\ConfigTypeDefinition;
 use CMDL\ContentTypeDefinition;
-use AnyContent\Client\Record;
-use AnyContent\Client\Config;
-
+use CMDL\DataTypeDefinition;
 use Symfony\Component\HttpFoundation\RequestStack;
-
 use Symfony\Component\HttpFoundation\Session\Session;
 
 class ContextManager
 {
-
     protected Session $session;
 
 
@@ -37,8 +33,7 @@ class ContextManager
     public function __construct(
         RequestStack $requestStack,
         private RepositoryManager $repositoryManager,
-    )
-    {
+    ) {
         $this->session = $requestStack->getSession();
 
         if (!$this->session->has($this->prefix . 'messages')) {
@@ -113,8 +108,7 @@ class ContextManager
 
         if ($dataTypeDefinition->hasLanguages()) {
             $languages = $dataTypeDefinition->getLanguages();
-        }
-        else {
+        } else {
             $languages = array('default' => 'None');
         }
 
@@ -126,7 +120,7 @@ class ContextManager
             $this->addInfoMessage('Switching to language ' . $language . ' (' . $key . ') for content type ' . $contentType . '.');
         }
 
-        if (!$dataTypeDefinition->isTimeShiftable() AND $this->getCurrentTimeShift() != 0) {
+        if (!$dataTypeDefinition->isTimeShiftable() and $this->getCurrentTimeShift() != 0) {
             $this->resetTimeShift();
         }
     }
@@ -163,8 +157,7 @@ class ContextManager
     {
         if ($this->isContentContext()) {
             return $this->getCurrentContentType();
-        }
-        else {
+        } else {
             return $this->getCurrentConfigType();
         }
     }
@@ -292,18 +285,16 @@ class ContextManager
 
     public function setCurrentSaveOperation($operation, $title)
     {
-
         $this->session->set($this->prefix . 'save_operation', $operation);
         $this->session->set($this->prefix . 'save_operation_title', $title);
     }
 
     public function setCurrentTimeShift($timestamp)
     {
-        $date = New \DateTime();
+        $date = new \DateTime();
         if ($timestamp > $date->getTimestamp()) {
             $this->addErrorMessage('Cannot time shift into the future! - "Jesus, George, it was a wonder I was even born." (Marty McFly)');
-        }
-        else {
+        } else {
             $this->session->set($this->prefix . 'timeshift', $timestamp);
         }
     }
@@ -311,15 +302,14 @@ class ContextManager
     public function resetTimeShift()
     {
         if ($this->getCurrentTimeShift() != 0) {
-            if ($this->isContentContext() AND $this->getCurrentContentType()->isTimeShiftable() == false) {
+            if ($this->isContentContext() and $this->getCurrentContentType()->isTimeShiftable() == false) {
                 $contentType = $this->getCurrentContentType()->getTitle();
                 if (!$contentType) {
                     $contentType = $this->getCurrentContentType()->getName();
                 }
 
                 $this->addInfoMessage('Content type ' . $contentType . ' doesn\'t support time shifting. Switching back to real time.');
-            }
-            else {
+            } else {
                 $this->addInfoMessage('Switching back to real time.');
             }
         }
@@ -328,7 +318,6 @@ class ContextManager
 
     public function setCurrentSortingOrder($order, $switch = true)
     {
-
         if ($switch == true) {
             if ($this->getCurrentSortingOrder() == $order) {
                 $order = $order . '-';
@@ -441,7 +430,7 @@ class ContextManager
 
     public function addSuccessMessage($message, $errorCode = null)
     {
-        $this->session->getFlashBag()->add('success',$message);
+        $this->session->getFlashBag()->add('success', $message);
 
 //        $messages              = $this->session->get($this->prefix . 'messages');
 //        $messages['success'][] = array('errorCode' => $errorCode, 'message' => $message);
@@ -450,7 +439,7 @@ class ContextManager
 
     public function addInfoMessage($message, $errorCode = null)
     {
-        $this->session->getFlashBag()->add('info',$message);
+        $this->session->getFlashBag()->add('info', $message);
 //        $messages           = $this->session->get($this->prefix . 'messages');
 //        $messages['info'][] = array('errorCode' => $errorCode, 'message' => $message);
 //        $this->session->set($this->prefix . 'messages', $messages);
@@ -458,7 +447,7 @@ class ContextManager
 
     public function addAlertMessage($message, $errorCode = null)
     {
-        $this->session->getFlashBag()->add('alert',$message);
+        $this->session->getFlashBag()->add('alert', $message);
 //        $messages            = $this->session->get($this->prefix . 'messages');
 //        $messages['alert'][] = array('errorCode' => $errorCode, 'message' => $message);
 //        $this->session->set($this->prefix . 'messages', $messages);
@@ -466,7 +455,7 @@ class ContextManager
 
     public function addErrorMessage($message, $errorCode = null)
     {
-        $this->session->getFlashBag()->add('error',$message);
+        $this->session->getFlashBag()->add('error', $message);
 //        $messages            = $this->session->get($this->prefix . 'messages');
 //        $messages['error'][] = array('errorCode' => $errorCode, 'message' => $message);
 //        $this->session->set($this->prefix . 'messages', $messages);

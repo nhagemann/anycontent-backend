@@ -5,35 +5,29 @@ namespace AnyContent\Backend\Setup;
 use AnyContent\Backend\Services\RepositoryManager;
 use AnyContent\Client\Repository;
 use AnyContent\Connection\Configuration\ContentArchiveConfiguration;
-use AnyContent\Connection\Configuration\RecordFilesConfiguration;
-use App\Kernel;
 
 class RepositoryAdder
 {
     private RepositoryManager $repositoryManager;
+
     public function __construct(private array $connections)
     {
     }
 
-    public function addRepositories(RepositoryManager $repositoryManager){
-
+    public function addRepositories(RepositoryManager $repositoryManager)
+    {
         $this->repositoryManager = $repositoryManager;
 
-        foreach ($this->connections as $connection){
+        foreach ($this->connections as $connection) {
             $name = $connection['name'];
             $type = $connection['type'];
 
-
-            switch ($type){
+            switch ($type) {
                 case "contentarchive":
-
                     $path = $connection['path'];
-                      $this->addContentArchiveConnection($name,$path);
+                      $this->addContentArchiveConnection($name, $path);
                     break;
             }
-
-
-
         }
 
 //        $configuration = new RecordFilesConfiguration();
@@ -60,16 +54,13 @@ class RepositoryAdder
 //        $repositoryManager->addRepository('demo2',$repository);
     }
 
-    private function addContentArchiveConnection(string $name, string $path){
-
+    private function addContentArchiveConnection(string $name, string $path)
+    {
         $configuration = new ContentArchiveConfiguration();
         $configuration->setContentArchiveFolder($path);
         $connection = $configuration->createReadWriteConnection();
 
-
         $repository = new Repository($name, $connection);
-        $this->repositoryManager->addRepository($name,$repository);
-
-
+        $this->repositoryManager->addRepository($name, $repository);
     }
 }

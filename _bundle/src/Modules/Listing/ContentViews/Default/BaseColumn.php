@@ -3,11 +3,9 @@
 namespace AnyContent\Backend\Modules\Listing\ContentViews\Default;
 
 use AnyContent\Client\Record;
-use CMDL\FormElementDefinition;
 
 class BaseColumn
 {
-
     protected $type = 'Base';
 
     protected $title;
@@ -28,7 +26,6 @@ class BaseColumn
         return $this->type;
     }
 
-
     /** @var  ColumnRenderer */
     protected $renderer;
 
@@ -36,7 +33,6 @@ class BaseColumn
      * @var bool
      */
     protected $linkToRecord = false;
-
 
     /**
      * @return mixed
@@ -46,7 +42,6 @@ class BaseColumn
         return $this->title;
     }
 
-
     /**
      * @param mixed $title
      */
@@ -54,7 +49,6 @@ class BaseColumn
     {
         $this->title = $title;
     }
-
 
     /**
      * @return mixed
@@ -64,18 +58,15 @@ class BaseColumn
         return 'col-listing';
     }
 
-
     public function getValue(Record $record)
     {
         return '';
     }
 
-
     public function formatValue(Record $record)
     {
         return $this->getRenderer()->render($this, $record);
     }
-
 
     /**
      * @return boolean
@@ -85,7 +76,6 @@ class BaseColumn
         return $this->badge;
     }
 
-
     /**
      * @param boolean $badge
      */
@@ -93,7 +83,6 @@ class BaseColumn
     {
         $this->badge = $badge;
     }
-
 
     /**
      * @return boolean
@@ -103,10 +92,6 @@ class BaseColumn
         return $this->sortable;
     }
 
-
-    /**
-     * @param
-     */
     public function setSortString($s)
     {
         $this->sortable = true;
@@ -118,7 +103,6 @@ class BaseColumn
         return $this->sortString;
     }
 
-
     /**
      * @return CellRenderer
      */
@@ -126,7 +110,6 @@ class BaseColumn
     {
         return $this->renderer;
     }
-
 
     /**
      * @param CellRenderer $renderer
@@ -136,7 +119,6 @@ class BaseColumn
         $this->renderer = $renderer;
     }
 
-
     /**
      * @return boolean
      */
@@ -145,7 +127,6 @@ class BaseColumn
         return $this->linkToRecord;
     }
 
-
     /**
      * @param boolean $linkToRecord
      */
@@ -153,5 +134,4 @@ class BaseColumn
     {
         $this->linkToRecord = $linkToRecord;
     }
-
 }

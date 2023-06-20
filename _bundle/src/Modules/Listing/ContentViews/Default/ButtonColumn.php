@@ -2,17 +2,12 @@
 
 namespace AnyContent\Backend\Modules\Listing\ContentViews\Default;
 
-use AnyContent\Client\Record;
-use CMDL\FormElementDefinition;
-
 class ButtonColumn extends BaseColumn
 {
-
     protected $type = 'Button';
 
     protected $editButton = false;
     protected $deleteButton = false;
-
 
     /**
      * @return boolean
@@ -22,7 +17,6 @@ class ButtonColumn extends BaseColumn
         return $this->editButton;
     }
 
-
     /**
      * @param boolean $editButton
      */
@@ -30,7 +24,6 @@ class ButtonColumn extends BaseColumn
     {
         $this->editButton = $editButton;
     }
-
 
     /**
      * @return boolean
@@ -40,7 +33,6 @@ class ButtonColumn extends BaseColumn
         return $this->deleteButton;
     }
 
-
     /**
      * @param boolean $deleteButton
      */
@@ -49,10 +41,8 @@ class ButtonColumn extends BaseColumn
         $this->deleteButton = $deleteButton;
     }
 
-
     public function getClass()
     {
         return 'col-listing-buttons';
     }
-
 }

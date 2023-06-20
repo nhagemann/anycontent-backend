@@ -2,35 +2,25 @@
 
 namespace AnyContent\Backend\Services;
 
-
-use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Twig\Environment;
 
 class MenuManager
 {
-
     public function __construct(
-        private RepositoryManager             $repositoryManager,
-        private UrlGeneratorInterface         $urlGenerator,
-        private Environment                   $twig,
+        private RepositoryManager $repositoryManager,
+        private UrlGeneratorInterface $urlGenerator,
+        private Environment $twig,
         private AuthorizationCheckerInterface $authorizationChecker
-
-    )
-    {
-
+    ) {
     }
-
 
     public function renderMainMenu()
     {
-
-
         $items = array();
 
         foreach ($this->repositoryManager->listRepositories() as $repositoryName => $repositoryItem) {
-
             $url = $this->urlGenerator->generate('anycontent_repository', array('repositoryAccessHash' => $repositoryItem['accessHash']));
             $items[] = array('type' => 'header', 'text' => $repositoryItem['title'], 'url' => $url);
 
@@ -50,11 +40,9 @@ class MenuManager
             $items[] = array('type' => 'divider');
         }
 
-
         if ($this->authorizationChecker->isGranted('ROLE_ANYCONTENT_ADMIN')) {
             $url = $this->urlGenerator->generate('anycontent_admin');
             $items[] = array('type' => 'link', 'text' => 'Admin', 'url' => $url, 'glyphicon' => 'glyphicon-cog');
-
         }
 
         $url = $this->urlGenerator->generate('anycontent_help');
@@ -62,16 +50,11 @@ class MenuManager
 
         $items[] = array('type' => 'divider');
 
-
         $url = $this->urlGenerator->generate('anycontent_logout');
         $items[] = array('type' => 'link', 'text' => 'Logout', 'url' => $url, 'glyphicon' => 'glyphicon-user');
 
-
-        $html = $this->renderDropDown($items, 'mainmenu');
-
-        return $html;
+        return $this->renderDropDown($items, 'mainmenu');
     }
-
 
     public function renderDropDown($items, $id = null)
     {
@@ -89,10 +72,8 @@ class MenuManager
         return $this->twig->render($template, $vars);
     }
 
-
     public function renderButtonGroup($buttons)
     {
-
         ksort($buttons);
 
 //        /** @var MenuButtonGroupRenderEvent $event */
@@ -104,6 +85,4 @@ class MenuManager
 
         return $this->twig->render('@AnyContentBackend\Menu\core_menu_buttongroup.twig', array('buttons' => $buttons));
     }
-
-
 }

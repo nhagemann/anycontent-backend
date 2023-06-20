@@ -2,18 +2,13 @@
 
 namespace AnyContent\Backend\Modules\Listing\ContentViews\Default;
 
-use AnyContent\Client\Record;
-use CMDL\FormElementDefinition;
-
 class AttributeColumn extends BaseColumn
 {
-
     protected $type = 'Attribute';
 
     protected $attribute;
 
     protected $sortable = true;
-
 
     /**
      * @return mixed
@@ -23,7 +18,6 @@ class AttributeColumn extends BaseColumn
         return $this->attribute;
     }
 
-
     /**
      * @param mixed $attribute
      */
@@ -32,16 +26,13 @@ class AttributeColumn extends BaseColumn
         $this->attribute = trim($attribute, '.');
     }
 
-
     public function getClass()
     {
         return 'col-listing-attribute-' . $this->getAttribute();
     }
 
-
     public function getSortString()
     {
         return '.' . $this->getAttribute();
     }
-
 }

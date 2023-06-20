@@ -3,7 +3,6 @@
 namespace AnyContent\Backend\Modules\Listing\ContentViews\Default;
 
 use AnyContent\Client\Record;
-use CMDL\FormElementDefinition;
 
 class SelectionColumn extends PropertyColumn
 {
@@ -15,16 +14,10 @@ class SelectionColumn extends PropertyColumn
 
         $list = $this->getFormElementDefinition()->getList(1);
 
-        if (array_key_exists($key,$list))
-        {
+        if (array_key_exists($key, $list)) {
             return $list[$key];
         }
 
         return $key;
     }
-
-
-
-
-
 }

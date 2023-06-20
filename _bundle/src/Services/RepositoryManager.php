@@ -2,20 +2,14 @@
 
 namespace AnyContent\Backend\Services;
 
-
 use AnyContent\Backend\Setup\RepositoryAdder;
-use AnyContent\Client\RepositoryFactory;
-use AnyContent\CMCK\Modules\Backend\Core\Application\Application;
-use AnyContent\CMCK\Modules\Backend\Core\Application\ConfigService;
-use AnyContent\Client\UserInfo;
 use AnyContent\Client\Repository;
-use AnyContent\CMCK\Modules\Backend\Core\Context;
+use AnyContent\Client\UserInfo;
+use AnyContent\CMCK\Modules\Backend\Core\Application\ConfigService;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 class RepositoryManager
 {
-
-
     /**
      * @var Repository[]
      */
@@ -29,7 +23,6 @@ class RepositoryManager
 
     /** @var  UserInfo */
     protected $userInfo;
-
 
     public function __construct(RepositoryAdder $repositoryAdder)
     {
@@ -52,7 +45,7 @@ class RepositoryManager
         return $this->app['session'];
     }
 
-    public function addRepository($name, Repository $repository, $title ='')
+    public function addRepository($name, Repository $repository, $title = '')
     {
         $repository->setName($name);
         $repository->setTitle($title);
@@ -100,11 +93,9 @@ class RepositoryManager
 
     public function getAccessHash($repository, $contentTypeDefinition = null): string
     {
-
         if ($contentTypeDefinition != null) {
             return $this->getContentTypeAccessHash($repository, $contentTypeDefinition->getName());
-        }
-        else {
+        } else {
             return $this->getRepositoryAccessHash($repository);
         }
     }
@@ -137,7 +128,6 @@ class RepositoryManager
 
     public function listContentTypes($id)
     {
-
         $contentTypes = [];
 
         if (array_key_exists($id, $this->repositories)) {
@@ -157,14 +147,12 @@ class RepositoryManager
 
     public function listConfigTypes($id)
     {
-
         $configTypes = [];
 
         if (array_key_exists($id, $this->repositories)) {
             $repository = $this->repositories[$id];
 
             foreach ($repository->getConfigTypeList() as $name => $title) {
-
                 $configTypes[$name] = array(
                     'name'       => $name,
                     'title'      => $title,
@@ -189,7 +177,6 @@ class RepositoryManager
 
     public function getRepositoryById($id)
     {
-
         if (array_key_exists($id, $this->repositories)) {
             return $this->repositories[$id];
         }
@@ -220,7 +207,6 @@ class RepositoryManager
      */
     public function getRepositoryByContentTypeAccessHash($hash)
     {
-
         if (array_key_exists($hash, $this->contentTypeAccessHashes)) {
             $id              = $this->contentTypeAccessHashes[$hash]['repositoryId'];
             $contentTypeName = $this->contentTypeAccessHashes[$hash]['contentTypeName'];
@@ -241,12 +227,9 @@ class RepositoryManager
      */
     public function getRepositoryByConfigTypeAccessHash($hash)
     {
-
         if (array_key_exists($hash, $this->configTypeAccessHashes)) {
             $id         = $this->configTypeAccessHashes[$hash]['repositoryId'];
-            $repository = $this->getRepositoryById($id);
-
-            return $repository;
+            return $this->getRepositoryById($id);
         }
 
         return false;
@@ -259,7 +242,6 @@ class RepositoryManager
      */
     public function getConfigTypeDefinitionByConfigTypeAccessHash($hash)
     {
-
         if (array_key_exists($hash, $this->configTypeAccessHashes)) {
             $id             = $this->configTypeAccessHashes[$hash]['repositoryId'];
             $configTypeName = $this->configTypeAccessHashes[$hash]['configTypeName'];
@@ -289,5 +271,4 @@ class RepositoryManager
 //            }
 //        }
 //    }
-
 }

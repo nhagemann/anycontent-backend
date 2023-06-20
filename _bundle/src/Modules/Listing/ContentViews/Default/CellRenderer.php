@@ -5,10 +5,6 @@ namespace AnyContent\Backend\Modules\Listing\ContentViews\Default;
 use AnyContent\Backend\Services\ContextManager;
 use AnyContent\Client\Record;
 use AnyContent\Client\UserInfo;
-
-use CMDL\FormElementDefinition;
-use Silex\Application;
-use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twig\Environment;
 
@@ -16,12 +12,10 @@ class CellRenderer
 {
     public function __construct(
         private ContextManager $contextManager,
-        private Environment $twig, 
-        private UrlGeneratorInterface $urlGenerator)
-    {
-
+        private Environment $twig,
+        private UrlGeneratorInterface $urlGenerator
+    ) {
     }
-
 
     /**
      * @return \Twig_Environment
@@ -31,14 +25,10 @@ class CellRenderer
         return $this->twig;
     }
 
-
- 
     public function getUrlGenerator()
     {
         return $this->urlGenerator;
     }
-
-
 
     /**
      * @param BaseColumn $column
@@ -59,24 +49,19 @@ class CellRenderer
         $vars['deleteButton'] = false;
         $vars['customButton'] = false;
 
-        if ($column->getType() == 'Button')
-        {
-            if ($column->isEditButton())
-            {
+        if ($column->getType() == 'Button') {
+            if ($column->isEditButton()) {
                 $vars['editButton'] = true;
                 $vars['editLink']   = $this->getEditLink($record);
             }
-            if ($column->isDeleteButton())
-            {
+            if ($column->isDeleteButton()) {
                 $vars['deleteButton'] = true;
                 $vars['deleteLink']   = $this->getDeleteLink($record);
             }
         }
 
-        if ($column->getType() == 'Attribute')
-        {
-            switch ($column->getAttribute())
-            {
+        if ($column->getType() == 'Attribute') {
+            switch ($column->getAttribute()) {
                 case 'id':
                     $vars['value'] = $record->getID();
                     break;
@@ -103,24 +88,20 @@ class CellRenderer
             }
         }
 
-        if ($column instanceof SubtypeColumn)
-        {
-            $vars['badgeclass']='badge subtype subtype-'.strtolower($record->getSubtype());
+        if ($column instanceof SubtypeColumn) {
+            $vars['badgeclass'] = 'badge subtype subtype-' . strtolower($record->getSubtype());
         }
 
-        if ($column instanceof StatusColumn)
-        {
-            $vars['badgeclass']='badge status status-'.strtolower($record->getSubtype());
+        if ($column instanceof StatusColumn) {
+            $vars['badgeclass'] = 'badge status status-' . strtolower($record->getSubtype());
         }
 
-        if ($column->isLinkToRecord())
-        {
+        if ($column->isLinkToRecord()) {
             $vars['link'] = $this->getEditLink($record);
         }
 
         return $this->getTwig()->render($template, $vars);
     }
-
 
     protected function getUserInfoVars(UserInfo $userInfo)
     {
@@ -133,28 +114,25 @@ class CellRenderer
         return $vars;
     }
 
-
     protected function getEditLink(Record $record)
     {
         return $this->getUrlGenerator()->generate('anycontent_record_edit', array( 'contentTypeAccessHash' => $this->contextManager
                                                                                                        ->getCurrentContentTypeAccessHash(),
                                                                        'recordId' => $record->getID(), 'workspace' => $this->contextManager
                                                                                                                            ->getCurrentWorkspace(), 'language' => $this->contextManager
-                                                                                                                                                                       ->getCurrentLanguage()
+                                                                                                                                                                       ->getCurrentLanguage(),
         ));
-
     }
-
 
     protected function getDeleteLink(Record $record)
     {
-        return $this->getUrlGenerator()->generate('anycontent_record_delete',
-                                                  array( 'contentTypeAccessHash' => $this->contextManager
+        return $this->getUrlGenerator()->generate(
+            'anycontent_record_delete',
+            array( 'contentTypeAccessHash' => $this->contextManager
                                                                                          ->getCurrentContentTypeAccessHash(), 'recordId' => $record->getID(), 'workspace' => $this->contextManager
                                                                                                                                                                                   ->getCurrentWorkspace(), 'language' => $this->contextManager
-                                                                                                                                                                                                                              ->getCurrentLanguage()
-                                                  ));
-
+                                                                                                                                                                                                                              ->getCurrentLanguage(),
+            )
+        );
     }
 }
-

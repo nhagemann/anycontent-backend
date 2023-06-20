@@ -2,18 +2,12 @@
 
 namespace AnyContent\Backend\Controller;
 
-
 use Symfony\Component\HttpFoundation\Response;
-
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-
 
 class AuthenticationController extends AbstractAnyContentBackendController
 {
-
-
     #[Route('/login', 'anycontent_login')]
     public function index(AuthenticationUtils $authenticationUtils): Response
     {
@@ -28,6 +22,7 @@ class AuthenticationController extends AbstractAnyContentBackendController
             'error' => $error,
         ]);
     }
+
     #[Route('/logout', name: 'anycontent_logout')]
     public function logout(): never
     {

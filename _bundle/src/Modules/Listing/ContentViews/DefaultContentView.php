@@ -2,7 +2,6 @@
 
 namespace AnyContent\Backend\Modules\Listing\ContentViews;
 
-
 use AnyContent\Backend\Modules\Listing\ContentViews\Default\AttributeColumn;
 use AnyContent\Backend\Modules\Listing\ContentViews\Default\ButtonColumn;
 use AnyContent\Backend\Modules\Listing\ContentViews\Default\CellRenderer;
@@ -12,11 +11,7 @@ use AnyContent\Backend\Modules\Listing\ContentViews\Default\StatusColumn;
 use AnyContent\Backend\Modules\Listing\ContentViews\Default\SubtypeColumn;
 use AnyContent\Backend\Modules\Listing\PagingHelper;
 use AnyContent\Backend\Services\ContextManager;
-use AnyContent\Client\Repository;
-
-use CMDL\Annotations\CustomAnnotation;
 use CMDL\CMDLParserException;
-use CMDL\ContentTypeDefinition;
 
 class DefaultContentView //extends AbstractContentView
 {
@@ -25,12 +20,10 @@ class DefaultContentView //extends AbstractContentView
 
     public function __construct(
         private ContextManager $contextManager,
-        private CellRenderer   $cellRenderer,
-        private PagingHelper   $pagingHelper,
+        private CellRenderer $cellRenderer,
+        private PagingHelper $pagingHelper,
         private FilterUtil $filterUtil
-    )
-    {
-
+    ) {
     }
 
 //    public function __construct($nr, Repository $repository, ContentTypeDefinition $contentTypeDefinition, $contentTypeAccessHash, CustomAnnotation $customAnnotation = null)
@@ -44,12 +37,10 @@ class DefaultContentView //extends AbstractContentView
         return '@AnyContentBackend/Listing/listing-contentview-default.html.twig';
     }
 
-
     public function doesProcessSearch()
     {
         return true;
     }
-
 
     public function apply(ContextManager $contextManager, $vars)
     {
@@ -88,14 +79,12 @@ class DefaultContentView //extends AbstractContentView
             $vars['pager'] = $this->pagingHelper->renderPager($count, $this->contextManager
                 ->getCurrentItemsPerPage(), $this->contextManager
                 ->getCurrentListingPage(), 'anycontent_records', array('contentTypeAccessHash' => $this->contextManager->getCurrentContentTypeAccessHash()));
-
         }
 
         $vars['class'] = 'row contenttype-' . strtolower($this->contextManager->getCurrentContentType()->getName());
 
         return $vars;
     }
-
 
     /**
      * backwards compatible converting of sorting instructions
@@ -106,7 +95,7 @@ class DefaultContentView //extends AbstractContentView
 
         $map = ['.lastchange' => '.info.lastchange.timestamp', '.lastchange+' => '.info.lastchange.timestamp', '.lastchange-' => '.info.lastchange.timestamp-',
             'change' => '.info.lastchange.timestamp', 'change+' => '.info.lastchange.timestamp', 'change-' => '.info.lastchange.timestamp-',
-            'pos' => 'position', 'pos+' => 'position', 'pos-' => 'position-'
+            'pos' => 'position', 'pos+' => 'position', 'pos-' => 'position-',
         ];
 
         if (array_key_exists($sorting, $map)) {
@@ -115,7 +104,6 @@ class DefaultContentView //extends AbstractContentView
 
         return $sorting;
     }
-
 
     public function getFilter()
     {
@@ -128,7 +116,6 @@ class DefaultContentView //extends AbstractContentView
 
         return $filter;
     }
-
 
     public function getColumnsDefinition()
     {
@@ -197,7 +184,6 @@ class DefaultContentView //extends AbstractContentView
         return $columns;
     }
 
-
     public function buildTable($columns, $records)
     {
         $table = [];
@@ -219,7 +205,6 @@ class DefaultContentView //extends AbstractContentView
         return $table;
     }
 
-
     /**
      * @return CellRenderer
      */
@@ -227,7 +212,6 @@ class DefaultContentView //extends AbstractContentView
     {
         return $this->cellRenderer;
     }
-
 
     public function countRecords($filter)
     {
@@ -242,11 +226,8 @@ class DefaultContentView //extends AbstractContentView
         //$count = $repository->countRecords($this->contextManager->getCurrentWorkspace(), $viewName, $this->contextManager
         //->getCurrentLanguage(), $sorting[0], $sorting[1], $itemsPerPage, $page, $filter, null, $this->contextManager->getCurrentTimeShift());
 
-        $count = $repository->countRecords($filter);
-
-        return $count;
+        return $repository->countRecords($filter);
     }
-
 
     public function getRecords($filter)
     {
@@ -264,4 +245,3 @@ class DefaultContentView //extends AbstractContentView
         //->getCurrentLanguage(), $sorting[0], $sorting[1], $itemsPerPage, $page, $filter, null, $this->contextManager
     }
 }
-

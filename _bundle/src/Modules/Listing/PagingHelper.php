@@ -7,26 +7,18 @@ use Twig\Environment;
 
 class PagingHelper
 {
-
-
-
-
     public function __construct(
         private Environment $twig,
-        private UrlGeneratorInterface $urlGenerator)
-    {
-
+        private UrlGeneratorInterface $urlGenerator
+    ) {
     }
-
 
     public function renderPager($nrOfItems, $itemsPerPage, $currentPage, $routeName, $parameters, $pageParameter = 'page', $addLeft = 3, $addRight = 3)
     {
-
         $maxPages    = ceil($nrOfItems / $itemsPerPage);
         $currentPage = min($currentPage, $maxPages);
 
-        if ($maxPages == 1)
-        {
+        if ($maxPages == 1) {
             return '';
         }
 
@@ -37,52 +29,40 @@ class PagingHelper
 
         $parameters[$pageParameter] = $currentPage - 1;
         $url                        = $this->urlGenerator->generate($routeName, $parameters);
-        $prev                       = array( 'url' => $url, 'disabled' => false );
-        if ($currentPage == 1)
-        {
+        $prev                       = array('url' => $url, 'disabled' => false);
+        if ($currentPage == 1) {
             $prev['disabled'] = true;
         }
 
         $parameters[$pageParameter] = $currentPage + 1;
         $url                        = $this->urlGenerator->generate($routeName, $parameters);
-        $next                       = array( 'url' => $url, 'disabled' => false );
-        if ($currentPage == $maxPages)
-        {
+        $next                       = array('url' => $url, 'disabled' => false);
+        if ($currentPage == $maxPages) {
             $next['disabled'] = true;
         }
 
-        if ($start > 1)
-        {
+        if ($start > 1) {
             $parameters[$pageParameter] = 1;
             $url                        = $this->urlGenerator->generate($routeName, $parameters);
-            $items[]                    = array( 'label' => '&laquo;', 'active' => false, 'url' => $url );
-
+            $items[]                    = array('label' => '&laquo;', 'active' => false, 'url' => $url);
         }
 
-        for ($i = $start; $i <= $stop; $i++)
-        {
-
+        for ($i = $start; $i <= $stop; $i++) {
             $active = false;
-            if ($currentPage == $i)
-            {
+            if ($currentPage == $i) {
                 $active = true;
             }
             $parameters[$pageParameter] = $i;
             $url                        = $this->urlGenerator->generate($routeName, $parameters);
-            $items[]                    = array( 'label' => $i, 'active' => $active, 'url' => $url );
-
+            $items[]                    = array('label' => $i, 'active' => $active, 'url' => $url);
         }
 
-        if ($stop < $maxPages)
-        {
+        if ($stop < $maxPages) {
             $parameters[$pageParameter] = $maxPages;
             $url                        = $this->urlGenerator->generate($routeName, $parameters);
-            $items[]                    = array( 'label' => '&raquo;', 'active' => false, 'url' => $url );
-
+            $items[]                    = array('label' => '&raquo;', 'active' => false, 'url' => $url);
         }
 
-        return $this->twig->render('@AnyContentBackend/Listing/pager.html.twig', array( 'items' => $items, 'prev' => $prev, 'next' => $next ));
-
+        return $this->twig->render('@AnyContentBackend/Listing/pager.html.twig', array('items' => $items, 'prev' => $prev, 'next' => $next));
     }
-
 }
