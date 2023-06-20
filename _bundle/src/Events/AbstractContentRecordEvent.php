@@ -9,9 +9,10 @@ abstract class AbstractContentRecordEvent extends Event
 {
     public function __construct(private Record $record)
     {
-
     }
-    public function getRecord(): Record{
+
+    public function getRecord(): Record
+    {
         return $this->record;
     }
 }

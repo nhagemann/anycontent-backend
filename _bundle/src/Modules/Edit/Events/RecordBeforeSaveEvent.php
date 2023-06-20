@@ -6,5 +6,4 @@ use AnyContent\Backend\Events\AbstractContentRecordEvent;
 
 class RecordBeforeSaveEvent extends AbstractContentRecordEvent
 {
-
 }

@@ -8,7 +8,6 @@ use AnyContent\Backend\Services\MenuManager;
 use AnyContent\Backend\Services\RepositoryManager;
 use CMDL\ContentTypeDefinition;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
