@@ -8,13 +8,13 @@ use CMDL\ContentTypeDefinition;
 
 class ContentViewsManager
 {
-    protected $contentViewRegistrations = array();
+    protected $contentViewRegistrations = [];
 
-    protected $contentViewObjects = array();
+    protected $contentViewObjects = [];
 
-    public function registerContentView($type, $class, $options = array())
+    public function registerContentView($type, $class, $options = [])
     {
-        $this->contentViewRegistrations[$type] = array('class' => $class, 'options' => $options);
+        $this->contentViewRegistrations[$type] = ['class' => $class, 'options' => $options];
     }
 
     /**
@@ -39,7 +39,7 @@ class ContentViewsManager
     {
         if (!array_key_exists($contentTypeAccessHash, $this->contentViewObjects)) {
             $i                                                = 0;
-            $this->contentViewObjects[$contentTypeAccessHash] = array();
+            $this->contentViewObjects[$contentTypeAccessHash] = [];
             /** @var  $customAnnotation CustomAnnotation */
             foreach ($contentTypeDefinition->getCustomAnnotations() as $customAnnotation) {
                 if ($customAnnotation->getType() == 'content-view') {

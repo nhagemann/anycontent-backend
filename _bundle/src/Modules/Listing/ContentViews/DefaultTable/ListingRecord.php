@@ -1,6 +1,6 @@
 <?php
 
-namespace AnyContent\Backend\Modules\Listing\ContentViews\Default;
+namespace AnyContent\Backend\Modules\Listing\ContentViews\DefaultTable;
 
 use AnyContent\Client\Record;
 use AnyContent\CMCK\Modules\Backend\Core\Application\Application;
@@ -39,18 +39,18 @@ class ListingRecord extends Record
     public function getEditUrl()
     {
         return $this->getUrlGenerator()
-                    ->generate('editRecord', array( 'contentTypeAccessHash' => $this->contentTypeAccessHash, 'recordId' => $this->getID(), 'workspace' => $this->getContext()
+                    ->generate('editRecord', [ 'contentTypeAccessHash' => $this->contentTypeAccessHash, 'recordId' => $this->getID(), 'workspace' => $this->getContext()
                                                                                                                                                                ->getCurrentWorkspace(), 'language' => $this->getContext()
                                                                                                                                                                                                            ->getCurrentLanguage(),
-                    ));
+                    ]);
     }
 
     public function getDeleteUrl()
     {
         return $this->getUrlGenerator()
-                    ->generate('deleteRecord', array( 'contentTypeAccessHash' => $this->contentTypeAccessHash, 'recordId' => $this->getID(), 'workspace' => $this->getContext()
+                    ->generate('deleteRecord', [ 'contentTypeAccessHash' => $this->contentTypeAccessHash, 'recordId' => $this->getID(), 'workspace' => $this->getContext()
                                                                                                                                                                  ->getCurrentWorkspace(), 'language' => $this->getContext()
                                                                                                                                                                                                              ->getCurrentLanguage(),
-                    ));
+                    ]);
     }
 }

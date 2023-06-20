@@ -1,6 +1,6 @@
 <?php
 
-namespace AnyContent\Backend\Modules\Listing\ContentViews\Default;
+namespace AnyContent\Backend\Modules\Listing\ContentViews\DefaultTable;
 
 use AnyContent\Backend\Services\ContextManager;
 use AnyContent\Filter\PropertyFilter;
@@ -79,7 +79,7 @@ class FilterUtil
         $match = preg_match("/([^>=|<=|!=|>|<|=|\*=)]*)(>=|<=|!=|>|<|=|\*=)(.*)/", $s, $matches);
 
         if ($match) {
-            $condition   = array();
+            $condition   = [];
             $condition[] = $this->decode(trim($matches[1]));
             $condition[] = trim($matches[2]);
             $condition[] = $this->decode(trim($matches[3]));

@@ -17,7 +17,7 @@ class StartController extends AbstractAnyContentBackendController
 
         $vars['menu_mainmenu'] = $this->menuManager->renderMainMenu();
 
-        $items = array();
+        $items = [];
         foreach ($this->repositoryManager->listRepositories() as $repositoryName => $repositoryItem) {
             $items[] = $this->extractRepositoryInfos($repositoryName, $repositoryItem, false);
         }
@@ -46,17 +46,17 @@ class StartController extends AbstractAnyContentBackendController
     {
         $repository = $this->repositoryManager->getRepositoryByRepositoryAccessHash($repositoryItem['accessHash']);
 
-        $item          = array();
+        $item          = [];
         $item['title'] = $repositoryItem['title'];
         $item['url']   = '';//$repository->getPublicUrl();
         $item['link']  = $this->generateUrl('anycontent_repository', ['repositoryAccessHash' => $repositoryItem['accessHash']]);
         $item['files'] = false;
 
-        $item['content_types'] = array();
+        $item['content_types'] = [];
 
         foreach ($this->repositoryManager->listContentTypes($repositoryName) as $contentTypeName => $contentTypeItem) {
             //$info = array( 'name' => $contentTypeItem['name'], 'title' => $contentTypeItem['title'], 'link' => '', 'page' => 1  );
-            $info = array('name' => $contentTypeItem['name'], 'title' => $contentTypeItem['title'], 'link' => $this->generateUrl('anycontent_records', ['contentTypeAccessHash' => $contentTypeItem['accessHash'], 'page' => 1]));
+            $info = ['name' => $contentTypeItem['name'], 'title' => $contentTypeItem['title'], 'link' => $this->generateUrl('anycontent_records', ['contentTypeAccessHash' => $contentTypeItem['accessHash'], 'page' => 1])];
 
             if ($definition) {
                 $info['definition'] = $repository->getContentTypeDefinition($contentTypeName);
@@ -65,10 +65,10 @@ class StartController extends AbstractAnyContentBackendController
             $item['content_types'][] = $info;
         }
 
-        $item['config_types'] = array();
+        $item['config_types'] = [];
 
         foreach ($this->repositoryManager->listConfigTypes($repositoryName) as $configTypeName => $configTypeItem) {
-            $info = array('name' => $configTypeItem['name'], 'title' => $configTypeItem['title'], 'link' => $app['url_generator']->generate('editConfig', array('configTypeAccessHash' => $configTypeItem['accessHash'])));
+            $info = ['name' => $configTypeItem['name'], 'title' => $configTypeItem['title'], 'link' => $app['url_generator']->generate('editConfig', ['configTypeAccessHash' => $configTypeItem['accessHash']])];
 
             if ($definition) {
                 $info['definition'] = $repository->getConfigTypeDefinition($configTypeName);
@@ -78,7 +78,7 @@ class StartController extends AbstractAnyContentBackendController
         }
 
         if ($this->repositoryManager->hasFiles($repositoryName)) {
-            $item['files'] = $app['url_generator']->generate('listFiles', array('repositoryAccessHash' => $repositoryItem['accessHash'], 'path' => ''));
+            $item['files'] = $app['url_generator']->generate('listFiles', ['repositoryAccessHash' => $repositoryItem['accessHash'], 'path' => '']);
         }
 
         return $item;

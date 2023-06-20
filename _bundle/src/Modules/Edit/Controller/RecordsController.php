@@ -179,11 +179,11 @@ class RecordsController extends AbstractAnyContentBackendController
 
         // Links
         $vars['links']['edit'] = true;
-        $vars['links']['search'] = $this->generateUrl('anycontent_records', array('contentTypeAccessHash' => $contentTypeAccessHash, 'page' => 1, 's' => 'name', 'workspace' => $this->contextManager->getCurrentWorkspace(), 'language' => $this->contextManager->getCurrentLanguage()));
-        $vars['links']['repository'] = $this->generateUrl('anycontent_repository', array('repositoryAccessHash' => $repositoryAccessHash));
-        $vars['links']['listRecords'] = $this->generateUrl('anycontent_records', array('contentTypeAccessHash' => $contentTypeAccessHash, 'page' => 1, 'workspace' => $this->contextManager->getCurrentWorkspace(), 'language' => $this->contextManager->getCurrentLanguage()));
-        $vars['links']['workspaces'] = $this->generateUrl('anycontent_record_add_change_workspace', array('contentTypeAccessHash' => $contentTypeAccessHash));
-        $vars['links']['languages'] = $this->generateUrl('anycontent_record_add_change_language', array('contentTypeAccessHash' => $contentTypeAccessHash));
+        $vars['links']['search'] = $this->generateUrl('anycontent_records', ['contentTypeAccessHash' => $contentTypeAccessHash, 'page' => 1, 's' => 'name', 'workspace' => $this->contextManager->getCurrentWorkspace(), 'language' => $this->contextManager->getCurrentLanguage()]);
+        $vars['links']['repository'] = $this->generateUrl('anycontent_repository', ['repositoryAccessHash' => $repositoryAccessHash]);
+        $vars['links']['listRecords'] = $this->generateUrl('anycontent_records', ['contentTypeAccessHash' => $contentTypeAccessHash, 'page' => 1, 'workspace' => $this->contextManager->getCurrentWorkspace(), 'language' => $this->contextManager->getCurrentLanguage()]);
+        $vars['links']['workspaces'] = $this->generateUrl('anycontent_record_add_change_workspace', ['contentTypeAccessHash' => $contentTypeAccessHash]);
+        $vars['links']['languages'] = $this->generateUrl('anycontent_record_add_change_language', ['contentTypeAccessHash' => $contentTypeAccessHash]);
 
         // Buttons
         $buttons = $this->getButtons($contentTypeAccessHash, $contentTypeDefinition);
@@ -274,30 +274,30 @@ class RecordsController extends AbstractAnyContentBackendController
             // Adjust Links
             $vars['links']['workspaces'] = $this->generateUrl(
                 'anycontent_record_edit_change_workspace',
-                array('contentTypeAccessHash' => $contentTypeAccessHash, 'recordId' => $recordId)
+                ['contentTypeAccessHash' => $contentTypeAccessHash, 'recordId' => $recordId]
             );
             $vars['links']['languages'] = $this->generateUrl(
                 'anycontent_record_edit_change_language',
-                array('contentTypeAccessHash' => $contentTypeAccessHash, 'recordId' => $recordId)
+                ['contentTypeAccessHash' => $contentTypeAccessHash, 'recordId' => $recordId]
             );
             $vars['links']['delete'] = $this->generateUrl(
                 'anycontent_record_delete',
-                array(
+                [
                     'contentTypeAccessHash' => $contentTypeAccessHash,
                     'recordId' => $recordId,
                     'workspace' => $this->contextManager->getCurrentWorkspace(),
                     'language' => $this->contextManager->getCurrentLanguage(),
-                )
+                ]
             );
             //            if ($user->canDo('add', $repository, $contentTypeDefinition)) {
             $vars['links']['transfer'] = $this->generateUrl(
                 'anycontent_record_transfer_modal',
-                array(
+                [
                     'contentTypeAccessHash' => $contentTypeAccessHash,
                     'recordId' => $recordId,
                     'workspace' => $this->contextManager->getCurrentWorkspace(),
                     'language' => $this->contextManager->getCurrentLanguage(),
-                )
+                ]
             );
         }
 
@@ -406,7 +406,7 @@ class RecordsController extends AbstractAnyContentBackendController
                 }
 
                 if ($save) { // check for unique properties
-                    $properties = array();
+                    $properties = [];
                     /**
                      * @var $formElementDefinitions FormElementDefinition[]
                      */
@@ -443,11 +443,11 @@ class RecordsController extends AbstractAnyContentBackendController
                             ',',
                             array_values($properties)
                         ) . '</em> must be unique for all records of this content type.';
-                        $response = array(
+                        $response = [
                             'success' => false,
                             'message' => $message,
                             'properties' => array_keys($properties),
-                        );
+                        ];
 
                         return new JsonResponse($response);
                     }
@@ -489,12 +489,12 @@ class RecordsController extends AbstractAnyContentBackendController
                     if ($recordId) {
                         $this->contextManager->addSuccessMessage('Record saved.');
                     } else {
-                        $response = array(
+                        $response = [
                             'success' => false,
                             'error' => true,
                             'message' => 'Could not save record. Please check your input.',
-                            'properties' => array(''),
-                        );
+                            'properties' => [''],
+                        ];
 
                         return new JsonResponse($response);
                     }
@@ -514,9 +514,9 @@ class RecordsController extends AbstractAnyContentBackendController
                 if ($insert) {
                     $url = $this->generateUrl(
                         'anycontent_record_add',
-                        array('contentTypeAccessHash' => $contentTypeAccessHash)
+                        ['contentTypeAccessHash' => $contentTypeAccessHash]
                     );
-                    $response = array('success' => true, 'redirect' => $url);
+                    $response = ['success' => true, 'redirect' => $url];
 
                     return new JsonResponse($response);
                 }
@@ -524,31 +524,31 @@ class RecordsController extends AbstractAnyContentBackendController
                 if ($list) {
                     $url = $this->generateUrl(
                         'anycontent_records',
-                        array(
+                        [
                             'contentTypeAccessHash' => $contentTypeAccessHash,
                             'page' => $this->contextManager->getCurrentListingPage(),
-                        )
+                        ]
                     );
-                    $response = array('success' => true, 'redirect' => $url);
+                    $response = ['success' => true, 'redirect' => $url];
 
                     return new JsonResponse($response);
                 }
 
                 $url = $this->generateUrl(
                     'anycontent_record_edit',
-                    array('contentTypeAccessHash' => $contentTypeAccessHash, 'recordId' => $recordId, 'workspace' => $this->contextManager->getCurrentWorkspace(), 'language' => $this->contextManager->getCurrentLanguage())
+                    ['contentTypeAccessHash' => $contentTypeAccessHash, 'recordId' => $recordId, 'workspace' => $this->contextManager->getCurrentWorkspace(), 'language' => $this->contextManager->getCurrentLanguage()]
                 );
-                $response = array('success' => true, 'redirect' => $url);
+                $response = ['success' => true, 'redirect' => $url];
 
                 return new JsonResponse($response);
             } else {
-                $response = array('success' => false, 'message' => 'Record not found.');
+                $response = ['success' => false, 'message' => 'Record not found.'];
 
                 return new JsonResponse($response);
             }
         }
 
-        $response = array('success' => false, 'message' => '403 Forbidden');
+        $response = ['success' => false, 'message' => '403 Forbidden'];
 
         return new JsonResponse($response);
     }
@@ -574,10 +574,10 @@ class RecordsController extends AbstractAnyContentBackendController
             return new RedirectResponse(
                 $this->generateUrl(
                     'anycontent_records',
-                    array(
+                    [
                         'contentTypeAccessHash' => $contentTypeAccessHash,
                         'page' => $this->contextManager->getCurrentListingPage(),
-                    )
+                    ]
                 ),
                 303
             );
@@ -593,7 +593,7 @@ class RecordsController extends AbstractAnyContentBackendController
     ) {
         $repository = $this->updateContext($contentTypeAccessHash, $workspace, $language);
 
-        $vars = array();
+        $vars = [];
         $vars['record'] = false;
 
         $recordId = (int)$recordId;
@@ -608,7 +608,7 @@ class RecordsController extends AbstractAnyContentBackendController
 
             $vars['definition'] = $contentTypeDefinition;
 
-            $records = array();
+            $records = [];
 
             $repository->setTimeShift(0);
 
@@ -619,12 +619,12 @@ class RecordsController extends AbstractAnyContentBackendController
 
             $vars['links']['transfer'] = $this->generateUrl(
                 'anycontent_record_transfer',
-                array(
+                [
                     'contentTypeAccessHash' => $contentTypeAccessHash,
                     'recordId' => $recordId,
                     "workspace" => $this->contextManager->getCurrentWorkspace(),
                     "language" => $this->contextManager->getCurrentLanguage(),
-                )
+                ]
             );
         }
 
@@ -675,9 +675,9 @@ class RecordsController extends AbstractAnyContentBackendController
             return new RedirectResponse(
                 $this->generateUrl(
                     'anycontent_record_edit',
-                    array('contentTypeAccessHash' => $contentTypeAccessHash, 'recordId' => $recordId,
+                    ['contentTypeAccessHash' => $contentTypeAccessHash, 'recordId' => $recordId,
                         'workspace' => $this->contextManager->getCurrentWorkspace(),
-                        'language' => $this->contextManager->getCurrentLanguage())
+                        'language' => $this->contextManager->getCurrentLanguage()]
                 ),
                 303
             );
@@ -688,10 +688,10 @@ class RecordsController extends AbstractAnyContentBackendController
         return new RedirectResponse(
             $this->generateUrl(
                 'anycontent_records',
-                array(
+                [
                     'contentTypeAccessHash' => $contentTypeAccessHash,
                     'page' => $this->contextManager->getCurrentListingPage(),
-                )
+                ]
             ),
             303
         );

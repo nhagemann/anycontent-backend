@@ -30,7 +30,7 @@ class ChangeLanguageController extends AbstractAnyContentBackendController
     {
         $this->contextManager->setCurrentLanguage($request->get('language'));
 
-        return $this->redirect($this->generateUrl('anycontent_records', array('contentTypeAccessHash' => $contentTypeAccessHash, 'page' => $page)), 303);
+        return $this->redirect($this->generateUrl('anycontent_records', ['contentTypeAccessHash' => $contentTypeAccessHash, 'page' => $page]), 303);
     }
 
     #[Route('/change-language/edit-record/{contentTypeAccessHash}/{recordId}', 'anycontent_record_edit_change_language', methods: ['POST'])]
@@ -38,7 +38,7 @@ class ChangeLanguageController extends AbstractAnyContentBackendController
     {
         $this->contextManager->setCurrentLanguage($request->get('language'));
 
-        return $this->redirect($this->generateUrl('anycontent_record_edit', array('contentTypeAccessHash' => $contentTypeAccessHash, 'recordId' => $recordId, '')), 303);
+        return $this->redirect($this->generateUrl('anycontent_record_edit', ['contentTypeAccessHash' => $contentTypeAccessHash, 'recordId' => $recordId, '']), 303);
     }
 
     #[Route('/change-language/add-record/{contentTypeAccessHash}', 'anycontent_record_add_change_language', methods: ['POST'])]
@@ -46,7 +46,7 @@ class ChangeLanguageController extends AbstractAnyContentBackendController
     {
         $this->contextManager->setCurrentLanguage($request->get('language'));
 
-        return $this->redirect($this->generateUrl('anycontent_record_add', array('contentTypeAccessHash' => $contentTypeAccessHash)), 303);
+        return $this->redirect($this->generateUrl('anycontent_record_add', ['contentTypeAccessHash' => $contentTypeAccessHash]), 303);
     }
 
     public static function changeLanguageSortRecords(Application $app, Request $request, $contentTypeAccessHash)
@@ -54,7 +54,7 @@ class ChangeLanguageController extends AbstractAnyContentBackendController
         $app['context']->setCurrentLanguage($request->get('language'));
         ;
 
-        return $app->redirect($app['url_generator']->generate('sortRecords', array('contentTypeAccessHash' => $contentTypeAccessHash)), 303);
+        return $app->redirect($app['url_generator']->generate('sortRecords', ['contentTypeAccessHash' => $contentTypeAccessHash]), 303);
     }
 
     public static function changeLanguageEditConfig(Application $app, Request $request, $configTypeAccessHash)
@@ -62,6 +62,6 @@ class ChangeLanguageController extends AbstractAnyContentBackendController
         $app['context']->setCurrentLanguage($request->get('language'));
         ;
 
-        return $app->redirect($app['url_generator']->generate('editConfig', array('configTypeAccessHash' => $configTypeAccessHash)), 303);
+        return $app->redirect($app['url_generator']->generate('editConfig', ['configTypeAccessHash' => $configTypeAccessHash]), 303);
     }
 }

@@ -2,13 +2,13 @@
 
 namespace AnyContent\Backend\Modules\Listing\ContentViews;
 
-use AnyContent\Backend\Modules\Listing\ContentViews\Default\AttributeColumn;
-use AnyContent\Backend\Modules\Listing\ContentViews\Default\ButtonColumn;
-use AnyContent\Backend\Modules\Listing\ContentViews\Default\CellRenderer;
-use AnyContent\Backend\Modules\Listing\ContentViews\Default\FilterUtil;
-use AnyContent\Backend\Modules\Listing\ContentViews\Default\PropertyColumn;
-use AnyContent\Backend\Modules\Listing\ContentViews\Default\StatusColumn;
-use AnyContent\Backend\Modules\Listing\ContentViews\Default\SubtypeColumn;
+use AnyContent\Backend\Modules\Listing\ContentViews\DefaultTable\AttributeColumn;
+use AnyContent\Backend\Modules\Listing\ContentViews\DefaultTable\ButtonColumn;
+use AnyContent\Backend\Modules\Listing\ContentViews\DefaultTable\CellRenderer;
+use AnyContent\Backend\Modules\Listing\ContentViews\DefaultTable\FilterUtil;
+use AnyContent\Backend\Modules\Listing\ContentViews\DefaultTable\PropertyColumn;
+use AnyContent\Backend\Modules\Listing\ContentViews\DefaultTable\StatusColumn;
+use AnyContent\Backend\Modules\Listing\ContentViews\DefaultTable\SubtypeColumn;
 use AnyContent\Backend\Modules\Listing\PagingHelper;
 use AnyContent\Backend\Services\ContextManager;
 use CMDL\CMDLParserException;
@@ -78,7 +78,7 @@ class DefaultContentView //extends AbstractContentView
 
             $vars['pager'] = $this->pagingHelper->renderPager($count, $this->contextManager
                 ->getCurrentItemsPerPage(), $this->contextManager
-                ->getCurrentListingPage(), 'anycontent_records', array('contentTypeAccessHash' => $this->contextManager->getCurrentContentTypeAccessHash()));
+                ->getCurrentListingPage(), 'anycontent_records', ['contentTypeAccessHash' => $this->contextManager->getCurrentContentTypeAccessHash()]);
         }
 
         $vars['class'] = 'row contenttype-' . strtolower($this->contextManager->getCurrentContentType()->getName());

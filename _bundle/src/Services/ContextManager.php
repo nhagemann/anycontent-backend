@@ -37,19 +37,19 @@ class ContextManager
         $this->session = $requestStack->getSession();
 
         if (!$this->session->has($this->prefix . 'messages')) {
-            $this->session->set($this->prefix . 'messages', array('success' => array(), 'info' => array(), 'alert' => array(), 'error' => array()));
+            $this->session->set($this->prefix . 'messages', ['success' => [], 'info' => [], 'alert' => [], 'error' => []]);
         }
         if (!$this->session->has($this->prefix . 'sorting')) {
-            $this->session->set($this->prefix . 'sorting', array());
+            $this->session->set($this->prefix . 'sorting', []);
         }
         if (!$this->session->has($this->prefix . 'searchterms')) {
-            $this->session->set($this->prefix . 'searchterms', array());
+            $this->session->set($this->prefix . 'searchterms', []);
         }
         if (!$this->session->has($this->prefix . 'contentviews')) {
-            $this->session->set($this->prefix . 'contentviews', array());
+            $this->session->set($this->prefix . 'contentviews', []);
         }
         if (!$this->session->has($this->prefix . 'listing_page')) {
-            $this->session->set($this->prefix . 'listing_page', array());
+            $this->session->set($this->prefix . 'listing_page', []);
         }
         if (!$this->session->has($this->prefix . 'timeshift')) {
             $this->session->set($this->prefix . 'timeshift', 0);
@@ -99,8 +99,8 @@ class ContextManager
         $workspaces = $dataTypeDefinition->getWorkspaces();
 
         if (!array_key_exists($this->getCurrentWorkspace(), $workspaces)) {
-            reset($workspaces);
-            list($key, $workspace) = each($workspaces);
+            $workspace = reset($workspaces);
+            $key = key($workspaces);
 
             $this->setCurrentWorkspace($key);
             $this->addInfoMessage('Switching to workspace ' . $workspace . ' (' . $key . ') for content type ' . $contentType . '.');
@@ -109,12 +109,12 @@ class ContextManager
         if ($dataTypeDefinition->hasLanguages()) {
             $languages = $dataTypeDefinition->getLanguages();
         } else {
-            $languages = array('default' => 'None');
+            $languages = ['default' => 'None'];
         }
 
         if (!array_key_exists($this->getCurrentLanguage(), $languages)) {
-            reset($languages);
-            list($key, $language) = each($languages);
+            $language = reset($languages);
+            $key = key($languages);
 
             $this->setCurrentLanguage($key);
             $this->addInfoMessage('Switching to language ' . $language . ' (' . $key . ') for content type ' . $contentType . '.');
@@ -277,10 +277,10 @@ class ContextManager
     public function getCurrentSaveOperation()
     {
         if ($this->session->has($this->prefix . 'save_operation')) {
-            return array($this->session->get($this->prefix . 'save_operation') => $this->session->get($this->prefix . 'save_operation_title'));
+            return [$this->session->get($this->prefix . 'save_operation') => $this->session->get($this->prefix . 'save_operation_title')];
         }
 
-        return array('save' => 'Save');
+        return ['save' => 'Save'];
     }
 
     public function setCurrentSaveOperation($operation, $title)

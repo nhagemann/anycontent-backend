@@ -1,6 +1,6 @@
 <?php
 
-namespace AnyContent\Backend\Modules\Listing\ContentViews\Default;
+namespace AnyContent\Backend\Modules\Listing\ContentViews\DefaultTable;
 
 use AnyContent\Backend\Services\ContextManager;
 use AnyContent\Client\Record;
@@ -40,7 +40,7 @@ class CellRenderer
     {
         $template = '@AnyContentBackend/Listing/listing-cell.html.twig';
 
-        $vars                 = array();
+        $vars                 = [];
         $vars['value']        = $column->getValue($record);
         $vars['link']         = false;
         $vars['badge']        = $column->isBadge();
@@ -116,23 +116,23 @@ class CellRenderer
 
     protected function getEditLink(Record $record)
     {
-        return $this->getUrlGenerator()->generate('anycontent_record_edit', array( 'contentTypeAccessHash' => $this->contextManager
+        return $this->getUrlGenerator()->generate('anycontent_record_edit', [ 'contentTypeAccessHash' => $this->contextManager
                                                                                                        ->getCurrentContentTypeAccessHash(),
                                                                        'recordId' => $record->getID(), 'workspace' => $this->contextManager
                                                                                                                            ->getCurrentWorkspace(), 'language' => $this->contextManager
                                                                                                                                                                        ->getCurrentLanguage(),
-        ));
+        ]);
     }
 
     protected function getDeleteLink(Record $record)
     {
         return $this->getUrlGenerator()->generate(
             'anycontent_record_delete',
-            array( 'contentTypeAccessHash' => $this->contextManager
+            [ 'contentTypeAccessHash' => $this->contextManager
                                                                                          ->getCurrentContentTypeAccessHash(), 'recordId' => $record->getID(), 'workspace' => $this->contextManager
                                                                                                                                                                                   ->getCurrentWorkspace(), 'language' => $this->contextManager
                                                                                                                                                                                                                               ->getCurrentLanguage(),
-            )
+            ]
         );
     }
 }

@@ -8,7 +8,7 @@ use Twig\Environment;
 
 class FormElementDefault implements FormElementInterface
 {
-    protected array $vars = array();
+    protected array $vars = [];
 
     protected bool $isFirstElement = false;
 
@@ -17,7 +17,7 @@ class FormElementDefault implements FormElementInterface
         protected string $name,
         protected FormElementDefinition $definition,
         protected ?string $value = '',
-        protected array $options = array()
+        protected array $options = []
     ) {
         $this->vars['id']         = $this->id;
         $this->vars['name']       = $this->name;

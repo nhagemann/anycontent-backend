@@ -67,18 +67,25 @@ abstract class AbstractAnyContentBackendController extends AbstractController
 
     protected function getButtons($contentTypeAccessHash, \CMDL\ContentTypeDefinition $contentTypeDefinition): array
     {
-        $buttons = array();
-        $buttons[100] = array('label' => 'List Records', 'url' => $this->generateUrl('anycontent_records', array('contentTypeAccessHash' => $contentTypeAccessHash, 'workspace' => $this->contextManager->getCurrentWorkspace(), 'language' => $this->contextManager->getCurrentLanguage(), 'q' => '')), 'glyphicon' => 'glyphicon-list');
+        $buttons = [];
+        $buttons[100] = [
+            'label' => 'List Records',
+            'url' => $this->generateUrl('anycontent_records', ['contentTypeAccessHash' => $contentTypeAccessHash, 'workspace' => $this->contextManager->getCurrentWorkspace(), 'language' => $this->contextManager->getCurrentLanguage(), 'q' => '']),
+            'glyphicon' => 'glyphicon-list'];
 
         if ($contentTypeDefinition->isSortable()) {
-            $buttons[200] = array('label' => 'Sort Records', 'url' => $this->generateUrl('anycontent_records_sort', array('contentTypeAccessHash' => $contentTypeAccessHash, 'workspace' => $this->contextManager->getCurrentWorkspace(), 'language' => $this->contextManager->getCurrentLanguage())), 'glyphicon' => 'glyphicon-move');
+            $buttons[200] = ['label' => 'Sort Records',
+                'url' => $this->generateUrl('anycontent_records_sort', ['contentTypeAccessHash' => $contentTypeAccessHash, 'workspace' => $this->contextManager->getCurrentWorkspace(), 'language' => $this->contextManager->getCurrentLanguage()]),
+                'glyphicon' => 'glyphicon-move'];
         }
 
-        $buttons[300] = array('label' => 'Add Record', 'url' => $this->generateUrl('anycontent_record_add', array('contentTypeAccessHash' => $contentTypeAccessHash, 'workspace' => $this->contextManager->getCurrentWorkspace(), 'language' => $this->contextManager->getCurrentLanguage())), 'glyphicon' => 'glyphicon-plus');
+        $buttons[300] = ['label' => 'Add Record',
+            'url' => $this->generateUrl('anycontent_record_add', ['contentTypeAccessHash' => $contentTypeAccessHash, 'workspace' => $this->contextManager->getCurrentWorkspace(), 'language' => $this->contextManager->getCurrentLanguage()]),
+            'glyphicon' => 'glyphicon-plus'];
 
-        $buttons[400] = array('label' => 'Export Records', 'url' => $this->generateUrl('anycontent_records_import', array('contentTypeAccessHash' => $contentTypeAccessHash)), 'glyphicon' => 'glyphicon-cloud-download', 'id' => 'listing_button_export');
+        $buttons[400] = ['label' => 'Export Records', 'url' => $this->generateUrl('anycontent_records_import', ['contentTypeAccessHash' => $contentTypeAccessHash]), 'glyphicon' => 'glyphicon-cloud-download', 'id' => 'listing_button_export'];
 
-        $buttons[500] = array('label' => 'Import Records', 'url' => $this->generateUrl('anycontent_records_export', array('contentTypeAccessHash' => $contentTypeAccessHash)), 'glyphicon' => 'glyphicon-cloud-upload', 'id' => 'listing_button_import');
+        $buttons[500] = ['label' => 'Import Records', 'url' => $this->generateUrl('anycontent_records_export', ['contentTypeAccessHash' => $contentTypeAccessHash]), 'glyphicon' => 'glyphicon-cloud-upload', 'id' => 'listing_button_import'];
         return $buttons;
     }
 }

@@ -31,7 +31,7 @@ class ListingController extends AbstractAnyContentBackendController
     #[Route('/content/list/{contentTypeAccessHash}/{nr}/{page}/{workspace}/{language}', 'anycontent_records', methods: ['GET'])]
     public function listRecords(#[CurrentUser] ?UserInterface $user, Request $request, ContentViewsManager $contentViewsManager, $contentTypeAccessHash, $page = 1, $workspace = null, $language = null, $nr = 0)
     {
-        $vars = array();
+        $vars = [];
 
         $vars['menu_mainmenu'] = $this->menuManager->renderMainMenu();
 
@@ -40,8 +40,8 @@ class ListingController extends AbstractAnyContentBackendController
 
         $vars['repository']          = $repository;
         $repositoryAccessHash        = $this->repositoryManager->getRepositoryAccessHash($repository);
-        $vars['links']['repository'] = $this->generateUrl('anycontent_repository', array('repositoryAccessHash' => $repositoryAccessHash));
-        $vars['links']['self']       = $this->generateUrl('anycontent_records', array('contentTypeAccessHash' => $contentTypeAccessHash));
+        $vars['links']['repository'] = $this->generateUrl('anycontent_repository', ['repositoryAccessHash' => $repositoryAccessHash]);
+        $vars['links']['self']       = $this->generateUrl('anycontent_records', ['contentTypeAccessHash' => $contentTypeAccessHash]);
 
         $contentTypeDefinition = $repository->getContentTypeDefinition();
 
@@ -71,7 +71,7 @@ class ListingController extends AbstractAnyContentBackendController
                 if ($repository->getRecord($recordId)) {
                     $this->contextManager->setCurrentSearchTerm('');
 
-                    return new RedirectResponse($this->generateUrl('anycontent_record_edit', array('contentTypeAccessHash' => $contentTypeAccessHash, 'recordId' => $recordId, 'workspace' => $this->contextManager->getCurrentWorkspace(), 'language' => $this->contextManager->getCurrentLanguage())), 303);
+                    return new RedirectResponse($this->generateUrl('anycontent_record_edit', ['contentTypeAccessHash' => $contentTypeAccessHash, 'recordId' => $recordId, 'workspace' => $this->contextManager->getCurrentWorkspace(), 'language' => $this->contextManager->getCurrentLanguage()]), 303);
                 }
             }
 
@@ -132,14 +132,14 @@ class ListingController extends AbstractAnyContentBackendController
 
         // sorting links
 
-        $vars['links']['search']         = $this->generateUrl('anycontent_records', array('contentTypeAccessHash' => $contentTypeAccessHash, 'page' => 1, 's' => 'name', 'workspace' => $this->contextManager->getCurrentWorkspace(), 'language' => $this->contextManager->getCurrentLanguage()));
-        $vars['links']['closeSearchBox'] = $this->generateUrl('anycontent_records', array('contentTypeAccessHash' => $contentTypeAccessHash, 'page' => 1, 'q' => ''));
+        $vars['links']['search']         = $this->generateUrl('anycontent_records', ['contentTypeAccessHash' => $contentTypeAccessHash, 'page' => 1, 's' => 'name', 'workspace' => $this->contextManager->getCurrentWorkspace(), 'language' => $this->contextManager->getCurrentLanguage()]);
+        $vars['links']['closeSearchBox'] = $this->generateUrl('anycontent_records', ['contentTypeAccessHash' => $contentTypeAccessHash, 'page' => 1, 'q' => '']);
 
         // context links
         $vars['links']['timeshift']  = '';//$this->generateUrl('timeShiftListRecords', array( 'contentTypeAccessHash' => $contentTypeAccessHash, 'page' => $page ));
-        $vars['links']['workspaces'] = $this->generateUrl('anycontent_records_change_workspace', array('contentTypeAccessHash' => $contentTypeAccessHash, 'page' => $page));
-        $vars['links']['languages'] = $this->generateUrl('anycontent_records_change_language', array('contentTypeAccessHash' => $contentTypeAccessHash, 'page' => $page));
-        $vars['links']['reset']      = $this->generateUrl('anycontent_records', array('contentTypeAccessHash' => $contentTypeAccessHash, 'page' => 1, 'q' => ''));
+        $vars['links']['workspaces'] = $this->generateUrl('anycontent_records_change_workspace', ['contentTypeAccessHash' => $contentTypeAccessHash, 'page' => $page]);
+        $vars['links']['languages'] = $this->generateUrl('anycontent_records_change_language', ['contentTypeAccessHash' => $contentTypeAccessHash, 'page' => $page]);
+        $vars['links']['reset']      = $this->generateUrl('anycontent_records', ['contentTypeAccessHash' => $contentTypeAccessHash, 'page' => 1, 'q' => '']);
 
         $buttons = $this->getButtons($contentTypeAccessHash, $contentTypeDefinition);
         $vars['buttons'] = $this->menuManager->renderButtonGroup($buttons);

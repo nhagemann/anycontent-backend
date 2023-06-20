@@ -1,6 +1,6 @@
 <?php
 
-namespace AnyContent\Backend\Modules\Listing\ContentViews\Default;
+namespace AnyContent\Backend\Modules\Listing\ContentViews\DefaultTable;
 
 use AnyContent\Client\Record;
 use CMDL\FormElementDefinition;

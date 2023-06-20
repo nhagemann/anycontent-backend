@@ -22,21 +22,21 @@ class PagingHelper
             return '';
         }
 
-        $items = array();
+        $items = [];
 
         $start = max(1, $currentPage - $addLeft);
         $stop  = min($currentPage + $addRight, $maxPages);
 
         $parameters[$pageParameter] = $currentPage - 1;
         $url                        = $this->urlGenerator->generate($routeName, $parameters);
-        $prev                       = array('url' => $url, 'disabled' => false);
+        $prev                       = ['url' => $url, 'disabled' => false];
         if ($currentPage == 1) {
             $prev['disabled'] = true;
         }
 
         $parameters[$pageParameter] = $currentPage + 1;
         $url                        = $this->urlGenerator->generate($routeName, $parameters);
-        $next                       = array('url' => $url, 'disabled' => false);
+        $next                       = ['url' => $url, 'disabled' => false];
         if ($currentPage == $maxPages) {
             $next['disabled'] = true;
         }
@@ -44,7 +44,7 @@ class PagingHelper
         if ($start > 1) {
             $parameters[$pageParameter] = 1;
             $url                        = $this->urlGenerator->generate($routeName, $parameters);
-            $items[]                    = array('label' => '&laquo;', 'active' => false, 'url' => $url);
+            $items[]                    = ['label' => '&laquo;', 'active' => false, 'url' => $url];
         }
 
         for ($i = $start; $i <= $stop; $i++) {
@@ -54,15 +54,15 @@ class PagingHelper
             }
             $parameters[$pageParameter] = $i;
             $url                        = $this->urlGenerator->generate($routeName, $parameters);
-            $items[]                    = array('label' => $i, 'active' => $active, 'url' => $url);
+            $items[]                    = ['label' => $i, 'active' => $active, 'url' => $url];
         }
 
         if ($stop < $maxPages) {
             $parameters[$pageParameter] = $maxPages;
             $url                        = $this->urlGenerator->generate($routeName, $parameters);
-            $items[]                    = array('label' => '&raquo;', 'active' => false, 'url' => $url);
+            $items[]                    = ['label' => '&raquo;', 'active' => false, 'url' => $url];
         }
 
-        return $this->twig->render('@AnyContentBackend/Listing/pager.html.twig', array('items' => $items, 'prev' => $prev, 'next' => $next));
+        return $this->twig->render('@AnyContentBackend/Listing/pager.html.twig', ['items' => $items, 'prev' => $prev, 'next' => $next]);
     }
 }

@@ -110,17 +110,17 @@ class RepositoryManager
 
     public function listRepositories()
     {
-        $repositories = array();
+        $repositories = [];
         foreach ($this->repositories as $repository) {
             $title = $repository->getTitle();
             if ($title == '') {
                 $title = $repository->getName();
             }
 
-            $repositories[$repository->getName()] = array(
+            $repositories[$repository->getName()] = [
                 'title'      => $title,
                 'accessHash' => $this->getRepositoryAccessHash($repository),
-            );
+            ];
         }
 
         return $repositories;
@@ -134,11 +134,11 @@ class RepositoryManager
             $repository = $this->repositories[$id];
 
             foreach ($repository->getContentTypeList() as $name => $title) {
-                $contentTypes[$name] = array(
+                $contentTypes[$name] = [
                     'name'       => $name,
                     'title'      => $title,
                     'accessHash' => $this->getContentTypeAccessHash($repository, $name),
-                );
+                ];
             }
         }
 
@@ -153,11 +153,11 @@ class RepositoryManager
             $repository = $this->repositories[$id];
 
             foreach ($repository->getConfigTypeList() as $name => $title) {
-                $configTypes[$name] = array(
+                $configTypes[$name] = [
                     'name'       => $name,
                     'title'      => $title,
                     'accessHash' => $this->getConfigTypeAccessHash($repository, $name),
-                );
+                ];
             }
         }
 

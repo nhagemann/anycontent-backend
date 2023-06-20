@@ -18,47 +18,47 @@ class MenuManager
 
     public function renderMainMenu()
     {
-        $items = array();
+        $items = [];
 
         foreach ($this->repositoryManager->listRepositories() as $repositoryName => $repositoryItem) {
-            $url = $this->urlGenerator->generate('anycontent_repository', array('repositoryAccessHash' => $repositoryItem['accessHash']));
-            $items[] = array('type' => 'header', 'text' => $repositoryItem['title'], 'url' => $url);
+            $url = $this->urlGenerator->generate('anycontent_repository', ['repositoryAccessHash' => $repositoryItem['accessHash']]);
+            $items[] = ['type' => 'header', 'text' => $repositoryItem['title'], 'url' => $url];
 
             foreach ($this->repositoryManager->listContentTypes($repositoryName) as $contentTypName => $contentTypeItem) {
-                $url = $this->urlGenerator->generate('anycontent_records', array('contentTypeAccessHash' => $contentTypeItem['accessHash'], 'page' => 1));
-                $items[] = array('type' => 'link', 'text' => $contentTypeItem['title'], 'url' => $url, 'glyphicon' => 'glyphicon-file');
+                $url = $this->urlGenerator->generate('anycontent_records', ['contentTypeAccessHash' => $contentTypeItem['accessHash'], 'page' => 1]);
+                $items[] = ['type' => 'link', 'text' => $contentTypeItem['title'], 'url' => $url, 'glyphicon' => 'glyphicon-file'];
             }
             foreach ($this->repositoryManager->listConfigTypes($repositoryName) as $configTypeName => $configTypeItem) {
-                $url = $this->urlGenerator->generate('anycontent_config', array('configTypeAccessHash' => $configTypeItem['accessHash']));
-                $items[] = array('type' => 'link', 'text' => $configTypeItem['title'], 'url' => $url, 'glyphicon' => 'glyphicon-wrench');
+                $url = $this->urlGenerator->generate('anycontent_config', ['configTypeAccessHash' => $configTypeItem['accessHash']]);
+                $items[] = ['type' => 'link', 'text' => $configTypeItem['title'], 'url' => $url, 'glyphicon' => 'glyphicon-wrench'];
             }
             if ($this->repositoryManager->hasFiles($repositoryName)) {
-                $url = $this->urlGenerator->generate('anycontent_files', array('repositoryAccessHash' => $repositoryItem['accessHash'], 'path' => ''));
-                $items[] = array('type' => 'link', 'text' => 'Files', 'url' => $url, 'glyphicon' => 'glyphicon-folder-open');
+                $url = $this->urlGenerator->generate('anycontent_files', ['repositoryAccessHash' => $repositoryItem['accessHash'], 'path' => '']);
+                $items[] = ['type' => 'link', 'text' => 'Files', 'url' => $url, 'glyphicon' => 'glyphicon-folder-open'];
             }
 
-            $items[] = array('type' => 'divider');
+            $items[] = ['type' => 'divider'];
         }
 
         if ($this->authorizationChecker->isGranted('ROLE_ANYCONTENT_ADMIN')) {
             $url = $this->urlGenerator->generate('anycontent_admin');
-            $items[] = array('type' => 'link', 'text' => 'Admin', 'url' => $url, 'glyphicon' => 'glyphicon-cog');
+            $items[] = ['type' => 'link', 'text' => 'Admin', 'url' => $url, 'glyphicon' => 'glyphicon-cog'];
         }
 
         $url = $this->urlGenerator->generate('anycontent_help');
-        $items[] = array('type' => 'link', 'text' => 'Help', 'url' => $url, 'glyphicon' => 'glyphicon-book');
+        $items[] = ['type' => 'link', 'text' => 'Help', 'url' => $url, 'glyphicon' => 'glyphicon-book'];
 
-        $items[] = array('type' => 'divider');
+        $items[] = ['type' => 'divider'];
 
         $url = $this->urlGenerator->generate('anycontent_logout');
-        $items[] = array('type' => 'link', 'text' => 'Logout', 'url' => $url, 'glyphicon' => 'glyphicon-user');
+        $items[] = ['type' => 'link', 'text' => 'Logout', 'url' => $url, 'glyphicon' => 'glyphicon-user'];
 
         return $this->renderDropDown($items, 'mainmenu');
     }
 
     public function renderDropDown($items, $id = null)
     {
-        $vars = array('items' => $items, 'id' => $id);
+        $vars = ['items' => $items, 'id' => $id];
 
 //        $event = new MenuMainMenuRenderEvent($this->app, 'core_menu_dropdown.twig', $vars);
 //
@@ -83,6 +83,6 @@ class MenuManager
 //
 //        $buttons = $event->getButtons();
 
-        return $this->twig->render('@AnyContentBackend\Menu\core_menu_buttongroup.twig', array('buttons' => $buttons));
+        return $this->twig->render('@AnyContentBackend\Menu\core_menu_buttongroup.twig', ['buttons' => $buttons]);
     }
 }

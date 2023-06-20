@@ -11,9 +11,9 @@ class FormManager
     protected $layout;
     protected $url_generator;
 
-    protected $formElements = array();
+    protected $formElements = [];
 
-    protected $formVars = array();
+    protected $formVars = [];
 
     protected $buffering = false;
 
@@ -29,17 +29,17 @@ class FormManager
         $formElementsAdder->setupFormElements($this);
     }
 
-    public function registerFormElement($type, $class, $options = array())
+    public function registerFormElement($type, $class, $options = [])
     {
-        $this->formElements[$type] = array('class' => $class, 'options' => $options);
+        $this->formElements[$type] = ['class' => $class, 'options' => $options];
     }
 
-    public function registerCustomFormElement($type, $class, $options = array())
+    public function registerCustomFormElement($type, $class, $options = [])
     {
-        $this->formElements['custom'][$type] = array('class' => $class, 'options' => $options);
+        $this->formElements['custom'][$type] = ['class' => $class, 'options' => $options];
     }
 
-    public function renderFormElements($formId, $formElementsDefinition, $values = array(), $attributes = array(), $prefix = '')
+    public function renderFormElements($formId, $formElementsDefinition, $values = [], $attributes = [], $prefix = '')
     {
         $this->clearFormVars();
 
@@ -116,16 +116,16 @@ class FormManager
             $options = $this->formElements['default']['options'];
         }
 
-        return array('class' => $class, 'options' => $options);
+        return ['class' => $class, 'options' => $options];
     }
 
-    public function extractFormElementValuesFromPostRequest($request, $formElementsDefinition, $values = array(), $attributes = array())
+    public function extractFormElementValuesFromPostRequest($request, $formElementsDefinition, $values = [], $attributes = [])
     {
         // first check for insertions and add form elements of those
         $formElementsDefinition       = $this->getFormElementsEventuallyInsertedThroughInsertAnnotation($formElementsDefinition, $values, $attributes);
         $this->formElementsDefinition = $formElementsDefinition;
 
-        $values = array();
+        $values = [];
         /** @var FormElementDefinition $formElementDefinition */
         foreach ($formElementsDefinition as $formElementDefinition) {
             $name = $formElementDefinition->getName();
@@ -149,7 +149,7 @@ class FormManager
 
     public function getFormElementsEventuallyInsertedThroughInsertAnnotation($formElementsDefinition, $values, $attributes)
     {
-        $integratedFormElementsDefinition = array();
+        $integratedFormElementsDefinition = [];
         foreach ($formElementsDefinition as $formElementDefinition) {
             if ($formElementDefinition->getFormElementType() == 'insert' and array_key_exists('insert', $this->formElements)) {
                 $class       = $this->formElements['insert']['class'];
@@ -183,7 +183,7 @@ class FormManager
 
     protected function clearFormVars()
     {
-        $this->formVars = array();
+        $this->formVars = [];
     }
 
     public function setFormVar($key, $value)
