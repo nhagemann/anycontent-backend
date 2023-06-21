@@ -31,15 +31,14 @@ abstract class AbstractAnyContentBackendController extends AbstractController
         $workspaces = [];
         $workspaces['active'] = false;
 
-        /** @var ContentTypeDefinition $contentType */
         $contentTypeDefinition = $this->contextManager->getCurrentContentType();
 
         if ($contentTypeDefinition) {
+            $workspaces['current'] = $this->contextManager->getCurrentWorkspace();
+            $workspaces['currentName'] = $this->contextManager->getCurrentWorkspaceName();
             if (count($contentTypeDefinition->getWorkspaces()) > 1) {
                 $workspaces['list']   = $contentTypeDefinition->getWorkspaces();
                 $workspaces['active'] = true;
-                $workspaces['current'] = $this->contextManager->getCurrentWorkspace();
-                $workspaces['currentName'] = $this->contextManager->getCurrentWorkspaceName();
             }
         }
 
@@ -48,15 +47,14 @@ abstract class AbstractAnyContentBackendController extends AbstractController
         $languages = [];
         $languages['active'] = false;
 
-        /** @var ContentTypeDefinition $contentType */
         $contentTypeDefinition = $this->contextManager->getCurrentContentType();
 
         if ($contentTypeDefinition) {
+            $languages['current'] = $this->contextManager->getCurrentLanguage();
+            $languages['currentName'] = $this->contextManager->getCurrentLanguageName();
             if ($contentTypeDefinition->hasLanguages()) {
                 $languages['active'] = true;
                 $languages['list']   = $contentTypeDefinition->getLanguages();
-                $languages['current'] = $this->contextManager->getCurrentLanguage();
-                $languages['currentName'] = $this->contextManager->getCurrentLanguageName();
             }
         }
 
@@ -67,7 +65,7 @@ abstract class AbstractAnyContentBackendController extends AbstractController
         return parent::render($view, $parameters, $response);
     }
 
-    protected function getButtons($contentTypeAccessHash, \CMDL\ContentTypeDefinition $contentTypeDefinition): array
+    protected function getButtons($contentTypeAccessHash, ContentTypeDefinition $contentTypeDefinition): array
     {
         $buttons = [];
         $buttons[100] = [

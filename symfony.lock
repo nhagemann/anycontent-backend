@@ -35,7 +35,7 @@
             "migrations/.gitignore"
         ]
     },
-    "nhagemann/anycontent-backup": {
+    "nhagemann/anycontent-backend": {
         "version": "dev-main"
     },
     "phpunit/phpunit": {

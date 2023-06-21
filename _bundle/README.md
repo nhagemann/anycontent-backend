@@ -5,26 +5,25 @@ Make sure Composer is installed globally, as explained in the
 [installation chapter](https://getcomposer.org/doc/00-intro.md)
 of the Composer documentation.
 
-Applications that use Symfony Flex
-----------------------------------
-
-Open a command console, enter your project directory and execute:
-
-```console
-$ composer require <package-name>
-```
-
-Applications that don't use Symfony Flex
-----------------------------------------
 
 ### Step 1: Download the Bundle
 
-Open a command console, enter your project directory and execute the
-following command to download the latest stable version of this bundle:
+Require the package in the composer json:
 
-```console
-$ composer require <package-name>
+```json
+"nhagemann/anycontent-backend": "dev-main"
 ```
+
+Download the sourcecode and tell where to find it with:
+
+```json
+    "repositories": [
+        {"type": "path", "url":  "path/to/bundle"}
+    ]
+```
+
+Later on it will be a normal composer require
+
 
 ### Step 2: Enable the Bundle
 
@@ -40,9 +39,16 @@ return [
     AnyContent\Backend\AnyContentBackendBundle::class => ['all' => true],
 ];
 ```
-_This should have happened automatically._
+### Step 3: Install assets
 
-### Step 3: Configure the routes
+Install assets manually if necessary, another composer update should already do the trick. If a bundles/anycontentbackend folder appears in your public folder, you're good.
+
+```console
+    assets:install public
+```
+
+
+### Step 4: Configure the routes
 
 config/routes/anycontent.yaml
 
@@ -52,8 +58,9 @@ anycontent_backend:
     prefix: /anycontent
 ```
 
+You might need to clear the Symfony cache after that. Browse /anycontent to see a security warning, as you are not logged in.
 
-### Step 4: Configure Users
+### Step 5: Configure Users
 
 config/packages/security.yaml
 
@@ -70,16 +77,27 @@ config/packages/security.yaml
 
 ```yaml
     # form based login
-    anycontent:
-      pattern: ^/anycontent
-      lazy: false
-      provider: users_in_memory
-      form_login:
-        login_path: anycontent_login
-        check_path: anycontent_login
-      logout:
-        path: anycontent_logout
-        target: anycontent_start
+    firewalls:
+        anycontent:
+          pattern: ^/anycontent
+          lazy: false
+          provider: users_in_memory
+          form_login:
+            login_path: anycontent_login
+            check_path: anycontent_login
+          logout:
+            path: anycontent_logout
+            target: anycontent_start
 ```
 
+```yaml
+    # some in memory users
+    providers:
+        users_in_memory:
+                memory:
+                    users: # get new password hash via php -r "echo password_hash('****', PASSWORD_BCRYPT, ['cost' => 13]) . PHP_EOL;"
+                        nils: { password: '$2y$13$DSTS4mBmIIBzzgi/tXB0mOrNy4vX/k6hcCl2oLijJaM24tEkzMose', roles: [ 'ROLE_ANYCONTENT' ] }
+                        tim: { password: '$2y$13$DSTS4mBmIIBzzgi/tXB0mOrNy4vX/k6hcCl2oLijJaM24tEkzMose', roles: [ 'ROLE_ANYCONTENT' ] }
+```
 
+### Step 6: Configure Repositories

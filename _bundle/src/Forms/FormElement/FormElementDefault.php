@@ -14,7 +14,7 @@ class FormElementDefault implements FormElementInterface
 
     public function __construct(
         protected ?string $id,
-        protected string $name,
+        protected ?string $name,
         protected FormElementDefinition $definition,
         protected ?string $value = '',
         protected array $options = []
