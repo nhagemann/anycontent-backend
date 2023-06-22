@@ -1,13 +1,13 @@
 {
-    "id": 1,
+    "id": 14,
     "properties": {
-        "name": "Mali Reilly Ltd Airline",
-        "captain": "Kylee Krajcik",
-        "numberofplanes": "237",
-        "foundationyear": "1969"
+        "name": "xxx",
+        "captain": "Rodrigo Keebler",
+        "numberofplanes": "27",
+        "foundationyear": "2019"
     },
     "info": {
-        "revision": 1,
+        "revision": 6,
         "creation": {
             "timestamp": null,
             "username": "",
@@ -15,7 +15,7 @@
             "lastname": ""
         },
         "lastchange": {
-            "timestamp": 1674917487,
+            "timestamp": 1687273583,
             "username": "",
             "firstname": "",
             "lastname": ""

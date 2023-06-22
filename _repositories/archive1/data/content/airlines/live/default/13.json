@@ -1,13 +1,13 @@
 {
-    "id": 2,
+    "id": 13,
     "properties": {
-        "name": "Bahamas Breitenberg LLC Airline",
-        "captain": "Mohammed Volkman",
-        "numberofplanes": "137",
-        "foundationyear": "1996"
+        "name": "Duplicate from 6 - Faroe Islands Rath Ltd Airline",
+        "captain": "Rodrigo Keebler",
+        "numberofplanes": "27",
+        "foundationyear": "2019"
     },
     "info": {
-        "revision": 1,
+        "revision": 6,
         "creation": {
             "timestamp": null,
             "username": "",
@@ -15,7 +15,7 @@
             "lastname": ""
         },
         "lastchange": {
-            "timestamp": 1674917487,
+            "timestamp": 1687199476,
             "username": "",
             "firstname": "",
             "lastname": ""

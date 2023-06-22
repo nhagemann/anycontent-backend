@@ -1,13 +1,15 @@
 {
-    "id": 5,
+    "id": 14,
     "properties": {
-        "name": "Malaysia Bode and Sons Airline",
-        "captain": "Remington Gerlach",
-        "numberofplanes": "105",
-        "foundationyear": "1933"
+        "name": "Duplicate from 13 - Duplicate from 6 - Faroe Islands Rath Ltd Airline",
+        "captain": "Rodrigo Keebler",
+        "numberofplanes": "27",
+        "foundationyear": "2019",
+        "parent": "",
+        "position": ""
     },
     "info": {
-        "revision": 1,
+        "revision": 14,
         "creation": {
             "timestamp": null,
             "username": "",
@@ -15,7 +17,7 @@
             "lastname": ""
         },
         "lastchange": {
-            "timestamp": 1674917487,
+            "timestamp": 1687435030,
             "username": "",
             "firstname": "",
             "lastname": ""

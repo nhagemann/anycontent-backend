@@ -1,21 +1,21 @@
 {
-    "id": 3,
+    "id": 19,
     "properties": {
-        "name": "Poland Treutel Group Airline",
-        "captain": "Merl Moen",
-        "numberofplanes": "10",
-        "foundationyear": "1967"
+        "name": "teesdf",
+        "foundationyear": "",
+        "numberofplanes": "",
+        "captain": ""
     },
     "info": {
-        "revision": 1,
+        "revision": 2,
         "creation": {
-            "timestamp": null,
+            "timestamp": 1687273664,
             "username": "",
             "firstname": "",
             "lastname": ""
         },
         "lastchange": {
-            "timestamp": 1674917487,
+            "timestamp": 1687273672,
             "username": "",
             "firstname": "",
             "lastname": ""
