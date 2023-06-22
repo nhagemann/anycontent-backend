@@ -4,10 +4,12 @@
         "name": "Denmark Leffler, Cummings and Boyer Airline",
         "captain": "Freida Skiles",
         "numberofplanes": "211",
-        "foundationyear": "1947"
+        "foundationyear": "1947",
+        "parent": "1",
+        "position": "2"
     },
     "info": {
-        "revision": 1,
+        "revision": 11,
         "creation": {
             "timestamp": null,
             "username": "",
@@ -15,7 +17,7 @@
             "lastname": ""
         },
         "lastchange": {
-            "timestamp": 1674924829,
+            "timestamp": 1687435030,
             "username": "",
             "firstname": "",
             "lastname": ""

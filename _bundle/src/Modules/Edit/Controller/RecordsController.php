@@ -459,31 +459,4 @@ class RecordsController extends AbstractAnyContentBackendController
             303
         );
     }
-
-    private function updateContext($contentTypeAccessHash, $workspace, $language): Repository
-    {
-        $repository = $this->repositoryManager->getRepositoryByContentTypeAccessHash($contentTypeAccessHash);
-
-        if (!$repository) {
-            throw new NotFoundHttpException();
-        }
-        $this->contextManager->setCurrentRepository($repository);
-
-        $contentTypeDefinition = $repository->getContentTypeDefinition();
-        $this->contextManager->setCurrentContentType($contentTypeDefinition);
-
-        if ($workspace != null && $contentTypeDefinition->hasWorkspace($workspace)) {
-            $this->contextManager->setCurrentWorkspace($workspace);
-        }
-        if ($language != null && $contentTypeDefinition->hasLanguage($language)) {
-            $this->contextManager->setCurrentLanguage($language);
-        }
-
-        $repository->selectWorkspace($this->contextManager->getCurrentWorkspace());
-        $repository->selectLanguage($this->contextManager->getCurrentLanguage());
-
-        $repository->setTimeShift($this->contextManager->getCurrentTimeShift());
-        $repository->selectView('default');
-        return $repository;
-    }
 }

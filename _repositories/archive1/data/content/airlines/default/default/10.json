@@ -4,10 +4,12 @@
         "name": "Korea Schinner-Douglas Airline",
         "captain": "Daphney Torp",
         "numberofplanes": "223",
-        "foundationyear": "1998"
+        "foundationyear": "1998",
+        "parent": "3",
+        "position": "1"
     },
     "info": {
-        "revision": 1,
+        "revision": 11,
         "creation": {
             "timestamp": null,
             "username": "",
@@ -15,7 +17,7 @@
             "lastname": ""
         },
         "lastchange": {
-            "timestamp": 1674924829,
+            "timestamp": 1687435030,
             "username": "",
             "firstname": "",
             "lastname": ""

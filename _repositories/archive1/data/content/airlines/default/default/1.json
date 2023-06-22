@@ -4,10 +4,12 @@
         "name": "Mali Reilly Ltd Airline",
         "captain": "Kylee Krajcik",
         "numberofplanes": "237",
-        "foundationyear": "1969"
+        "foundationyear": "1969",
+        "parent": "0",
+        "position": "1"
     },
     "info": {
-        "revision": 9,
+        "revision": 19,
         "creation": {
             "timestamp": null,
             "username": "",
@@ -15,7 +17,7 @@
             "lastname": ""
         },
         "lastchange": {
-            "timestamp": 1687177661,
+            "timestamp": 1687435030,
             "username": "",
             "firstname": "",
             "lastname": ""

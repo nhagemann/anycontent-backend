@@ -6,6 +6,7 @@ use AnyContent\Backend\Services\ContextManager;
 use AnyContent\Backend\Services\FormManager;
 use AnyContent\Backend\Services\MenuManager;
 use AnyContent\Backend\Services\RepositoryManager;
+use AnyContent\Client\Repository;
 use CMDL\ContentTypeDefinition;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -87,5 +88,55 @@ abstract class AbstractAnyContentBackendController extends AbstractController
 
         $buttons[500] = ['label' => 'Import Records', 'url' => $this->generateUrl('anycontent_records_export', ['contentTypeAccessHash' => $contentTypeAccessHash]), 'glyphicon' => 'glyphicon-cloud-upload', 'id' => 'listing_button_import'];
         return $buttons;
+    }
+
+    protected function updateContext($contentTypeAccessHash, $workspace, $language): Repository
+    {
+        $repository = $this->repositoryManager->getRepositoryByContentTypeAccessHash($contentTypeAccessHash);
+
+        if (!$repository) {
+            throw new NotFoundHttpException();
+        }
+        $this->contextManager->setCurrentRepository($repository);
+
+        $contentTypeDefinition = $repository->getContentTypeDefinition();
+        $this->contextManager->setCurrentContentType($contentTypeDefinition);
+
+        if ($workspace != null && $contentTypeDefinition->hasWorkspace($workspace)) {
+            $this->contextManager->setCurrentWorkspace($workspace);
+        }
+        if ($language != null && $contentTypeDefinition->hasLanguage($language)) {
+            $this->contextManager->setCurrentLanguage($language);
+        }
+
+        $repository->selectWorkspace($this->contextManager->getCurrentWorkspace());
+        $repository->selectLanguage($this->contextManager->getCurrentLanguage());
+
+        $repository->setTimeShift($this->contextManager->getCurrentTimeShift());
+        $repository->selectView('default');
+        return $repository;
+    }
+
+
+    protected function addRepositoryLinks(array &$vars, Repository $repository, $page){
+
+        $repositoryAccessHash        = $this->repositoryManager->getRepositoryAccessHash($repository);
+        $contentTypeAccessHash = $this->repositoryManager->getContentTypeAccessHash($repository, $repository->getCurrentContentTypeName());
+
+        $vars['links']['repository'] = $this->generateUrl('anycontent_repository', ['repositoryAccessHash' => $repositoryAccessHash]);
+        $vars['links']['self']       = $this->generateUrl('anycontent_records', ['contentTypeAccessHash' => $contentTypeAccessHash]);
+
+
+        // sorting links
+
+        $vars['links']['search']         = $this->generateUrl('anycontent_records', ['contentTypeAccessHash' => $contentTypeAccessHash, 'page' => 1, 's' => 'name', 'workspace' => $this->contextManager->getCurrentWorkspace(), 'language' => $this->contextManager->getCurrentLanguage()]);
+        $vars['links']['closeSearchBox'] = $this->generateUrl('anycontent_records', ['contentTypeAccessHash' => $contentTypeAccessHash, 'page' => 1, 'q' => '']);
+
+        // context links
+        $vars['links']['timeshift']  = '';//$this->generateUrl('timeShiftListRecords', array( 'contentTypeAccessHash' => $contentTypeAccessHash, 'page' => $page ));
+        $vars['links']['workspaces'] = $this->generateUrl('anycontent_records_change_workspace', ['contentTypeAccessHash' => $contentTypeAccessHash, 'page' => $page]);
+        $vars['links']['languages'] = $this->generateUrl('anycontent_records_change_language', ['contentTypeAccessHash' => $contentTypeAccessHash, 'page' => $page]);
+        $vars['links']['reset']      = $this->generateUrl('anycontent_records', ['contentTypeAccessHash' => $contentTypeAccessHash, 'page' => 1, 'q' => '']);
+
     }
 }

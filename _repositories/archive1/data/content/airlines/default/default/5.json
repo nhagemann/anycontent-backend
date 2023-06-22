@@ -4,10 +4,12 @@
         "name": "Malaysia Bode and Sons Airline",
         "captain": "Remington Gerlach",
         "numberofplanes": "105",
-        "foundationyear": "1933"
+        "foundationyear": "1933",
+        "parent": "1",
+        "position": "1"
     },
     "info": {
-        "revision": 1,
+        "revision": 11,
         "creation": {
             "timestamp": null,
             "username": "",
@@ -15,7 +17,7 @@
             "lastname": ""
         },
         "lastchange": {
-            "timestamp": 1674917487,
+            "timestamp": 1687435030,
             "username": "",
             "firstname": "",
             "lastname": ""

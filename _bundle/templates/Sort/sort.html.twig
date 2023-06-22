@@ -1,0 +1,123 @@
+{% extends "@AnyContentBackend/anycontent-backend.html.twig" %}
+
+{% block title %}{% if definition.Title %}{{ definition.Title }}{% else %}{{ definition.Name }}{% endif %}{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+            integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/nestedSortable/2.0.0/jquery.mjs.nestedSortable.min.js"
+            integrity="sha512-uAt5HkX8rwCV19v9HIeAocLUfQvQDfX0zuaMQr5HhGZc6GwhJoe9hzJYBxzsWTaDSMl4FazGovJwUbOA8rGuog=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+{% endblock %}
+
+
+{% macro sortableItem(record, definition, close = true) %}
+<li class="sortable-item" id="list_{{ record.id }}">
+    <div class="btn btn-success">
+        <small>#{{ record.id }}</small>&nbsp;{{ record.name }}<span class="badges">{% if definition.hasSubtypes() %}
+                <span
+                        class="badge subtype">{{ record.subtypeLabel }}</span>{% endif %}{% if definition.hasStatusList() %}
+                <span class="badge status">{{ record.statusLabel }}</span>{% endif %}</span>
+    </div>
+    {% if close %}
+        </li>
+    {% endif %}
+{% endmacro %}
+
+{% block content %}
+    <div class="row">
+
+        <ol class="breadcrumb">
+            <li><a href="/">Home</a></li>
+            <li>
+                <a href="{{ links.repository }}">{% if repository.title %}{{ repository.title }}{% else %}{{ repository.name }}{% endif %}</a>
+            </li>
+        </ol>
+
+        <a href="{{ links.reset }}">
+            <h2>{% if definition.Title %}{{ definition.Title }}{% else %}{{ definition.Name }}{% endif %}</h2></a>
+        <br/>
+    </div>
+
+    <div id="sortable_tree" class="row contenttype-{{ definition.name | lower }}">
+        <div class="col-xs-8">
+
+            <ol class="sortable sortable-tree well" id="sortable_tree_left">
+                <li id="list_0">
+                    {% if records_left | length > 0 %}
+                        <div id="list_root" class="btn btn-default disabled"><small>#0</small>&nbsp;Root</div>
+                    {% else %}
+                        <div id="list_root" class="btn btn-default disabled sortable-emptylist"><small>#0</small>&nbsp;Root
+                        </div>
+                    {% endif %}
+                    {# start rendering nested list as ordered list #}
+                    <ol>
+                        {% set level = 1 %}
+                        {% for record in records_left %}
+                            {% if record.level > level %}
+                                <ol>
+                            {% endif %}
+                            {% if record.level < level %}
+                                </li>
+                                {% for i in 1 .. (level-record.level) %}
+                                    </ol>
+                                {% endfor %}
+                            {% endif %}
+                            {% if record.level < level %}
+                                </li>
+                            {% endif %}
+
+                            {{ _self.sortableItem(record,definition, false) }}
+
+                            {% set level = record.level %}
+                        {% endfor %}
+                        </li>
+                        {% for i in 1 .. (level) %}
+                            </ol>
+                        {% endfor %}
+                    </ol>
+                    {# end rendering nested list as ordered list #}
+            </li>
+            </ol>
+        </div>
+        <div class="col-xs-4">
+            <ol class="sortable sortable-tree well" id="sortable_tree_right">
+                <li id="list_0">
+                    <h4>Unsorted</h4>
+                    <ol>
+                        {% for record in records_right %}
+                            {{ _self.sortableItem(record,definition) }}
+                        {% endfor %}
+                    </ol>
+                </li>
+            </ol>
+        </div>
+    </div>
+    <div class="row">
+        <hr/>
+        <div class="col-xs-12">
+            <div class="controls">
+                <div class="btn-toolbar">
+                    <form action="{{ links.sort }}" method="post">
+                        <input type="hidden" id="form_sort_list" name="list"/>
+                        <span class="btn-group" id="form_sort_button_save">
+                        <input type="submit" class="btn btn-primary" href="#" value="Save"/>
+                        </span>
+
+                        <input type="hidden" name="$hidden[workspace]" value="{{ workspaces.current }}">
+                        <input type="hidden" name="$hidden[language]" value="{{ languages.current }}">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% block buttons %}
+        <div class="row">
+            <hr/>
+            {{ buttons | raw }}
+        </div>
+    {% endblock %}
+
+{% endblock %}

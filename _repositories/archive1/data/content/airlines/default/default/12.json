@@ -4,10 +4,12 @@
         "name": "Svalbard & Jan Mayen Islands Gorczany-Haley Airline",
         "captain": "Jude Nolan",
         "numberofplanes": "158",
-        "foundationyear": "1975"
+        "foundationyear": "1975",
+        "parent": "",
+        "position": ""
     },
     "info": {
-        "revision": 3,
+        "revision": 13,
         "creation": {
             "timestamp": null,
             "username": "",
@@ -15,7 +17,7 @@
             "lastname": ""
         },
         "lastchange": {
-            "timestamp": 1687197028,
+            "timestamp": 1687435030,
             "username": "",
             "firstname": "",
             "lastname": ""

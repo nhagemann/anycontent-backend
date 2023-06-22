@@ -1,5 +1,6 @@
 $(document).ready(function () {
 
+    // https://github.com/ilikenwf/nestedSortable
 
     $('ol.sortable-tree').nestedSortable({
 
@@ -9,13 +10,18 @@ $(document).ready(function () {
         toleranceElement: '> div',
         protectRoot: true,
         opacity: .5,
-        revert: 250,
-        tabSize: 10,
+        revert: 100,
+        tabSize: 20,
         tolerance: 'pointer',
         // connects left and right tree
-        connectWith: '.sortable-tree'
-
-
+        connectWith: '.sortable-tree',
+        // disallow drop on same level as left root
+        relocate: function () {
+            if($('#sortable_tree_left > li').length>1){
+                return false;
+            };
+            $('#list_root').removeClass('sortable-emptylist');
+        }
     });
 
 
@@ -26,7 +32,7 @@ $(document).ready(function () {
 
 
         nested = $('ol.sortable-tree').nestedSortable('toArray', {
-            startDepthCount: -1
+            startDepthCount: 0
         });
 
         tree = [];
@@ -34,7 +40,7 @@ $(document).ready(function () {
 
             if (node.depth > 0) {
                 var o = {
-                    id: node.item_id,
+                    id: node.id,
                     parent_id: node.parent_id
                 };
                 tree.push(o);

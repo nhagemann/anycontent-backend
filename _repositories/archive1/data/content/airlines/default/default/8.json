@@ -4,10 +4,12 @@
         "name": "Cambodia Treutel Inc Airline",
         "captain": "Tyra Tillman",
         "numberofplanes": "212",
-        "foundationyear": "1940"
+        "foundationyear": "1940",
+        "parent": "",
+        "position": ""
     },
     "info": {
-        "revision": 3,
+        "revision": 13,
         "creation": {
             "timestamp": null,
             "username": "",
@@ -15,7 +17,7 @@
             "lastname": ""
         },
         "lastchange": {
-            "timestamp": 1687188828,
+            "timestamp": 1687435030,
             "username": "",
             "firstname": "",
             "lastname": ""

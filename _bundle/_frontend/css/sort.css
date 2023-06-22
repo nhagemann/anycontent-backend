@@ -17,8 +17,12 @@
     margin-left: 0px;
 }
 
-#sortable_tree_left>li {
+#sortable_tree_left li {
     list-style-type: none;
+}
+
+#sortable_tree_left li.sortable-item {
+    list-style-type: decimal;
 }
 
 #sortable_tree .ui-sortable-helper {
@@ -44,4 +48,8 @@
 #sortable_tree .badges {
    float:right;
     padding-left: 10px;
+}
+
+.sortable-emptylist {
+    box-shadow: 40px 40px 5px #ccc !important;
 }

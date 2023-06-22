@@ -37,13 +37,9 @@ class ListingController extends AbstractAnyContentBackendController
 
         $vars['menu_mainmenu'] = $this->menuManager->renderMainMenu();
 
-        /** @var Repository $repository */
         $repository = $this->repositoryManager->getRepositoryByContentTypeAccessHash($contentTypeAccessHash);
-
         $vars['repository']          = $repository;
-        $repositoryAccessHash        = $this->repositoryManager->getRepositoryAccessHash($repository);
-        $vars['links']['repository'] = $this->generateUrl('anycontent_repository', ['repositoryAccessHash' => $repositoryAccessHash]);
-        $vars['links']['self']       = $this->generateUrl('anycontent_records', ['contentTypeAccessHash' => $contentTypeAccessHash]);
+
 
         $contentTypeDefinition = $repository->getContentTypeDefinition();
 
@@ -132,16 +128,7 @@ class ListingController extends AbstractAnyContentBackendController
         $vars['currentContentViewNr'] = $nr;
         $this->contextManager->setCurrentContentViewNr($nr);
 
-        // sorting links
-
-        $vars['links']['search']         = $this->generateUrl('anycontent_records', ['contentTypeAccessHash' => $contentTypeAccessHash, 'page' => 1, 's' => 'name', 'workspace' => $this->contextManager->getCurrentWorkspace(), 'language' => $this->contextManager->getCurrentLanguage()]);
-        $vars['links']['closeSearchBox'] = $this->generateUrl('anycontent_records', ['contentTypeAccessHash' => $contentTypeAccessHash, 'page' => 1, 'q' => '']);
-
-        // context links
-        $vars['links']['timeshift']  = '';//$this->generateUrl('timeShiftListRecords', array( 'contentTypeAccessHash' => $contentTypeAccessHash, 'page' => $page ));
-        $vars['links']['workspaces'] = $this->generateUrl('anycontent_records_change_workspace', ['contentTypeAccessHash' => $contentTypeAccessHash, 'page' => $page]);
-        $vars['links']['languages'] = $this->generateUrl('anycontent_records_change_language', ['contentTypeAccessHash' => $contentTypeAccessHash, 'page' => $page]);
-        $vars['links']['reset']      = $this->generateUrl('anycontent_records', ['contentTypeAccessHash' => $contentTypeAccessHash, 'page' => 1, 'q' => '']);
+        $this->addRepositoryLinks($vars,$repository, $page);
 
         $buttons = $this->getButtons($contentTypeAccessHash, $contentTypeDefinition);
         $vars['buttons'] = $this->menuManager->renderButtonGroup($buttons);
