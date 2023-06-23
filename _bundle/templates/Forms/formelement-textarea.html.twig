@@ -1,0 +1,10 @@
+{% extends "@AnyContentBackend/Content/formelement-default.twig" %}
+
+{% block input %}
+    <div class="{{ class.size }}">
+
+        <textarea id="{{ id }}" name="{{ name }}" placeholder="{{ definition.placeholder }}" class="form-control formelement-tooltip"
+                  rows="{{ definition.rows }}" data-toggle="tooltip" data-trigger="hover" data-placement="right" data-content="{{ definition.hint }}"{% if definition.isProtected %} disabled="disabled"{% endif %}>{{ value }}</textarea>
+
+    </div>
+{% endblock %}

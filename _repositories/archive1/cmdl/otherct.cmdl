@@ -1,4 +1,3 @@
 Name
-Foundation Year = date
-Number of planes = number 0
-Captains Name {captain}
+a = textfield M
+b = textarea 8 S

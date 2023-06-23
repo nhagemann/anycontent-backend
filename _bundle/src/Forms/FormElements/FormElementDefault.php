@@ -1,6 +1,6 @@
 <?php
 
-namespace AnyContent\Backend\Forms\FormElement;
+namespace AnyContent\Backend\Forms\FormElements;
 
 use AnyContent\Backend\Services\ContextManager;
 use CMDL\FormElementDefinition;
@@ -8,6 +8,7 @@ use Twig\Environment;
 
 class FormElementDefault implements FormElementInterface
 {
+    protected string $template = '@AnyContentBackend/Forms/formelement-default.html.twig';
     protected array $vars = [];
 
     protected bool $isFirstElement = false;
@@ -28,7 +29,7 @@ class FormElementDefault implements FormElementInterface
     public function render(Environment $twig)
     {
         if ($this->definition->getName()) { // skip elements, that don't have a name, i.e. cannot get stored into a property
-            return $twig->render('@AnyContentBackend/Forms/formelement-default.html.twig', $this->vars);
+            return $twig->render($this->template, $this->vars);
         }
     }
 
@@ -66,16 +67,7 @@ class FormElementDefault implements FormElementInterface
         return $input;
     }
 
-    public function setContext(ContextManager $contextManager): void
+    public function init(ContextManager $contextManager): void
     {
-        // TODO: Implement setContext() method.
     }
-
-//
-//    public function getCurrentRepositoryAccessHash()
-//    {
-//        $repository = $this->context->getCurrentRepository();
-//
-//        return $this->repos->getAccessHash($repository);
-//    }
 }

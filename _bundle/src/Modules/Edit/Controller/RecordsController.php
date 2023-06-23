@@ -5,11 +5,9 @@ namespace AnyContent\Backend\Modules\Edit\Controller;
 use AnyContent\Backend\Controller\AbstractAnyContentBackendController;
 use AnyContent\Backend\Modules\Edit\Events\RecordBeforeSaveEvent;
 use AnyContent\Backend\Modules\Edit\Events\RecordSavedEvent;
-use AnyContent\Client\Repository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 

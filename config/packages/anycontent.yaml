@@ -1,3 +1,7 @@
 any_content_backend:
   connections:
     - { name: 'archive1', type: 'contentarchive', path: '%kernel.project_dir%/_repositories/archive1' }
+  formelements:
+    #- {'type': 'default', class: 'AnyContent\Backend\Forms\FormElements\FormElementDefault'}
+    - {'type': 'textfield', class: 'AnyContent\Backend\Forms\FormElements\TextFormElements\FormElementTextField'}
+    - {'type': 'textarea', class: 'AnyContent\Backend\Forms\FormElements\TextFormElements\FormElementTextArea'}

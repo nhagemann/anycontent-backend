@@ -25,6 +25,18 @@ class Configuration implements ConfigurationInterface
                 ->end()
             ->end();
 
+        $treeBuilder
+            ->getRootNode()
+            ->children()
+            ->arrayNode('formelements')
+                ->prototype('array')
+                    ->children()
+                    ->scalarNode('type')->isRequired()->end()
+                    ->scalarNode('class')->isRequired()->end()
+                ->end()
+            ->end()
+            ->end();
+
         // ToDo: Think about key repositories, to restrict repositories and role to restrict connections
 
         return $treeBuilder;

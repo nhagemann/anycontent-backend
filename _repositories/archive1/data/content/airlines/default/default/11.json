@@ -5,11 +5,11 @@
         "captain": "Maybelle Kozey",
         "numberofplanes": "122",
         "foundationyear": "1947",
-        "parent": "3",
+        "parent": "1",
         "position": "2"
     },
     "info": {
-        "revision": 11,
+        "revision": 15,
         "creation": {
             "timestamp": null,
             "username": "",
@@ -17,7 +17,7 @@
             "lastname": ""
         },
         "lastchange": {
-            "timestamp": 1687435030,
+            "timestamp": 1687441680,
             "username": "",
             "firstname": "",
             "lastname": ""

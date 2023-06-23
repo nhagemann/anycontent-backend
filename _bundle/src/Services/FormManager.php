@@ -71,7 +71,7 @@ class FormManager
             $id = $formId . '_' . $type . '_' . $name;
 
             $formElement = new $class($id, $name, $formElementDefinition, $value, $options);
-            $formElement->setContext($this->contextManager);
+            $formElement->init($this->contextManager);
 
             if ($i == 1) {
                 $formElement->setIsFirstElement(true);

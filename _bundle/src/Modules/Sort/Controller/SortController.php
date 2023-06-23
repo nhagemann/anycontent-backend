@@ -13,7 +13,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class SortController extends AbstractAnyContentBackendController
 {
     #[Route('/content/sort/{contentTypeAccessHash}/{workspace}/{language}', 'anycontent_records_sort', methods: ['GET'])]
-    public function sortRecords($contentTypeAccessHash,$workspace,$language): Response
+    public function sortRecords($contentTypeAccessHash, $workspace, $language): Response
     {
         $vars = [];
 
@@ -23,7 +23,7 @@ class SortController extends AbstractAnyContentBackendController
 
         // Context
 
-        $repository = $this->updateContext($contentTypeAccessHash,$workspace,$language);
+        $repository = $this->updateContext($contentTypeAccessHash, $workspace, $language);
         $vars['repository']          = $repository;
 
         $contentTypeDefinition = $repository->getContentTypeDefinition();
@@ -31,13 +31,13 @@ class SortController extends AbstractAnyContentBackendController
 
         // Links
 
-        $this->addRepositoryLinks($vars,$repository,1);
+        $this->addRepositoryLinks($vars, $repository, 1);
 
         $vars['links']['sort']         = $this->generateUrl('anycontent_records_sort_post', ['contentTypeAccessHash' => $contentTypeAccessHash, 'workspace' => $this->contextManager->getCurrentWorkspace(), 'language' => $this->contextManager->getCurrentLanguage()]);
 
         // Buttons
 
-        $buttons         = array();
+        $buttons         = [];
         $buttons[100] = [
             'label' => 'List Records',
             'url' => $this->generateUrl('anycontent_records', ['contentTypeAccessHash' => $contentTypeAccessHash, 'workspace' => $this->contextManager->getCurrentWorkspace(), 'language' => $this->contextManager->getCurrentLanguage(), 'q' => '']),
@@ -48,7 +48,7 @@ class SortController extends AbstractAnyContentBackendController
         // Records to be sorted
 
         $vars['records_left']  = $repository->getSortedRecords(0);
-        $vars['records_right'] = array_diff_key($repository->getRecords(),$vars['records_left']);
+        $vars['records_right'] = array_diff_key($repository->getRecords(), $vars['records_left']);
 
         return $this->render('@AnyContentBackend/Sort/sort.html.twig', $vars);
     }
@@ -71,16 +71,14 @@ class SortController extends AbstractAnyContentBackendController
         $repository->selectLanguage($this->contextManager->getCurrentLanguage());
         $repository->setTimeshift($this->contextManager->getCurrentTimeShift());
 
-
         $list = [];
 
-        foreach (json_decode($request->get('list'), true) as $item)
-        {
-            $list[$item['id']]=$item['parent_id'];
+        foreach (json_decode($request->get('list'), true) as $item) {
+            $list[$item['id']] = $item['parent_id'];
         }
 
         $repository->sortRecords($list);
 
-        return new RedirectResponse($this->generateUrl('anycontent_records_sort',['contentTypeAccessHash'=>$contentTypeAccessHash,'workspace'=>$workspace,'language'=>$language]));
+        return new RedirectResponse($this->generateUrl('anycontent_records_sort', ['contentTypeAccessHash' => $contentTypeAccessHash, 'workspace' => $workspace, 'language' => $language]));
     }
 }

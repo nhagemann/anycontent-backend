@@ -9,7 +9,6 @@ use AnyContent\Backend\Services\ContextManager;
 use AnyContent\Backend\Services\FormManager;
 use AnyContent\Backend\Services\MenuManager;
 use AnyContent\Backend\Services\RepositoryManager;
-use AnyContent\Client\Repository;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -39,7 +38,6 @@ class ListingController extends AbstractAnyContentBackendController
 
         $repository = $this->repositoryManager->getRepositoryByContentTypeAccessHash($contentTypeAccessHash);
         $vars['repository']          = $repository;
-
 
         $contentTypeDefinition = $repository->getContentTypeDefinition();
 
@@ -128,7 +126,7 @@ class ListingController extends AbstractAnyContentBackendController
         $vars['currentContentViewNr'] = $nr;
         $this->contextManager->setCurrentContentViewNr($nr);
 
-        $this->addRepositoryLinks($vars,$repository, $page);
+        $this->addRepositoryLinks($vars, $repository, $page);
 
         $buttons = $this->getButtons($contentTypeAccessHash, $contentTypeDefinition);
         $vars['buttons'] = $this->menuManager->renderButtonGroup($buttons);

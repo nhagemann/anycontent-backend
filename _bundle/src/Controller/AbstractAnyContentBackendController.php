@@ -117,15 +117,13 @@ abstract class AbstractAnyContentBackendController extends AbstractController
         return $repository;
     }
 
-
-    protected function addRepositoryLinks(array &$vars, Repository $repository, $page){
-
+    protected function addRepositoryLinks(array &$vars, Repository $repository, $page)
+    {
         $repositoryAccessHash        = $this->repositoryManager->getRepositoryAccessHash($repository);
         $contentTypeAccessHash = $this->repositoryManager->getContentTypeAccessHash($repository, $repository->getCurrentContentTypeName());
 
         $vars['links']['repository'] = $this->generateUrl('anycontent_repository', ['repositoryAccessHash' => $repositoryAccessHash]);
         $vars['links']['self']       = $this->generateUrl('anycontent_records', ['contentTypeAccessHash' => $contentTypeAccessHash]);
-
 
         // sorting links
 
@@ -137,6 +135,5 @@ abstract class AbstractAnyContentBackendController extends AbstractController
         $vars['links']['workspaces'] = $this->generateUrl('anycontent_records_change_workspace', ['contentTypeAccessHash' => $contentTypeAccessHash, 'page' => $page]);
         $vars['links']['languages'] = $this->generateUrl('anycontent_records_change_language', ['contentTypeAccessHash' => $contentTypeAccessHash, 'page' => $page]);
         $vars['links']['reset']      = $this->generateUrl('anycontent_records', ['contentTypeAccessHash' => $contentTypeAccessHash, 'page' => 1, 'q' => '']);
-
     }
 }
