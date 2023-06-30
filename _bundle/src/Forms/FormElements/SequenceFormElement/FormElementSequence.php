@@ -1,6 +1,5 @@
 <?php
 
-
 namespace AnyContent\Backend\Forms\FormElements\SequenceFormElement;
 
 use AnyContent\Backend\Forms\FormElements\FormElementDefault;
@@ -9,27 +8,24 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class FormElementSequence extends FormElementDefault
 {
-
     protected string $template = '@AnyContentBackend/Forms/formelement-sequence.html.twig';
 
     public function init(ContextManager $contextManager, UrlGeneratorInterface $urlGenerator): void
     {
-        if ($contextManager->isContentContext())
-        {
+        if ($contextManager->isContentContext()) {
             // the sequence rendering form must know, if the sequence form element has be inserted via a insert to find it's definition
             $insertName = '-';
-            if ($this->definition->isInsertedByInsert())
-            {
+            if ($this->definition->isInsertedByInsert()) {
                 $insertName = $this->definition->getInsertedByInsertName();
             }
 
-            $url = $urlGenerator->generate('anycontent_sequence_edit',[
-                'dataType'=>'content',
-                'dataTypeAccessHash'=>$contextManager->getCurrentContentTypeAccessHash(),
-                'viewName'=>'default',
-                'insertName'=>$insertName,
-                'recordId'=>$contextManager->getCurrentRecord()->getId(),
-                'property'=>$this->definition->getName()
+            $url = $urlGenerator->generate('anycontent_sequence_edit', [
+                'dataType' => 'content',
+                'dataTypeAccessHash' => $contextManager->getCurrentContentTypeAccessHash(),
+                'viewName' => 'default',
+                'insertName' => $insertName,
+                'recordId' => $contextManager->getCurrentRecord()->getId(),
+                'property' => $this->definition->getName(),
             ]);
             $this->vars['src'] = $url;
             return;
