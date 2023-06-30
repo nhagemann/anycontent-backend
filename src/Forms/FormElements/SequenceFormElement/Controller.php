@@ -112,7 +112,7 @@ class Controller extends AbstractAnyContentBackendController
                     $vars['inserts'] = $inserts;
 
                     // silently render all potential inserts to add their Javascript-Files to the Layout
-                    foreach ($inserts as $k => $v) {
+                    foreach (array_keys($inserts) as $k) {
                         $clippingDefinition = $dataTypeDefinition->getClippingDefinition($k);
                         $this->formManager->renderFormElements(
                             'form_sequence',
@@ -241,6 +241,7 @@ class Controller extends AbstractAnyContentBackendController
             if ($formElementDefinition) {
                 if ($formElementDefinition->getFormElementType() == 'sequence') {
                     if ($request->query->has('insert') and $request->query->has('count')) {
+                        $vars = [];
                         $inserts = $formElementDefinition->getInserts();
                         $insert = $request->query->get('insert');
                         $count = $request->query->get('count');
