@@ -98,15 +98,14 @@ class RecordsController extends AbstractAnyContentBackendController
                 ]
             );
 
-
             $vars['links']['revisions'] = $this->generateUrl(
                 'anycontent_records_revisions',
-                array(
-                    'recordId'=>$recordId,
+                [
+                    'recordId' => $recordId,
                     'contentTypeAccessHash' => $contentTypeAccessHash,
                     'workspace' => $this->contextManager->getCurrentWorkspace(),
                     'language' => $this->contextManager->getCurrentLanguage(),
-                )
+                ]
             );
         }
 

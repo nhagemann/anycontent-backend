@@ -18,7 +18,8 @@ module.exports = function (grunt) {
                     'node_modules/blockui/jquery.blockUI.js',
                     //'node_modules/sortablejs/Sortable.js',
                     //'Libs/NestedSortable/mjsarfatti-nestedSortable/jquery.mjs.nestedSortable.js',
-                    //'Libs/bootbox/bootbox.js'
+                    //'Libs/bootbox/bootbox.js',
+                    'Libs/sunnywalker-jQuery.FilterTable-8f7979d/jquery.filtertable.js'
                 ],
 
                 dest: 'build/anycontent.libs.js'

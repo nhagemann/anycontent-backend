@@ -2,10 +2,12 @@
 
 namespace AnyContent\Backend\Setup;
 
+use AnyContent\Backend\Exception\AnyContentBackendException;
 use AnyContent\Backend\Services\RepositoryManager;
 use AnyContent\Client\Repository;
 use AnyContent\Connection\Configuration\ContentArchiveConfiguration;
 use AnyContent\Connection\Configuration\MySQLSchemalessConfiguration;
+use AnyContent\Connection\FileManager\DirectoryBasedFilesAccess;
 
 class RepositoryAdder
 {
@@ -26,7 +28,7 @@ class RepositoryAdder
             switch ($type) {
                 case 'contentarchive':
                     $path = $connection['path'];
-                    $this->addContentArchiveConnection($name, $path);
+                    $repository = $this->addContentArchiveConnection($name, $path);
                     break;
                 case 'mysql':
                     $host = $connection['db_host'];
@@ -35,9 +37,12 @@ class RepositoryAdder
                     $password = $connection['db_password'];
                     $port = $connection['db_port'];
                     $path = $connection['path'];
-                    $this->addMySQLConnection($name,$host,$database,$user,$password,$port, $path);
+                    $repository = $this->addMySQLConnection($name, $host, $database, $user, $password, $port, $path);
                     break;
             }
+
+            $files = $connection['files'];
+            $this->addFileManager($repository, $files);
         }
 
 //        $configuration = new RecordFilesConfiguration();
@@ -64,7 +69,7 @@ class RepositoryAdder
 //        $repositoryManager->addRepository('demo2',$repository);
     }
 
-    private function addContentArchiveConnection(string $name, string $path)
+    private function addContentArchiveConnection(string $name, string $path): Repository
     {
         $configuration = new ContentArchiveConfiguration();
         $configuration->setContentArchiveFolder($path);
@@ -72,13 +77,14 @@ class RepositoryAdder
 
         $repository = new Repository($name, $connection);
         $this->repositoryManager->addRepository($name, $repository);
+        return $repository;
     }
 
-    private function addMySQLConnection(string $name, string $host, string $database, string $user, string $password, string $port, string $path)
+    private function addMySQLConnection(string $name, string $host, string $database, string $user, string $password, string $port, string $path): Repository
     {
         $configuration = new MySQLSchemalessConfiguration();
 
-        $configuration->initDatabase($host, $database, $user, $password,$port);
+        $configuration->initDatabase($host, $database, $user, $password, $port);
 
         $configuration->setCMDLFolder($path);
         $configuration->setRepositoryName($name);
@@ -86,7 +92,21 @@ class RepositoryAdder
 
         $connection = $configuration->createReadWriteConnection();
 
-        $repository       = new Repository('phpunit', $connection);
+        $repository = new Repository('phpunit', $connection);
         $this->repositoryManager->addRepository($name, $repository);
+        return $repository;
+    }
+
+    private function addFileManager(Repository $repository, string $files)
+    {
+        if ($files !== '') {
+            if (!file_exists($files)) {
+                throw new AnyContentBackendException(sprintf('AnyContent Backend configuration error: Files path %s does not exist.', $files));
+            }
+
+            $fileManager = new DirectoryBasedFilesAccess($files);
+            $fileManager->enableImageSizeCalculation();
+            $repository->setFileManager($fileManager);
+        }
     }
 }

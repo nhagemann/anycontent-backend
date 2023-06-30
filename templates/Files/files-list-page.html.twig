@@ -1,0 +1,55 @@
+{% extends "@AnyContentBackend/anycontent-backend.html.twig" %}
+
+{% block content %}
+    <div class="row">
+
+        <h3><a href="{{ links.files }}">Files</a></h3>
+
+        <br/>
+    </div>
+
+    {% for folder in folders %}
+        <div class="row folders-list">
+
+            <ul class="nav nav-tabs">
+                {% if loop.first %}
+                    <li{% if root %} class="active"{% endif %}><a href="{{ links.files }}"><span
+                                    class="glyphicon glyphicon-home"></span></a></li>
+                {% endif %}
+                {% for item in folder %}
+
+                    <li class="{{ item.class }}"><a href="{{ item.url }}">{{ item.name }}</a></li>
+                {% endfor %}
+            </ul>
+            <br/>
+        </div>
+    {% endfor %}
+
+
+    <div class="row">
+        <br/>
+        {% for file in files %}
+            {% include "@AnyContentBackend/Files/files-list-page-item.html.twig" %}
+        {% endfor %}
+    </div>
+
+
+
+    {% block buttons %}
+        <div class="row">
+            <hr/>
+            {{ buttons | raw }}
+        </div>
+    {% endblock %}
+
+    {% include "@AnyContentBackend/Files/files-modal-create-folder.html.twig" %}
+    {% include "@AnyContentBackend/Files/files-modal-upload-file.html.twig" %}
+    {% include "@AnyContentBackend/Files/files-modal-delete-folder.html.twig" %}
+    {% include "@AnyContentBackend/Files/files-modal-delete-file.html.twig" %}
+    {% include "@AnyContentBackend/Files/files-modal-file-zoom.html.twig" %}
+    {% include "@AnyContentBackend/Files/files-modal-file-edit.html.twig" %}
+{% endblock %}
+
+
+
+

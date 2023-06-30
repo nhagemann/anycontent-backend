@@ -79,7 +79,7 @@ class StartController extends AbstractAnyContentBackendController
         }
 
         if ($this->repositoryManager->hasFiles($repositoryName)) {
-            $item['files'] = $app['url_generator']->generate('listFiles', ['repositoryAccessHash' => $repositoryItem['accessHash'], 'path' => '']);
+            $item['files'] = $this->generateUrl('anycontent_files', ['repositoryAccessHash' => $repositoryItem['accessHash'], 'path' => '']);
         }
 
         return $item;
