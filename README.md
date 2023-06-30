@@ -101,3 +101,20 @@ config/packages/security.yaml
 ```
 
 ### Step 6: Configure Repositories
+
+
+
+todo:
+- change workspace/languages while sorting
+- config records
+- revisions
+- timeshift
+- file modals
+- files urls
+- list repositories command
+- remove revisions command
+- export/import
+- all other form elements
+- phpstan
+- admin routes
+- content views
