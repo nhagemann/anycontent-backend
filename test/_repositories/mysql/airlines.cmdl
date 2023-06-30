@@ -1,0 +1,8 @@
+Name
+Foundation Year = date
+Number of planes = number 0
+Captains Name {captain}
+
+@languages (default:English,german:German)
+@workspaces (default:Draft,live:Live)
+@sortable

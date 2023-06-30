@@ -1,0 +1,30 @@
+version: '3.8'
+services:
+  anycontent-backend-php81:
+    container_name: anycontent-backend-php81
+    ports:
+      - "8100:8000"
+    build:
+      context: ./docker/php81
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/var/www
+    working_dir: /var/www/
+    networks:
+      - anycontent
+    # MySQL database service
+  anycontent-backend-mysql:
+    image: mysql:8.0
+    container_name: anycontent-backend-mysql
+    ports:
+      - "33060:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: "root"
+      MYSQL_DATABASE: "anycontent"
+      MYSQL_USER: "user"
+      MYSQL_PASSWORD: "password"
+    networks:
+      - anycontent
+networks:
+  anycontent:
+    driver: "bridge"

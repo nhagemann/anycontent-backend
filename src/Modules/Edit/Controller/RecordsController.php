@@ -98,16 +98,16 @@ class RecordsController extends AbstractAnyContentBackendController
                 ]
             );
 
-            //
-//            $vars['links']['revisions'] = $this->generateUrl(
-//                'listRecordRevisions',
-//                array(
-//                    'recordId'=>$recordId,
-//                    'contentTypeAccessHash' => $contentTypeAccessHash,
-//                    'workspace' => $this->contextManager->getCurrentWorkspace(),
-//                    'language' => $this->contextManager->getCurrentLanguage(),
-//                )
-//            );
+
+            $vars['links']['revisions'] = $this->generateUrl(
+                'anycontent_records_revisions',
+                array(
+                    'recordId'=>$recordId,
+                    'contentTypeAccessHash' => $contentTypeAccessHash,
+                    'workspace' => $this->contextManager->getCurrentWorkspace(),
+                    'language' => $this->contextManager->getCurrentLanguage(),
+                )
+            );
         }
 
         $vars['form'] = $this->formManager->renderFormElements(

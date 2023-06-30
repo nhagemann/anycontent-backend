@@ -21,6 +21,11 @@ class Configuration implements ConfigurationInterface
                         ->scalarNode('name')->isRequired()->end()
                         ->enumNode('type')->values(['mysql', 'recordfiles', 'recordsfile', 'contentarchive'])->end()
                         ->scalarNode('path')->end()
+                        ->scalarNode('db_host')->defaultValue('127.0.0.1')->end()
+                        ->scalarNode('db_name')->defaultValue('anycontent')->end()
+                        ->scalarNode('db_user')->defaultValue('anycontent')->end()
+                        ->scalarNode('db_password')->end()
+                        ->scalarNode('db_port')->defaultValue('3306')->end()
                     ->end()
                 ->end()
             ->end();

@@ -5,6 +5,7 @@ namespace AnyContent\Backend\Setup;
 use AnyContent\Backend\Services\RepositoryManager;
 use AnyContent\Client\Repository;
 use AnyContent\Connection\Configuration\ContentArchiveConfiguration;
+use AnyContent\Connection\Configuration\MySQLSchemalessConfiguration;
 
 class RepositoryAdder
 {
@@ -23,9 +24,18 @@ class RepositoryAdder
             $type = $connection['type'];
 
             switch ($type) {
-                case "contentarchive":
+                case 'contentarchive':
                     $path = $connection['path'];
-                      $this->addContentArchiveConnection($name, $path);
+                    $this->addContentArchiveConnection($name, $path);
+                    break;
+                case 'mysql':
+                    $host = $connection['db_host'];
+                    $database = $connection['db_name'];
+                    $user = $connection['db_user'];
+                    $password = $connection['db_password'];
+                    $port = $connection['db_port'];
+                    $path = $connection['path'];
+                    $this->addMySQLConnection($name,$host,$database,$user,$password,$port, $path);
                     break;
             }
         }
@@ -61,6 +71,22 @@ class RepositoryAdder
         $connection = $configuration->createReadWriteConnection();
 
         $repository = new Repository($name, $connection);
+        $this->repositoryManager->addRepository($name, $repository);
+    }
+
+    private function addMySQLConnection(string $name, string $host, string $database, string $user, string $password, string $port, string $path)
+    {
+        $configuration = new MySQLSchemalessConfiguration();
+
+        $configuration->initDatabase($host, $database, $user, $password,$port);
+
+        $configuration->setCMDLFolder($path);
+        $configuration->setRepositoryName($name);
+        $configuration->addContentTypes();
+
+        $connection = $configuration->createReadWriteConnection();
+
+        $repository       = new Repository('phpunit', $connection);
         $this->repositoryManager->addRepository($name, $repository);
     }
 }
