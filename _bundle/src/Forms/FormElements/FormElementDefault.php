@@ -4,6 +4,7 @@ namespace AnyContent\Backend\Forms\FormElements;
 
 use AnyContent\Backend\Services\ContextManager;
 use CMDL\FormElementDefinition;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twig\Environment;
 
 class FormElementDefault implements FormElementInterface
@@ -67,7 +68,7 @@ class FormElementDefault implements FormElementInterface
         return $input;
     }
 
-    public function init(ContextManager $contextManager): void
+    public function init(ContextManager $contextManager, UrlGeneratorInterface $urlGenerator): void
     {
     }
 }

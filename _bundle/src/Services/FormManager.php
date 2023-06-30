@@ -4,6 +4,7 @@ namespace AnyContent\Backend\Services;
 
 use AnyContent\Backend\Setup\FormElementsAdder;
 use CMDL\FormElementDefinition;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twig\Environment;
 
 class FormManager
@@ -24,7 +25,8 @@ class FormManager
     public function __construct(
         FormElementsAdder $formElementsAdder,
         private ContextManager $contextManager,
-        private Environment $twig
+        private Environment $twig,
+        private UrlGeneratorInterface $urlGenerator
     ) {
         $formElementsAdder->setupFormElements($this);
     }
@@ -71,7 +73,7 @@ class FormManager
             $id = $formId . '_' . $type . '_' . $name;
 
             $formElement = new $class($id, $name, $formElementDefinition, $value, $options);
-            $formElement->init($this->contextManager);
+            $formElement->init($this->contextManager, $this->urlGenerator);
 
             if ($i == 1) {
                 $formElement->setIsFirstElement(true);
@@ -135,6 +137,7 @@ class FormManager
             $options  = $concrete['options'];
 
             $formElement = new $class(null, $name, $formElementDefinition, null, $options);
+            //$formElement->init($this->contextManager, $this->urlGenerator);
 
             $property = $formElementDefinition->getName();
             if ($property) {
@@ -153,7 +156,9 @@ class FormManager
         foreach ($formElementsDefinition as $formElementDefinition) {
             if ($formElementDefinition->getFormElementType() == 'insert' and array_key_exists('insert', $this->formElements)) {
                 $class       = $this->formElements['insert']['class'];
-                $formElement = new $class(null, null, $formElementDefinition, $this->app, null, $this->formElements['insert']['options']);
+                //$formElement = new $class(null, null, $formElementDefinition, $this->app, null, $this->formElements['insert']['options']);
+                $formElement = new $class(null, null, $formElementDefinition, null, $this->formElements['insert']['options']);
+                $formElement->init($this->contextManager, $this->urlGenerator);
 
                 $clippingDefinition = $formElement->getClippingDefinition($this->getDataTypeDefinition(), $values, $attributes);
 

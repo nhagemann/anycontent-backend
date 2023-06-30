@@ -41,31 +41,11 @@
 
 </head>
 
-<body class="layout-default {% if anycontent.context.canDoTimeshift %}{% if timeshift.active %}body-timeshift{% endif %}{% endif %}">
+<body class="layout-plain {% if anycontent.context.canDoTimeshift %}{% if timeshift.active %}body-timeshift{% endif %}{% endif %}">
 {% block body %}
-
-    {% block navbar %}
-        {% block navbar_top %}
-            {% include '@AnyContentBackend/navbar_top.twig' %}
-        {% endblock %}
-        {% block navbar_bottom %}
-            {% include '@AnyContentBackend/navbar_bottom.twig' %}
-        {% endblock %}
-    {% endblock %}
-
-
     <div class="container">
-        {% block content_before %}{% endblock %}
-
-        {% include '@AnyContentBackend/messages.twig' %}
-
         {% block content %}{% endblock %}
-
-        {% block content_after %}{% endblock %}
     </div>
-
-    {% include "@AnyContentBackend/modals.twig" %}
-
 {% endblock %}
 </body>
 </html>
