@@ -5,8 +5,12 @@ d = checkbox
 e = selection (a,b,c)
 f = multiselection (a,b,c)
 g = number 2
+h = color
+i = date
+
+
 c = sequence (s1)
 
 +++ s1 +++
-a
-b
+a = color
+

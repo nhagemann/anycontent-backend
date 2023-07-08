@@ -14,6 +14,9 @@ class FormElementDefault implements FormElementInterface
 
     protected bool $isFirstElement = false;
 
+    protected ContextManager $contextManager;
+    protected UrlGeneratorInterface $urlGenerator;
+
     /**
      * @param FormElementDefinition $definition
      * @param string|array $value
@@ -74,5 +77,7 @@ class FormElementDefault implements FormElementInterface
 
     public function init(ContextManager $contextManager, UrlGeneratorInterface $urlGenerator): void
     {
+        $this->contextManager = $contextManager;
+        $this->urlGenerator = $urlGenerator;
     }
 }

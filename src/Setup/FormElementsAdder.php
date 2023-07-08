@@ -2,6 +2,10 @@
 
 namespace AnyContent\Backend\Setup;
 
+use AnyContent\Backend\Forms\FormElements\ColorFormElement\FormElementColor;
+use AnyContent\Backend\Forms\FormElements\DateTimeFormElements\FormElementDate;
+use AnyContent\Backend\Forms\FormElements\DateTimeFormElements\FormElementTime;
+use AnyContent\Backend\Forms\FormElements\DateTimeFormElements\FormElementTimestamp;
 use AnyContent\Backend\Forms\FormElements\FormElementDefault;
 use AnyContent\Backend\Forms\FormElements\NumberFormElement\FormElementNumber;
 use AnyContent\Backend\Forms\FormElements\SelectionFormElements\FormElementCheckbox;
@@ -36,6 +40,10 @@ class FormElementsAdder
         $classes['selection'] = FormElementSelection::class;
         $classes['multiselection'] = FormElementMultiSelection::class;
         $classes['number'] = FormElementNumber::class;
+        $classes['timestamp'] = FormElementTimestamp::class;
+        $classes['date'] = FormElementDate::class;
+        $classes['time'] = FormElementTime::class;
+        $classes['color'] = FormElementColor::class;
 
         foreach ($this->formElements as $formElement) {
             $classes[$formElement['type']] = $formElement['class'];
