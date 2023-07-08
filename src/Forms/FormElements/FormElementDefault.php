@@ -14,11 +14,15 @@ class FormElementDefault implements FormElementInterface
 
     protected bool $isFirstElement = false;
 
+    /**
+     * @param FormElementDefinition $definition
+     * @param string|array $value
+     */
     public function __construct(
         protected ?string $id,
         protected ?string $name,
-        protected FormElementDefinition $definition,
-        protected ?string $value = '',
+        protected $definition,
+        protected $value = '',
         protected array $options = []
     ) {
         $this->vars['id']         = $this->id;

@@ -125,6 +125,7 @@ abstract class AbstractAnyContentBackendController extends AbstractController
 
         $vars['links']['repository'] = $this->generateUrl('anycontent_repository', ['repositoryAccessHash' => $repositoryAccessHash]);
         $vars['links']['self']       = $this->generateUrl('anycontent_records', ['contentTypeAccessHash' => $contentTypeAccessHash]);
+        $vars['links']['listRecords']       = $this->generateUrl('anycontent_records', ['contentTypeAccessHash' => $contentTypeAccessHash]);
 
         // sorting links
 

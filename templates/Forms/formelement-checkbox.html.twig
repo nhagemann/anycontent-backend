@@ -1,0 +1,11 @@
+{% extends "@AnyContentBackend/Content/formelement-default.twig" %}
+
+{% block input %}
+    <div class="col-xs-6">
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" value="1" id="{{ id }}" name="{{ name }}" {{ checked }}{% if definition.isProtected %} disabled="disabled"{% endif %}> {{ legend }}
+            </label>
+        </div>
+    </div>
+{% endblock %}

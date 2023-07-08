@@ -14,7 +14,8 @@
     "symfony/twig-bundle": "^5.4|^6.0",
     "twig/twig": "^2.13|^3.0.4",
     "nhagemann/anycontent-client-php": "dev-analyze-for-robert",
-    "symfony/event-dispatcher": "^5.4|^6.0"
+    "symfony/event-dispatcher": "^5.4|^6.0",
+    "d4h/finediff": "^1.0"
   },
   "require-dev": {
     "phpunit/phpunit": "^9.5",

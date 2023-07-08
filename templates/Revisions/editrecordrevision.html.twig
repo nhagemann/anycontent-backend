@@ -1,0 +1,84 @@
+{% extends "@AnyContentBackend/anycontent-backend.html.twig" %}
+
+{% block content %}
+    <style>
+        ins {
+            color: green;
+        }
+
+        del {
+            color: red;
+        }
+    </style>
+
+    {% if id is defined %}
+        {% include "@AnyContentBackend/Content/editrecord-breadcrumb.html.twig" %}
+    {% else %}
+        {% include "@AnyContentBackend/Content/editconfig-breadcrumb.html.twig" %}
+    {% endif %}
+
+
+
+    <div class="row">
+        <br/>
+        <table class="table table-striped">
+
+            <tr>
+                <th style="width: 40px">Nr</th>
+                <th style="width: 200px">UserInfo</th>
+                <th>Diff</th>
+                {% if definition.isTimeShiftable %}
+                    <th style="width: 150px">&nbsp;</th>
+                {% endif %}
+            </tr>
+            {% for revision in revisions %}
+                <tr{% if revision.deleted %} class="danger"{% endif %}>
+                    <td>{{ revision.record.revision }}</td>
+                    <td>
+
+                        <div class="pull-left gravatar">
+                            <img src="https://www.gravatar.com/avatar/{{ revision.gravatar }}?s=40" height="40"
+                                 width="40"/>
+                        </div>
+                        <div class="userinfo">{% if revision.username %}{{ revision.username }}<br/>{% endif %}
+                            <small>{{ revision.date | date ('d.m.Y H:i:s') }}</small>
+                        </div>
+                    </td>
+                    {% if revision.deleted %}
+                        <td>Record deleted</td>
+                        <td>&nbsp;</td>
+                    {% else %}
+                        <td>
+                            {% if revision.diff %}
+                                {% for diff in revision.diff %}
+                                    <strong>{{ diff.label }}</strong>:&nbsp;
+                                    {{ diff.html | raw }}<br/>
+                                {% endfor %}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+                        {% if definition.isTimeShiftable %}
+                            <td>
+                                <a href="{{ revision.links.edit }}" class="btn btn-primary">Edit</a>&nbsp;<a
+                                        href="{{ revision.links.recreate }}" class="btn btn-success">Recreate</a>
+                            </td>
+                        {% endif %}
+                    {% endif %}
+                </tr>
+
+            {% endfor %}
+        </table>
+    </div>
+
+
+
+    {% block buttons %}
+        <div class="row">
+            <hr/>
+            {{ buttons | raw }}
+        </div>
+    {% endblock %}
+
+    {# {% include "files-modal-file-zoom.twig" %}#}
+{% endblock %}

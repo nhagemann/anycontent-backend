@@ -1,0 +1,106 @@
+{% extends "@AnyContentBackend/Content/formelement-default.twig" %}
+
+{% block input %}
+
+    {% if type=='dropdown' %}
+
+        <div class="col-xs-4">
+
+            <select class="form-control" id="{{ id }}" name="{{ name }}">
+                <option value="">...</option>
+                {% for k,v in options %}
+                    {% if value == k %}
+                        <option value="{{ k }}" selected="selected">{{ v }}</option>
+                    {% else %}
+                        <option value="{{ k }}">{{ v }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+
+    {% endif %}
+
+    {% if type=='autocomplete' %}
+        <div class="col-xs-4">
+            <script>
+                $(function () {
+                    var availableTags = {{ options|json_encode|raw }};
+                    $("#{{ id }}_label").autocompleteCat({
+                        source: availableTags,
+                        minLength: 0,
+                        change: function (event, ui) {
+                            if (ui.item == null) {
+                                $("#{{ id }}_label").val('');
+                                $("#{{ id }}_label").focus();
+                            }
+                        },
+                        select: function (event, ui) {
+                            $("#{{ id }}_label").val(ui.item.label);
+                            $("#{{ id }}").val(ui.item.value);
+                            return false;
+                        }
+
+                    });
+                    $("#{{ id }}_label").click(function () {
+                        $("#{{ id }}_label").val('');
+                        $("#{{ id }}").val('');
+                        $(this).autocompleteCat("search");
+                    });
+                });
+            </script>
+            <div class="input-group">
+                <input type="name" class="form-control" id="{{ id }}_label" placeholder=""
+                       value="{{ label }}">
+                <input type="hidden" class="form-control" id="{{ id }}" name="{{ name }}" placeholder=""
+                       value="{{ value }}">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-option-horizontal"
+                                                          aria-hidden="true"></span></span>
+
+            </div>
+        </div>
+    {% endif %}
+
+    {% if type=='radio' %}
+        <div class="col-xs-8">
+            {% for k,v in options %}
+                <div class="radio">
+                    <label>
+                        {% if value == k %}
+                            <input type="radio" name="{{ name }}" id="{{ id }}_{{ loop.index }}" value="{{ k }}"
+                                   checked="checked"> {{ v }}
+                        {% else %}
+                            <input type="radio" name="{{ name }}" id="{{ id }}_{{ loop.index }}"
+                                   value="{{ k }}"> {{ v }}
+                        {% endif %}
+
+                    </label>
+                </div>
+
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% if type=='toggle' %}
+        <div class="col-xs-8">
+            {% for k,v in options %}
+
+                <label>
+                    {% if value == k %}
+                        <label class="radio-inline">
+                            <input type="radio" name="{{ name }}" id="{{ id }}_{{ loop.index }}" value="{{ k }}"
+                                   checked="checked"> {{ v }}
+                        </label>
+                    {% else %}
+                        <label class="radio-inline">
+                            <input type="radio" name="{{ name }}" id="{{ id }}_{{ loop.index }}" value="{{ k }}"
+                            > {{ v }}
+                        </label>
+                    {% endif %}
+
+                </label>
+
+
+            {% endfor %}
+        </div>
+    {% endif %}
+
+{% endblock %}

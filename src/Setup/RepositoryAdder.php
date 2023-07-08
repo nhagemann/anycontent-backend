@@ -41,8 +41,10 @@ class RepositoryAdder
                     break;
             }
 
-            $files = $connection['files'];
-            $this->addFileManager($repository, $files);
+            if (isset($connection['files'])) {
+                $files = $connection['files'];
+                $this->addFileManager($repository, $files);
+            }
         }
 
 //        $configuration = new RecordFilesConfiguration();
