@@ -10,6 +10,7 @@ i = date
 j = email
 k = password
 l = range 4 8
+m = link
 
 c = sequence (s1)
 
@@ -19,4 +20,4 @@ i = date
 j = email
 k = password
 l = range 4 8
-
+m = link

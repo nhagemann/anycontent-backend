@@ -8,6 +8,7 @@ use AnyContent\Backend\Forms\FormElements\DateTimeFormElements\FormElementTime;
 use AnyContent\Backend\Forms\FormElements\DateTimeFormElements\FormElementTimestamp;
 use AnyContent\Backend\Forms\FormElements\EmailFormElement\FormElementEmail;
 use AnyContent\Backend\Forms\FormElements\FormElementDefault;
+use AnyContent\Backend\Forms\FormElements\LinkFormElement\FormElementLink;
 use AnyContent\Backend\Forms\FormElements\NumberFormElement\FormElementNumber;
 use AnyContent\Backend\Forms\FormElements\PasswordFormElement\FormElementPassword;
 use AnyContent\Backend\Forms\FormElements\RangeFormElement\FormElementRange;
@@ -40,6 +41,7 @@ class FormElementsAdder
         $classes['textfield'] = FormElementTextField::class;
         $classes['password'] = FormElementPassword::class;
         $classes['email'] = FormElementEmail::class;
+        $classes['link'] = FormElementLink::class;
         $classes['textarea'] = FormElementTextArea::class;
         $classes['checkbox'] = FormElementCheckbox::class;
         $classes['selection'] = FormElementSelection::class;
