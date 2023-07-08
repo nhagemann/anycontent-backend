@@ -7,10 +7,16 @@ f = multiselection (a,b,c)
 g = number 2
 h = color
 i = date
-
+j = email
+k = password
+l = range 4 8
 
 c = sequence (s1)
 
 +++ s1 +++
 a = color
+i = date
+j = email
+k = password
+l = range 4 8
 

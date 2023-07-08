@@ -2,9 +2,10 @@
 
 namespace AnyContent\Backend\Forms\FormElements\DateTimeFormElements;
 
+use AnyContent\Backend\Forms\FormElements\FormElementDefault;
 use Twig\Environment;
 
-class FormElementDate extends \AnyContent\Backend\Forms\FormElements\FormElementDefault
+class FormElementDate extends FormElementDefault
 {
     protected string $template = '@AnyContentBackend/Forms/formelement-datetime.html.twig';
 

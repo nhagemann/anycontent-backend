@@ -1,0 +1,13 @@
+{% extends "@AnyContentBackend/Content/formelement-default.twig" %}
+
+{% block input %}
+    <div class="col-xs-6">
+        <div class="input-group ">
+
+            <span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
+            <input type="text" class="form-control" id="{{ id }}" name="{{ name }}"
+                   placeholder="{{ definition.placeholder }}" value="{{ value }}"{% if definition.isProtected %} disabled="disabled"{% endif %}>
+
+        </div>
+    </div>
+{% endblock %}
