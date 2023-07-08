@@ -4,6 +4,7 @@ b = textarea 8 S
 d = checkbox
 e = selection (a,b,c)
 f = multiselection (a,b,c)
+g = number 2
 c = sequence (s1)
 
 +++ s1 +++

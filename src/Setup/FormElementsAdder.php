@@ -3,6 +3,7 @@
 namespace AnyContent\Backend\Setup;
 
 use AnyContent\Backend\Forms\FormElements\FormElementDefault;
+use AnyContent\Backend\Forms\FormElements\NumberFormElement\FormElementNumber;
 use AnyContent\Backend\Forms\FormElements\SelectionFormElements\FormElementCheckbox;
 use AnyContent\Backend\Forms\FormElements\SelectionFormElements\FormElementMultiSelection;
 use AnyContent\Backend\Forms\FormElements\SelectionFormElements\FormElementSelection;
@@ -34,6 +35,7 @@ class FormElementsAdder
         $classes['checkbox'] = FormElementCheckbox::class;
         $classes['selection'] = FormElementSelection::class;
         $classes['multiselection'] = FormElementMultiSelection::class;
+        $classes['number'] = FormElementNumber::class;
 
         foreach ($this->formElements as $formElement) {
             $classes[$formElement['type']] = $formElement['class'];

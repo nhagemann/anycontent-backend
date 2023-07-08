@@ -1,0 +1,16 @@
+{% extends "@AnyContentBackend/Content/formelement-default.twig" %}
+
+{% block input %}
+    <div class="col-xs-2">
+        <div class="input-group">
+            {% if leftAddOn %}
+                <span class="input-group-addon">{{ leftAddOn }}</span>
+            {% endif %}
+            <input type="text" class="form-control" id="{{ id }}" name="{{ name }}"
+                   placeholder="{{ definition.placeholder }}" value="{{ value }}"{% if definition.isProtected %} disabled="disabled"{% endif %}>
+            {% if rightAddOn %}
+                <span class="input-group-addon">{{ rightAddOn }}</span>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
