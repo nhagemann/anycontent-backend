@@ -1,4 +1,14 @@
+# headline [
+#  section [[
+#  tab [[[
+#  print >
+
+
 Name
+
+[ Headline ]
+> Weird
+
 a = textfield M
 b = textarea 8 S
 d = checkbox

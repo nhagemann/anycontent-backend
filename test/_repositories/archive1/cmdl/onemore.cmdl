@@ -1,0 +1,26 @@
+# headline [
+#  section [[
+#  tab [[[
+#  print >
+
+
+Name
+
+[Headline
+> Print out something, also <strong>strong</strong> or <b>bold</b>
+
+[[ Interesting ]]+
+a
+]]
+b
+
+[[[ Tab 1
+a1
+a2
+a3
+[[[ Tab 2 ]]]
+b1
+b2
+b3
+]]]
+

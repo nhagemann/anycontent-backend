@@ -1,0 +1,23 @@
+<div class="row">
+    <div class="col-xs-11">
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs">
+            {% for tab in tabs %}
+                <li{% if loop.index==1 %} class="active"{% endif %}><a href="#{{ id }}tab{{ tab.nr }}" data-toggle="tab">{{ tab.title }}</a></li>
+            {% endfor %}
+
+        </ul>
+        <!-- Tab panes -->
+        <div class="tab-content">
+            {% for tab in tabs %}
+                <div class="tab-pane{% if loop.index==1 %} active"{% endif %}" id="{{ id }}tab{{ tab.nr }}">
+                <div class="col-xs-12 tab-formelements">
+                    {{ tab.content | raw }}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    <div class="clearfix"><br/></div>
+
+    </div>
+</div>

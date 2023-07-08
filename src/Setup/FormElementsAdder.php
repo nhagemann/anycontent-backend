@@ -8,6 +8,13 @@ use AnyContent\Backend\Forms\FormElements\DateTimeFormElements\FormElementTime;
 use AnyContent\Backend\Forms\FormElements\DateTimeFormElements\FormElementTimestamp;
 use AnyContent\Backend\Forms\FormElements\EmailFormElement\FormElementEmail;
 use AnyContent\Backend\Forms\FormElements\FormElementDefault;
+use AnyContent\Backend\Forms\FormElements\LayoutFormElements\FormElementHeadline;
+use AnyContent\Backend\Forms\FormElements\LayoutFormElements\FormElementPrint;
+use AnyContent\Backend\Forms\FormElements\LayoutFormElements\FormElementSectionEnd;
+use AnyContent\Backend\Forms\FormElements\LayoutFormElements\FormElementSectionStart;
+use AnyContent\Backend\Forms\FormElements\LayoutFormElements\FormElementTabEnd;
+use AnyContent\Backend\Forms\FormElements\LayoutFormElements\FormElementTabNext;
+use AnyContent\Backend\Forms\FormElements\LayoutFormElements\FormElementTabStart;
 use AnyContent\Backend\Forms\FormElements\LinkFormElement\FormElementLink;
 use AnyContent\Backend\Forms\FormElements\NumberFormElement\FormElementNumber;
 use AnyContent\Backend\Forms\FormElements\PasswordFormElement\FormElementPassword;
@@ -52,6 +59,15 @@ class FormElementsAdder
         $classes['date'] = FormElementDate::class;
         $classes['time'] = FormElementTime::class;
         $classes['color'] = FormElementColor::class;
+
+        // layout form elements
+        $classes['print'] = FormElementPrint::class;
+        $classes['headline'] = FormElementHeadline::class;
+        $classes['section-start'] = FormElementSectionStart::class;
+        $classes['section-end'] = FormElementSectionEnd::class;
+        $classes['tab-start'] = FormElementTabStart::class;
+        $classes['tab-next'] = FormElementTabNext::class;
+        $classes['tab-end'] = FormElementTabEnd::class;
 
         foreach ($this->formElements as $formElement) {
             $classes[$formElement['type']] = $formElement['class'];

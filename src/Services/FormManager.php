@@ -73,13 +73,14 @@ class FormManager
             $id = $formId . '_' . $type . '_' . $name;
 
             $formElement = new $class($id, $name, $formElementDefinition, $value, $options);
-            $formElement->init($this->contextManager, $this->urlGenerator);
+            $formElement->init($this->contextManager, $this, $this->urlGenerator);
 
             if ($i == 1) {
                 $formElement->setIsFirstElement(true);
             }
 
             $htmlFormElement = $formElement->render($this->twig);
+
             if ($this->buffering) {
                 $this->buffer .= $htmlFormElement;
             } else {
@@ -158,7 +159,7 @@ class FormManager
                 $class       = $this->formElements['insert']['class'];
                 //$formElement = new $class(null, null, $formElementDefinition, $this->app, null, $this->formElements['insert']['options']);
                 $formElement = new $class(null, null, $formElementDefinition, null, $this->formElements['insert']['options']);
-                $formElement->init($this->contextManager, $this->urlGenerator);
+                $formElement->init($this->contextManager, $this, $this->urlGenerator);
 
                 $clippingDefinition = $formElement->getClippingDefinition($this->getDataTypeDefinition(), $values, $attributes);
 
