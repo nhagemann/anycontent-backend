@@ -2,6 +2,8 @@
 
 namespace AnyContent\Backend\Command;
 
+use AnyContent\Backend\Helper\ConsolePrinter;
+use AnyContent\Backend\Services\RepositoryManager;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -15,23 +17,40 @@ use Symfony\Component\Console\Output\OutputInterface;
 )]
 class ListRepositoriesCommand extends Command
 {
+    public function __construct(
+        private RepositoryManager $repositoryManager,
+        private ConsolePrinter $printer
+    ) {
+        parent::__construct(null);
+    }
+
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $app = $this->getSilexApplication();
-
-        $repositories = $app['repos']->listRepositories();
+        $repositories = $this->repositoryManager->listRepositories();
 
         foreach ($repositories as $url => $repository) {
-            $output->writeln('');
-            $output->writeln(self::escapeGreen . $repository['title'] . self::escapeReset . ' (' . $url . ')');
-            $contentTypes = $app['repos']->listContentTypes($url);
+            $this->printer->h1($repository['title']);
 
+            $contentTypes = $this->repositoryManager->listContentTypes($url);
+
+            $this->printer->info('Content Types:', true);
             foreach ($contentTypes as $contentTypeName => $contentType) {
-                $output->writeln(self::escapeMagenta . $contentType['title'] . self::escapeReset . ' (' . $contentTypeName . ')');
+                $this->printer->writeln(sprintf('<strong>%s</strong> (%s)', $contentType['title'], $contentTypeName));
             }
-            $output->writeln('');
+
+            $this->printer->writeln();
+
+            $configTypes = $this->repositoryManager->listConfigTypes($url);
+
+            $this->printer->info('Config Types:', true);
+            foreach ($configTypes as $configTypeName => $configType) {
+                $this->printer->writeln(sprintf('<strong>%s</strong> (%s)', $configType['title'], $configTypeName));
+            }
+
+            $this->printer->writeln('');
         }
-        $output->writeln('');
-        $output->writeln('');
+        $this->printer->writeln();
+
+        return Command::SUCCESS;
     }
 }
