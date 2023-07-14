@@ -13,7 +13,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class SortController extends AbstractAnyContentBackendController
 {
     #[Route('/content/sort/{contentTypeAccessHash}/{workspace}/{language}', 'anycontent_records_sort', methods: ['GET'])]
-    public function sortRecords($contentTypeAccessHash, $workspace, $language): Response
+    public function sortRecords($contentTypeAccessHash, $workspace = null, $language = null): Response
     {
         $vars = [];
 
@@ -34,6 +34,15 @@ class SortController extends AbstractAnyContentBackendController
         $this->addRepositoryLinks($vars, $repository, 1);
 
         $vars['links']['sort']         = $this->generateUrl('anycontent_records_sort_post', ['contentTypeAccessHash' => $contentTypeAccessHash, 'workspace' => $this->contextManager->getCurrentWorkspace(), 'language' => $this->contextManager->getCurrentLanguage()]);
+
+        $vars['links']['workspaces'] = $this->generateUrl(
+            'anycontent_records_sort_change_workspace',
+            ['contentTypeAccessHash' => $contentTypeAccessHash]
+        );
+        $vars['links']['languages'] = $this->generateUrl(
+            'anycontent_records_sort_change_language',
+            ['contentTypeAccessHash' => $contentTypeAccessHash]
+        );
 
         // Buttons
 

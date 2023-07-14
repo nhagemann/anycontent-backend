@@ -66,18 +66,19 @@ class ChangeWorkspaceController extends AbstractAnyContentBackendController
         return $this->redirect($this->generateUrl('anycontent_record_add', ['contentTypeAccessHash' => $contentTypeAccessHash]), 303);
     }
 
-    public static function changeWorkspaceSortRecords(Application $app, Request $request, $contentTypeAccessHash)
-    {
-        $app['context']->setCurrentWorkspace($request->get('workspace'));
-
-        return $app->redirect($app['url_generator']->generate('sortRecords', ['contentTypeAccessHash' => $contentTypeAccessHash]), 303);
-    }
-
-    #[Route('/change-workspace/edit-config/{configTypeAccessHash}', 'anycontent_config_edit_change_workspace', methods: ['POST'])]
-    public function changeWorkspaceEditConfig(Request $request, $configTypeAccessHash, $recordId)
+    #[Route('/change-workspace/content/sort/{contentTypeAccessHash}', 'anycontent_records_sort_change_workspace', methods: ['POST'])]
+    public function changeWorkspaceSortRecords(Request $request, $contentTypeAccessHash)
     {
         $this->contextManager->setCurrentWorkspace($request->get('workspace'));
 
-        return $this->redirect($this->generateUrl('anycontent_config_edit', ['contentTypeAccessHash' => $configTypeAccessHash]), 303);
+        return $this->redirect($this->generateUrl('anycontent_records_sort', ['contentTypeAccessHash' => $contentTypeAccessHash]), 303);
+    }
+
+    #[Route('/change-workspace/edit-config/{configTypeAccessHash}', 'anycontent_config_edit_change_workspace', methods: ['POST'])]
+    public function changeWorkspaceEditConfig(Request $request, $configTypeAccessHash)
+    {
+        $this->contextManager->setCurrentWorkspace($request->get('workspace'));
+
+        return $this->redirect($this->generateUrl('anycontent_config_edit', ['configTypeAccessHash' => $configTypeAccessHash]), 303);
     }
 }
