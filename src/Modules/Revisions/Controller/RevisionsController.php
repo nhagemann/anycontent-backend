@@ -213,8 +213,12 @@ class RevisionsController extends AbstractAnyContentBackendController
             return $this->render('forbidden.twig', $vars);
     }
 
+    #[Route('/content/revisions/{configTypeAccessHash}/{workspace}/{language}', 'anycontent_config_revisions')]
+    #[Route('/content/revisions/{configTypeAccessHash}/{workspace}/{language}', 'anycontent_config_revisions_timeshift')]
+    #[Route('/content/revisions/{configTypeAccessHash}/{workspace}/{language}', 'anycontent_config_revisions_recreate')]
     public function listConfigRevisions($configTypeAccessHash, $workspace, $language)
     {
+        die('not yet migrated');
         /** @var UserManager $user */
         $user = $app['user'];
 

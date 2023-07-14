@@ -29,7 +29,7 @@ class MenuManager
                 $items[] = ['type' => 'link', 'text' => $contentTypeItem['title'], 'url' => $url, 'glyphicon' => 'glyphicon-file'];
             }
             foreach ($this->repositoryManager->listConfigTypes($repositoryName) as $configTypeItem) {
-                $url = $this->urlGenerator->generate('anycontent_config', ['configTypeAccessHash' => $configTypeItem['accessHash']]);
+                $url = $this->urlGenerator->generate('anycontent_config_edit', ['configTypeAccessHash' => $configTypeItem['accessHash']]);
                 $items[] = ['type' => 'link', 'text' => $configTypeItem['title'], 'url' => $url, 'glyphicon' => 'glyphicon-wrench'];
             }
             if ($this->repositoryManager->hasFiles($repositoryName)) {

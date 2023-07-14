@@ -118,6 +118,33 @@ abstract class AbstractAnyContentBackendController extends AbstractController
         return $repository;
     }
 
+    protected function updateContextByConfigTypeAccessHash($configTypeAccessHash, $workspace, $language): Repository
+    {
+        $repository = $this->repositoryManager->getRepositoryByConfigTypeAccessHash($configTypeAccessHash);
+
+        if (!$repository) {
+            throw new NotFoundHttpException();
+        }
+        $this->contextManager->setCurrentRepository($repository);
+
+        $configTypeDefinition = $this->repositoryManager->getConfigTypeDefinitionByConfigTypeAccessHash($configTypeAccessHash);
+        $this->contextManager->setCurrentConfigType($configTypeDefinition);
+
+        if ($workspace != null && $configTypeDefinition->hasWorkspace($workspace)) {
+            $this->contextManager->setCurrentWorkspace($workspace);
+        }
+        if ($language != null && $configTypeDefinition->hasLanguage($language)) {
+            $this->contextManager->setCurrentLanguage($language);
+        }
+
+        $repository->selectWorkspace($this->contextManager->getCurrentWorkspace());
+        $repository->selectLanguage($this->contextManager->getCurrentLanguage());
+
+        $repository->setTimeShift($this->contextManager->getCurrentTimeShift());
+        $repository->selectView('default');
+        return $repository;
+    }
+
     protected function addRepositoryLinks(array &$vars, Repository $repository, $page)
     {
         $repositoryAccessHash        = $this->repositoryManager->getRepositoryAccessHash($repository);

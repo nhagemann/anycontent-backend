@@ -69,7 +69,7 @@ class StartController extends AbstractAnyContentBackendController
         $item['config_types'] = [];
 
         foreach ($this->repositoryManager->listConfigTypes($repositoryName) as $configTypeName => $configTypeItem) {
-            $info = ['name' => $configTypeItem['name'], 'title' => $configTypeItem['title'], 'link' => $app['url_generator']->generate('editConfig', ['configTypeAccessHash' => $configTypeItem['accessHash']])];
+            $info = ['name' => $configTypeItem['name'], 'title' => $configTypeItem['title'], 'link' => $this->generateUrl('anycontent_config_edit', ['configTypeAccessHash' => $configTypeItem['accessHash']])];
 
             if ($definition) {
                 $info['definition'] = $repository->getConfigTypeDefinition($configTypeName);

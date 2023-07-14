@@ -51,7 +51,7 @@ class ChangeWorkspaceController extends AbstractAnyContentBackendController
     }
 
     #[Route('/change-workspace/edit-record/{contentTypeAccessHash}/{recordId}', 'anycontent_record_edit_change_workspace', methods: ['POST'])]
-    public function changeLanguageEditRecord(Request $request, $contentTypeAccessHash, $recordId)
+    public function changeWorkspaceEditRecord(Request $request, $contentTypeAccessHash, $recordId)
     {
         $this->contextManager->setCurrentWorkspace($request->get('workspace'));
 
@@ -73,11 +73,11 @@ class ChangeWorkspaceController extends AbstractAnyContentBackendController
         return $app->redirect($app['url_generator']->generate('sortRecords', ['contentTypeAccessHash' => $contentTypeAccessHash]), 303);
     }
 
-    public static function changeWorkspaceEditConfig(Application $app, Request $request, $configTypeAccessHash)
+    #[Route('/change-workspace/edit-config/{configTypeAccessHash}', 'anycontent_config_edit_change_workspace', methods: ['POST'])]
+    public function changeWorkspaceEditConfig(Request $request, $configTypeAccessHash, $recordId)
     {
-        $app['context']->setCurrentWorkspace($request->get('workspace'));
-        ;
+        $this->contextManager->setCurrentWorkspace($request->get('workspace'));
 
-        return $app->redirect($app['url_generator']->generate('editConfig', ['configTypeAccessHash' => $configTypeAccessHash]), 303);
+        return $this->redirect($this->generateUrl('anycontent_config_edit', ['contentTypeAccessHash' => $configTypeAccessHash]), 303);
     }
 }
