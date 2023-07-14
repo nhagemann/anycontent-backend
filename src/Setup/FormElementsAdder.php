@@ -8,6 +8,7 @@ use AnyContent\Backend\Forms\FormElements\DateTimeFormElements\FormElementTime;
 use AnyContent\Backend\Forms\FormElements\DateTimeFormElements\FormElementTimestamp;
 use AnyContent\Backend\Forms\FormElements\EmailFormElement\FormElementEmail;
 use AnyContent\Backend\Forms\FormElements\FormElementDefault;
+use AnyContent\Backend\Forms\FormElements\InsertFormElement\FormElementInsert;
 use AnyContent\Backend\Forms\FormElements\LayoutFormElements\FormElementHeadline;
 use AnyContent\Backend\Forms\FormElements\LayoutFormElements\FormElementPrint;
 use AnyContent\Backend\Forms\FormElements\LayoutFormElements\FormElementSectionEnd;
@@ -68,6 +69,9 @@ class FormElementsAdder
         $classes['tab-start'] = FormElementTabStart::class;
         $classes['tab-next'] = FormElementTabNext::class;
         $classes['tab-end'] = FormElementTabEnd::class;
+
+        // content type structure elements
+        $classes['insert'] = FormElementInsert::class;
 
         foreach ($this->formElements as $formElement) {
             $classes[$formElement['type']] = $formElement['class'];

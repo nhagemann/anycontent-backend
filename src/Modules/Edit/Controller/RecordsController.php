@@ -109,6 +109,7 @@ class RecordsController extends AbstractAnyContentBackendController
             );
         }
 
+        $this->formManager->setDataTypeDefinition($contentTypeDefinition);
         $vars['form'] = $this->formManager->renderFormElements(
             'form_edit',
             $viewDefinition->getFormElementDefinitions(),
