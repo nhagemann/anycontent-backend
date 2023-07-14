@@ -41,21 +41,20 @@ class ChangeLanguageController extends AbstractAnyContentBackendController
         return $this->redirect($this->generateUrl('anycontent_record_edit', ['contentTypeAccessHash' => $contentTypeAccessHash, 'recordId' => $recordId, '']), 303);
     }
 
-    #[Route('/change-language/content/sort/{contentTypeAccessHash}', 'anycontent_records_sort_change_language', methods: ['POST'])]
+    #[Route('/change-language/add-record/{contentTypeAccessHash}', 'anycontent_record_add_change_language', methods: ['POST'])]
     public function changeLanguageAddRecord(Request $request, $contentTypeAccessHash)
     {
         $this->contextManager->setCurrentLanguage($request->get('language'));
 
-        return $this->redirect($this->generateUrl('anycontent_records_sort', ['contentTypeAccessHash' => $contentTypeAccessHash]), 303);
+        return $this->redirect($this->generateUrl('anycontent_record_add', ['contentTypeAccessHash' => $contentTypeAccessHash]), 303);
     }
 
-    #[Route('/change-language/records-record/{contentTypeAccessHash}/{recordId}', 'anycontent_record_edit_change_language', methods: ['POST'])]
-    public static function changeLanguageSortRecords(Application $app, Request $request, $contentTypeAccessHash)
+    #[Route('/change-language/content/sort/{contentTypeAccessHash}', 'anycontent_records_sort_change_language', methods: ['POST'])]
+    public function changeLanguageSortRecords(Request $request, $contentTypeAccessHash)
     {
-        $app['context']->setCurrentLanguage($request->get('language'));
-        ;
+        $this->contextManager->setCurrentLanguage($request->get('language'));
 
-        return $app->redirect($app['url_generator']->generate('sortRecords', ['contentTypeAccessHash' => $contentTypeAccessHash]), 303);
+        return $this->redirect($this->generateUrl('anycontent_records_sort', ['contentTypeAccessHash' => $contentTypeAccessHash]), 303);
     }
 
     #[Route('/change-language/edit-config/{configTypeAccessHash}', 'anycontent_config_edit_change_language', methods: ['POST'])]

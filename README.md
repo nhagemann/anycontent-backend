@@ -111,7 +111,7 @@ todo:
 - timeshift
 - file modals
 - files urls
-- list repositories command
+- #list repositories command
 - remove revisions command
 - export/import
 - all other form elements
