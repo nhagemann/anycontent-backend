@@ -10,21 +10,6 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[IsGranted('ROLE_ANYCONTENT')]
 class ChangeLanguageController extends AbstractAnyContentBackendController
 {
-    /**
-
-    $app
-    ->post('/change-language/content/edit/{contentTypeAccessHash}/{recordId}', 'AnyContent\CMCK\Modules\Backend\Core\WorkspacesLanguages\Controller::changeLanguageEditRecord')
-    ->bind('changeLanguageEditRecord');
-    $app
-    ->post('/change-language/content/add/{contentTypeAccessHash}', 'AnyContent\CMCK\Modules\Backend\Core\WorkspacesLanguages\Controller::changeLanguageAddRecord')
-    ->bind('changeLanguageAddRecord');
-    $app
-    ->post('/change-language/content/sort/{contentTypeAccessHash}', 'AnyContent\CMCK\Modules\Backend\Core\WorkspacesLanguages\Controller::changeLanguageSortRecords')
-    ->bind('changeLanguageSortRecords');
-    $app
-    ->post('/change-language/config/edit/{configTypeAccessHash}', 'AnyContent\CMCK\Modules\Backend\Core\WorkspacesLanguages\Controller::changeLanguageEditConfig')
-    ->bind('changeLanguageEditConfig');
-     */
     #[Route('/change-language/list/{contentTypeAccessHash}/page/{page}', 'anycontent_records_change_language', methods: ['POST'])]
     public function changeLanguageListRecords(Request $request, $contentTypeAccessHash, $page = 1)
     {

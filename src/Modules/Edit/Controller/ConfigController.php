@@ -48,6 +48,7 @@ class ConfigController extends AbstractAnyContentBackendController
 
             /** @var Config $record */
             $record = $repository->getConfig($configTypeDefinition->getName());
+            $record->setRepository($repository);
 
             $this->contextManager->setCurrentConfig($record);
              $vars['record'] = $record;
@@ -100,6 +101,7 @@ class ConfigController extends AbstractAnyContentBackendController
 
             if ($record) {
                 $this->contextManager->setCurrentConfig($record);
+
                 /* @var ViewDefinition */
                 $viewDefinition = $configTypeDefinition->getViewDefinition('default');
 

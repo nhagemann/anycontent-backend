@@ -91,6 +91,7 @@ class RepositoryAdder
         $configuration->setCMDLFolder($path);
         $configuration->setRepositoryName($name);
         $configuration->addContentTypes();
+        $configuration->addConfigTypes();
 
         $connection = $configuration->createReadWriteConnection();
 

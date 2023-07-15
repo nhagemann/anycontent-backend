@@ -10,39 +10,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[IsGranted('ROLE_ANYCONTENT')]
 class ChangeWorkspaceController extends AbstractAnyContentBackendController
 {
-    /**
-     *       $app
-    ->post('/change-workspace/content/list/{contentTypeAccessHash}/page/{page}', 'AnyContent\CMCK\Modules\Backend\Core\WorkspacesLanguages\Controller::changeWorkspaceListRecords')
-    ->bind('changeWorkspaceListRecords');
-    $app
-    ->post('/change-workspace/content/edit/{contentTypeAccessHash}/{recordId}', 'AnyContent\CMCK\Modules\Backend\Core\WorkspacesLanguages\Controller::changeWorkspaceEditRecord')
-    ->bind('changeWorkspaceEditRecord');
-    $app
-    ->post('/change-workspace/content/add/{contentTypeAccessHash}', 'AnyContent\CMCK\Modules\Backend\Core\WorkspacesLanguages\Controller::changeWorkspaceAddRecord')
-    ->bind('changeWorkspaceAddRecord');
-    $app
-    ->post('/change-workspace/content/sort/{contentTypeAccessHash}', 'AnyContent\CMCK\Modules\Backend\Core\WorkspacesLanguages\Controller::changeWorkspaceSortRecords')
-    ->bind('changeWorkspaceSortRecords');
-    $app
-    ->post('/change-workspace/config/edit/{configTypeAccessHash}', 'AnyContent\CMCK\Modules\Backend\Core\WorkspacesLanguages\Controller::changeWorkspaceEditConfig')
-    ->bind('changeWorkspaceEditConfig');
-    $app
-    ->post('/change-language/content/list/{contentTypeAccessHash}/page/{page}', 'AnyContent\CMCK\Modules\Backend\Core\WorkspacesLanguages\Controller::changeLanguageListRecords')
-    ->bind('changeLanguageListRecords');
-    $app
-    ->post('/change-language/content/edit/{contentTypeAccessHash}/{recordId}', 'AnyContent\CMCK\Modules\Backend\Core\WorkspacesLanguages\Controller::changeLanguageEditRecord')
-    ->bind('changeLanguageEditRecord');
-    $app
-    ->post('/change-language/content/add/{contentTypeAccessHash}', 'AnyContent\CMCK\Modules\Backend\Core\WorkspacesLanguages\Controller::changeLanguageAddRecord')
-    ->bind('changeLanguageAddRecord');
-    $app
-    ->post('/change-language/content/sort/{contentTypeAccessHash}', 'AnyContent\CMCK\Modules\Backend\Core\WorkspacesLanguages\Controller::changeLanguageSortRecords')
-    ->bind('changeLanguageSortRecords');
-    $app
-    ->post('/change-language/config/edit/{configTypeAccessHash}', 'AnyContent\CMCK\Modules\Backend\Core\WorkspacesLanguages\Controller::changeLanguageEditConfig')
-    ->bind('changeLanguageEditConfig');
-     */
-    #[Route('/change-workspace/list/{contentTypeAccessHash}/page/{page}', 'anycontent_records_change_workspace', methods: ['POST'])]
+     #[Route('/change-workspace/list/{contentTypeAccessHash}/page/{page}', 'anycontent_records_change_workspace', methods: ['POST'])]
     public function changeWorkspaceListRecords(Request $request, $contentTypeAccessHash, $page = 1)
     {
         $this->contextManager->setCurrentWorkspace($request->get('workspace'));

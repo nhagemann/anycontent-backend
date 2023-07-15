@@ -107,7 +107,7 @@ config/packages/security.yaml
 todo:
 - #change workspace/languages while sorting
 - #config records
-- revisions
+- revisions (change languages/workspace)
 - timeshift
 - file modals
 - files urls
