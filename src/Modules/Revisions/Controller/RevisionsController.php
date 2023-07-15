@@ -8,7 +8,6 @@ use AnyContent\Client\Config;
 use AnyContent\Client\Record;
 use AnyContent\Client\Repository;
 use AnyContent\CMCK\Modules\Backend\Core\Edit\EditRecordSaveEvent;
-use AnyContent\CMCK\Modules\Backend\Core\User\UserManager;
 use CMDL\ConfigTypeDefinition;
 use CMDL\DataTypeDefinition;
 use FineDiff\Diff;
@@ -90,7 +89,7 @@ class RevisionsController extends AbstractAnyContentBackendController
 //
 //            $contentTypeDefinition = $repository->getContentTypeDefinition();
 //            $this->contextManager->setCurrentContentType($contentTypeDefinition);
-//            $app['form']->setDataTypeDefinition($contentTypeDefinition);
+//            $this->formManager->setDataTypeDefinition($contentTypeDefinition);
 //
 //            if ($workspace != null && $contentTypeDefinition->hasWorkspace($workspace)) {
 //                $this->contextManager->setCurrentWorkspace($workspace);
@@ -179,7 +178,7 @@ class RevisionsController extends AbstractAnyContentBackendController
                     $item ['date']              = $revision->getLastChangeUserInfo()->getTimestamp();
                     $item ['deleted']           = $revision->isADeletedRevision();
                     $item ['links']['edit']     = $this->generateUrl(
-                        'anycontent_records_revisions_timeshift',
+                        'anycontent_config_revisions_timeshift',
                         [
                             'contentTypeAccessHash' => $contentTypeAccessHash,
                             'recordId'              => $revision->getId(),
@@ -189,7 +188,7 @@ class RevisionsController extends AbstractAnyContentBackendController
                         ]
                     );
                     $item ['links']['recreate'] = $this->generateUrl(
-                        'anycontent_records_revisions_recreate',
+                        'anycontent_config_revisions_recreate',
                         [
                             'contentTypeAccessHash' => $contentTypeAccessHash,
                             'recordId'              => $revision->getId(),
@@ -207,7 +206,7 @@ class RevisionsController extends AbstractAnyContentBackendController
 
             $vars['revisions'] = $items;
 
-            return $this->render('@AnyContentBackend\Revisions\editrecordrevision.html.twig', $vars);
+            return $this->render('@AnyContentBackend\Revisions\editrevision.html.twig', $vars);
         }
 
             return $this->render('forbidden.twig', $vars);
@@ -218,9 +217,8 @@ class RevisionsController extends AbstractAnyContentBackendController
     #[Route('/content/revisions/{configTypeAccessHash}/{workspace}/{language}', 'anycontent_config_revisions_recreate')]
     public function listConfigRevisions($configTypeAccessHash, $workspace, $language)
     {
-        die('not yet migrated');
-        /** @var UserManager $user */
-        $user = $app['user'];
+        ///** @var UserManager $user */
+        //$user = $app['user'];
 
         $vars = [];
 
@@ -233,7 +231,7 @@ class RevisionsController extends AbstractAnyContentBackendController
             $vars['repository']          = $repository;
             $repositoryAccessHash        = $this->repositoryManager->getRepositoryAccessHash($repository);
             $vars['links']['repository'] = $this->generateUrl(
-                'indexRepository',
+                'anycontent_repository',
                 ['repositoryAccessHash' => $repositoryAccessHash]
             );
 
@@ -243,7 +241,7 @@ class RevisionsController extends AbstractAnyContentBackendController
             $this->contextManager->setCurrentRepository($repository);
             $this->contextManager->setCurrentConfigType($configTypeDefinition);
 
-            $app['form']->setDataTypeDefinition($configTypeDefinition);
+            $this->formManager->setDataTypeDefinition($configTypeDefinition);
 
             if ($workspace != null && $configTypeDefinition->hasWorkspace($workspace)) {
                 $this->contextManager->setCurrentWorkspace($workspace);
@@ -261,9 +259,9 @@ class RevisionsController extends AbstractAnyContentBackendController
 
             $vars['buttons'] = $this->menuManager->renderButtonGroup($buttons);
 
-            $vars['links']['timeshift']  = $this->generateUrl('timeShiftEditConfig', ['configTypeAccessHash' => $configTypeAccessHash]);
-            $vars['links']['workspaces'] = $this->generateUrl('changeWorkspaceEditConfig', ['configTypeAccessHash' => $configTypeAccessHash]);
-            $vars['links']['languages']  = $this->generateUrl('changeLanguageEditConfig', ['configTypeAccessHash' => $configTypeAccessHash]);
+            //$vars['links']['timeshift']  = $this->generateUrl('anycontent_config_revisions_timeshift', ['configTypeAccessHash' => $configTypeAccessHash, 'workspace'=>$workspace,'language'=>$language]);
+            $vars['links']['workspaces'] = $this->generateUrl('anycontent_config_edit_change_workspace', ['configTypeAccessHash' => $configTypeAccessHash]);
+            $vars['links']['languages']  = $this->generateUrl('anycontent_config_edit_change_language', ['configTypeAccessHash' => $configTypeAccessHash]);
 
             /** @var Config $record */
             $record = $repository->getConfig($configTypeDefinition->getName());
@@ -289,7 +287,7 @@ class RevisionsController extends AbstractAnyContentBackendController
                         $item ['date']              = $compare->getLastChangeUserInfo()->getTimestamp();
                         $item ['deleted']           = false;
                         $item ['links']['edit']     = $this->generateUrl(
-                            'timeShiftIntoConfigRevision',
+                            'anycontent_config_revisions_timeshift',
                             [
                                 'configTypeAccessHash' => $configTypeAccessHash,
                                 'timeshift'            => $compare->getLastChangeUserInfo()->getTimestamp(),
@@ -298,7 +296,7 @@ class RevisionsController extends AbstractAnyContentBackendController
                             ]
                         );
                         $item ['links']['recreate'] = $this->generateUrl(
-                            'recreateConfigRevision',
+                            'anycontent_config_revisions_recreate',
                             [
                                 'configTypeAccessHash' => $configTypeAccessHash,
                                 'timeshift'            => $compare->getLastChangeUserInfo()->getTimestamp(),
@@ -315,7 +313,7 @@ class RevisionsController extends AbstractAnyContentBackendController
                         $item ['date']              = $revision->getLastChangeUserInfo()->getTimestamp();
                         $item ['deleted']           = false;
                         $item ['links']['edit']     = $this->generateUrl(
-                            'timeShiftIntoConfigRevision',
+                            'anycontent_config_revisions_timeshift',
                             [
                                 'configTypeAccessHash' => $configTypeAccessHash,
                                 'timeshift'            => $revision->getLastChangeUserInfo()->getTimestamp(),
@@ -324,7 +322,7 @@ class RevisionsController extends AbstractAnyContentBackendController
                             ]
                         );
                         $item ['links']['recreate'] = $this->generateUrl(
-                            'recreateConfigRevision',
+                            'anycontent_config_revisions_recreate',
                             [
                                 'configTypeAccessHash' => $configTypeAccessHash,
                                 'timeshift'            => $revision->getLastChangeUserInfo()->getTimestamp(),
@@ -340,7 +338,7 @@ class RevisionsController extends AbstractAnyContentBackendController
 
                 $vars['revisions'] = $items;
 
-                return $this->render('editrecordrevision.twig', $vars);
+                return $this->render('@AnyContentBackend\Revisions\editrevision.html.twig', $vars);
             }
 
             return $this->render('forbidden.twig', $vars);
@@ -371,7 +369,7 @@ class RevisionsController extends AbstractAnyContentBackendController
 
             $contentTypeDefinition = $repository->getContentTypeDefinition();
             $this->contextManager->setCurrentContentType($contentTypeDefinition);
-            $app['form']->setDataTypeDefinition($contentTypeDefinition);
+            $this->formManager->setDataTypeDefinition($contentTypeDefinition);
 
             if ($workspace != null && $contentTypeDefinition->hasWorkspace($workspace)) {
                 $this->contextManager->setCurrentWorkspace($workspace);

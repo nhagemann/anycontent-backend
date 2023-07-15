@@ -118,3 +118,5 @@ todo:
 - phpstan
 - admin routes
 - content views
+- custom form elements logic
+- additional connection types

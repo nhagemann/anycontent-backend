@@ -4,6 +4,3 @@ any_content_backend:
     - { name: 'mysql', type: 'mysql', db_host: 'anycontent-backend-mysql', db_name: 'anycontent', db_user: 'user', db_password: 'password', path: '%kernel.project_dir%/../_repositories/mysql', files: '%kernel.project_dir%/../_repositories/_files'}
   formelements:
     - {'type': 'default', class: 'AnyContent\Backend\Forms\FormElements\FormElementDefault'}
-    #- {'type': 'textfield', class: 'AnyContent\Backend\Forms\FormElements\TextFormElements\FormElementTextField'}
-    #- {'type': 'textarea', class: 'AnyContent\Backend\Forms\FormElements\TextFormElements\FormElementTextArea'}
-    - {'type': 'sequence', class: 'AnyContent\Backend\Forms\FormElements\SequenceFormElement\FormElementSequence'}

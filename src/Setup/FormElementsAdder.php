@@ -23,6 +23,8 @@ use AnyContent\Backend\Forms\FormElements\RangeFormElement\FormElementRange;
 use AnyContent\Backend\Forms\FormElements\SelectionFormElements\FormElementCheckbox;
 use AnyContent\Backend\Forms\FormElements\SelectionFormElements\FormElementMultiSelection;
 use AnyContent\Backend\Forms\FormElements\SelectionFormElements\FormElementSelection;
+use AnyContent\Backend\Forms\FormElements\SequenceFormElement\FormElementSequence;
+use AnyContent\Backend\Forms\FormElements\TableFormElement\FormElementTable;
 use AnyContent\Backend\Forms\FormElements\TextFormElements\FormElementTextArea;
 use AnyContent\Backend\Forms\FormElements\TextFormElements\FormElementTextField;
 use AnyContent\Backend\Services\FormManager;
@@ -60,6 +62,7 @@ class FormElementsAdder
         $classes['date'] = FormElementDate::class;
         $classes['time'] = FormElementTime::class;
         $classes['color'] = FormElementColor::class;
+        $classes['table'] = FormElementTable::class;
 
         // layout form elements
         $classes['print'] = FormElementPrint::class;
@@ -71,6 +74,7 @@ class FormElementsAdder
         $classes['tab-end'] = FormElementTabEnd::class;
 
         // content type structure elements
+        $classes['sequence'] = FormElementSequence::class;
         $classes['insert'] = FormElementInsert::class;
 
         foreach ($this->formElements as $formElement) {

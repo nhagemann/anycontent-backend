@@ -21,6 +21,7 @@ j = email
 k = password
 l = range 4 8
 m = link
+n = table (A,B,C,D)
 
 c = sequence (s1)
 
