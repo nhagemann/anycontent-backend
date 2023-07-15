@@ -22,11 +22,12 @@ k = password
 l = range 4 8
 m = link
 n = table (A,B,C,D)
-
+o = richtext
 c = sequence (s1)
 
 +++ s1 +++
 a = color
+o = richtext
 i = date
 j = email
 k = password

@@ -320,6 +320,27 @@ span.label > small {
     margin-bottom: 0px;
     border-top: 1px solid #ddd;
 }
+div.form-group.has-error div.mce-tinymce {
+    border-color: #a94442;
+}
+
+
+/* otherwise right border won't be visible*/
+
+.mce-tinymce iframe{
+    width: 99% !important;
+}
+
+/* smaller font for buttons to match with the general font settings */
+.mce-btn button
+{
+    font-size: 13px !important;
+}
+
+.mce-path-item
+{
+    font-size: 10px !important;
+}
 /*.formelement-section .panel-heading {
    background-color: #ffffff;
 } */
