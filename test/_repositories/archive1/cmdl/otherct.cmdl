@@ -23,6 +23,9 @@ l = range 4 8
 m = link
 n = table (A,B,C,D)
 o = richtext
+p = reference airlines
+q = multireference airlines
+
 c = sequence (s1)
 
 +++ s1 +++

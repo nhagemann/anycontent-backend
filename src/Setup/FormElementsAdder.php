@@ -20,6 +20,8 @@ use AnyContent\Backend\Forms\FormElements\LinkFormElement\FormElementLink;
 use AnyContent\Backend\Forms\FormElements\NumberFormElement\FormElementNumber;
 use AnyContent\Backend\Forms\FormElements\PasswordFormElement\FormElementPassword;
 use AnyContent\Backend\Forms\FormElements\RangeFormElement\FormElementRange;
+use AnyContent\Backend\Forms\FormElements\ReferenceFormElements\FormElementMultiReference;
+use AnyContent\Backend\Forms\FormElements\ReferenceFormElements\FormElementReference;
 use AnyContent\Backend\Forms\FormElements\RichtextFormElement\FormElementRichtext;
 use AnyContent\Backend\Forms\FormElements\SelectionFormElements\FormElementCheckbox;
 use AnyContent\Backend\Forms\FormElements\SelectionFormElements\FormElementMultiSelection;
@@ -58,6 +60,8 @@ class FormElementsAdder
         $classes['checkbox'] = FormElementCheckbox::class;
         $classes['selection'] = FormElementSelection::class;
         $classes['multiselection'] = FormElementMultiSelection::class;
+        $classes['reference'] = FormElementReference::class;
+        $classes['multireference'] = FormElementMultiReference::class;
         $classes['number'] = FormElementNumber::class;
         $classes['range'] = FormElementRange::class;
         $classes['timestamp'] = FormElementTimestamp::class;

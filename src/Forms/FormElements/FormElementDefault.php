@@ -4,6 +4,7 @@ namespace AnyContent\Backend\Forms\FormElements;
 
 use AnyContent\Backend\Services\ContextManager;
 use AnyContent\Backend\Services\FormManager;
+use AnyContent\Backend\Services\RepositoryManager;
 use CMDL\FormElementDefinition;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twig\Environment;
@@ -15,6 +16,7 @@ class FormElementDefault implements FormElementInterface
 
     protected bool $isFirstElement = false;
 
+    protected RepositoryManager $repositoryManager;
     protected ContextManager $contextManager;
     protected FormManager $formManager;
     protected UrlGeneratorInterface $urlGenerator;
@@ -78,8 +80,13 @@ class FormElementDefault implements FormElementInterface
         return $input;
     }
 
-    public function init(ContextManager $contextManager, FormManager $formManager, UrlGeneratorInterface $urlGenerator): void
-    {
+    public function init(
+        RepositoryManager $repositoryManager,
+        ContextManager $contextManager,
+        FormManager $formManager,
+        UrlGeneratorInterface $urlGenerator
+    ): void {
+        $this->repositoryManager = $repositoryManager;
         $this->contextManager = $contextManager;
         $this->formManager = $formManager;
         $this->urlGenerator = $urlGenerator;

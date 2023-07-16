@@ -24,6 +24,7 @@ class FormManager
 
     public function __construct(
         FormElementsAdder $formElementsAdder,
+        private RepositoryManager $repositoryManager,
         private ContextManager $contextManager,
         private Environment $twig,
         private UrlGeneratorInterface $urlGenerator
@@ -73,7 +74,7 @@ class FormManager
             $id = $formId . '_' . $type . '_' . $name;
 
             $formElement = new $class($id, $name, $formElementDefinition, $value, $options);
-            $formElement->init($this->contextManager, $this, $this->urlGenerator);
+            $formElement->init($this->repositoryManager, $this->contextManager, $this, $this->urlGenerator);
 
             if ($i == 1) {
                 $formElement->setIsFirstElement(true);

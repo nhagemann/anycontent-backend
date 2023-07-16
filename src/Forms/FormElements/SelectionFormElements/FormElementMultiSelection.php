@@ -18,9 +18,14 @@ class FormElementMultiSelection extends FormElementDefault
         }
 
         $this->vars['type']    = $this->definition->getType();
-        $this->vars['options'] = $this->definition->getOptions();
+        $this->vars['options'] = $this->getOptionsForSelectBox();
 
         return parent::render($twig);
+    }
+
+    protected function getOptionsForSelectBox()
+    {
+        return $this->definition->getOptions();
     }
 
     public function parseFormInput($input)

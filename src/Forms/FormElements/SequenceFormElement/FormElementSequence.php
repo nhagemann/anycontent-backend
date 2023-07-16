@@ -5,13 +5,14 @@ namespace AnyContent\Backend\Forms\FormElements\SequenceFormElement;
 use AnyContent\Backend\Forms\FormElements\FormElementDefault;
 use AnyContent\Backend\Services\ContextManager;
 use AnyContent\Backend\Services\FormManager;
+use AnyContent\Backend\Services\RepositoryManager;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class FormElementSequence extends FormElementDefault
 {
     protected string $template = '@AnyContentBackend/Forms/formelement-sequence.html.twig';
 
-    public function init(ContextManager $contextManager, FormManager $formManager, UrlGeneratorInterface $urlGenerator): void
+    public function init(RepositoryManager $repositoryManager, ContextManager $contextManager, FormManager $formManager, UrlGeneratorInterface $urlGenerator): void
     {
         if ($contextManager->isContentContext()) {
             // the sequence rendering form must know, if the sequence form element has be inserted via a insert to find it's definition
