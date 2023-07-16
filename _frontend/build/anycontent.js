@@ -806,6 +806,26 @@ $(document).ready(function () {
 
 });
 
+(function ($) {
+
+
+    $('.formelement-reference select').on('change', function () {
+        value = $(this).val();
+        button = $('#' + ($(this).attr('id')) + '_edit_button');
+
+        if (value != '') {
+            $(button).removeClass('disabled');
+            url = $(button).attr('data-url');
+            console.log(url);
+            url = url.replace('recordId', value);
+            $(button).attr('href', url);
+        }
+        else {
+            $(button).addClass('disabled');
+        }
+    })
+
+})(jQuery);
 $(document).on("cmck", function (e, params) {
 
     switch (params.type) {
@@ -1055,6 +1075,24 @@ $(document).ready(function () {
     /* ---------------------------------------- */
 })
 (jQuery);
+
+$(document).ready(function () {
+
+
+    $('#listing_button_import').click(function () {
+        cmck_modal($(this).attr('href'));
+
+        return false;
+    });
+
+    $('#listing_button_export').click(function () {
+        cmck_modal($(this).attr('href'));
+
+        return false;
+    });
+
+
+});
 
 //
 // jQuery MiniColors: A tiny color picker built on jQuery

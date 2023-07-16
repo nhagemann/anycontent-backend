@@ -85,9 +85,9 @@ abstract class AbstractAnyContentBackendController extends AbstractController
             'url' => $this->generateUrl('anycontent_record_add', ['contentTypeAccessHash' => $contentTypeAccessHash, 'workspace' => $this->contextManager->getCurrentWorkspace(), 'language' => $this->contextManager->getCurrentLanguage()]),
             'glyphicon' => 'glyphicon-plus'];
 
-        $buttons[400] = ['label' => 'Export Records', 'url' => $this->generateUrl('anycontent_records_import', ['contentTypeAccessHash' => $contentTypeAccessHash]), 'glyphicon' => 'glyphicon-cloud-download', 'id' => 'listing_button_export'];
+        $buttons[400] = ['label' => 'Export Records', 'url' => $this->generateUrl('anycontent_records_export_modal', ['contentTypeAccessHash' => $contentTypeAccessHash]), 'glyphicon' => 'glyphicon-cloud-download', 'id' => 'listing_button_export'];
 
-        $buttons[500] = ['label' => 'Import Records', 'url' => $this->generateUrl('anycontent_records_export', ['contentTypeAccessHash' => $contentTypeAccessHash]), 'glyphicon' => 'glyphicon-cloud-upload', 'id' => 'listing_button_import'];
+        $buttons[500] = ['label' => 'Import Records', 'url' => $this->generateUrl('anycontent_records_import_modal', ['contentTypeAccessHash' => $contentTypeAccessHash]), 'glyphicon' => 'glyphicon-cloud-upload', 'id' => 'listing_button_import'];
         return $buttons;
     }
 

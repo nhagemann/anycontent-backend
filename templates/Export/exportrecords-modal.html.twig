@@ -1,0 +1,102 @@
+<div class="modal-dialog" style="width:900px">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">Export Content
+
+            </h4>
+        </div>
+
+
+        <div class="modal-body">
+
+            <div class="row">
+                <div class="col-xs-12">
+
+
+                    <form role="form" method="post" name="form_export" action="{{ links.execute }}" id="form_export"
+                          class="form-horizontal">
+                        <fieldset>
+
+
+                            {% if anycontent.context.canChangeWorkspace %}
+                                <legend>Workspace</legend>
+
+                                <div class="form-group">
+                                    <label class="col-xs-3 control-label">Source </label>
+
+                                    <div class="col-xs-6">
+                                        <select name="workspace" class="form-control">
+                                            {% for key,value in workspaces.list %}
+                                                <option value="{{ key }}"{% if key == workspaces.current %} selected="selected"{% endif %}>{{ value }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                            {% if anycontent.context.canChangeLanguage %}
+                                <legend>Language</legend>
+
+
+                                <div class="form-group">
+                                    <label class="col-xs-3 control-label">Source</label>
+
+                                    <div class="col-xs-6">
+                                        <select name="language" class="form-control">
+                                            {% for key,value in languages.list %}
+                                                <option value="{{ key }}"{% if key == languages.current %} selected="selected"{% endif %}>{{ value }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            <legend>Format</legend>
+
+                            <div class="form-group">
+                                <label class="col-xs-3 control-label">Target</label>
+
+                                <div class="col-xs-6">
+                                    <select name="format" class="form-control">
+
+                                        <option value="x" selected="selected">Excel 2007</option>
+                                        <option value="j">JSON</option>
+
+                                    </select>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                    <br/>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="modal_button_export">Export</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+
+        </div>
+        <script type="text/javascript">
+            {# http://stackoverflow.com/questions/1106377/detect-when-browser-receives-file-download #}
+            $('#modal_button_export').click(function () {
+
+                cmck_modal_hide();
+                $.blockUI({message: null});
+                $('#form_export').submit();
+                downloadTimer = window.setInterval(function () {
+
+                    token = cmck_get_cookie('anycontent-download');
+
+                    if ((token == '{{ token }}')) {
+                        window.clearInterval(downloadTimer);
+                        window.cmck_delete_cookie('anycontent-download');
+                        cmck_document().location.href = '{{ links.list }}';
+                    }
+                }, 1000);
+                return false;
+            });
+
+
+        </script>
+    </div>
+</div>
