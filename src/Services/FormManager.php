@@ -160,7 +160,7 @@ class FormManager
                 $class       = $this->formElements['insert']['class'];
                 //$formElement = new $class(null, null, $formElementDefinition, $this->app, null, $this->formElements['insert']['options']);
                 $formElement = new $class(null, null, $formElementDefinition, null, $this->formElements['insert']['options']);
-                $formElement->init($this->contextManager, $this, $this->urlGenerator);
+                $formElement->init($this->repositoryManager, $this->contextManager, $this, $this->urlGenerator);
 
                 $clippingDefinition = $formElement->getClippingDefinition($this->getDataTypeDefinition(), $values, $attributes);
 
