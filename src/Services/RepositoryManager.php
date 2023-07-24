@@ -5,8 +5,6 @@ namespace AnyContent\Backend\Services;
 use AnyContent\Backend\Setup\RepositoryAdder;
 use AnyContent\Client\Repository;
 use AnyContent\Client\UserInfo;
-use AnyContent\CMCK\Modules\Backend\Core\Application\ConfigService;
-use Symfony\Component\HttpFoundation\Session\Session;
 
 class RepositoryManager
 {
@@ -27,22 +25,6 @@ class RepositoryManager
     public function __construct(RepositoryAdder $repositoryAdder)
     {
         $repositoryAdder->addRepositories($this);
-    }
-
-    /**
-     * @return ConfigService
-     */
-    protected function getConfigService()
-    {
-        return $this->app['config'];
-    }
-
-    /**
-     * @return Session
-     */
-    protected function getSession()
-    {
-        return $this->app['session'];
     }
 
     public function addRepository($name, Repository $repository, $title = '')
@@ -254,21 +236,4 @@ class RepositoryManager
 
         return false;
     }
-
-//    public function init()
-//    {
-//
-//        if ($this->getConfigService()->hasConfigurationSection('repositories')) {
-//            $config = $this->getConfigService()->getConfigurationSection('repositories');
-//
-//            $repositoryFactory = new RepositoryFactory();
-//
-//            foreach ($config as $k => $params) {
-//
-//                $repository = $repositoryFactory->createRepositoryFromConfigArray($k, $params);
-//                $repository = $this->app->getClient()->addRepository($repository);
-//                $this->addRepository($repository->getName(), $repository, $repository->getTitle());
-//            }
-//        }
-//    }
 }

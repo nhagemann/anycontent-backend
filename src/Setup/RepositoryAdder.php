@@ -25,6 +25,8 @@ class RepositoryAdder
             $name = $connection['name'];
             $type = $connection['type'];
 
+            $repository = null;
+
             switch ($type) {
                 case 'contentarchive':
                     $path = $connection['path'];
@@ -39,6 +41,10 @@ class RepositoryAdder
                     $path = $connection['path'];
                     $repository = $this->addMySQLConnection($name, $host, $database, $user, $password, $port, $path);
                     break;
+            }
+
+            if ($repository === null) {
+                continue;
             }
 
             if (isset($connection['files'])) {

@@ -17,7 +17,7 @@ class FormElementTime extends \AnyContent\Backend\Forms\FormElements\FormElement
         $value = $this->getValue();
 
         // new record, respect the init param
-        if (!$this->context->getCurrentRecord() and $value == '') {
+        if (!$this->contextManager->getCurrentRecord() and $value == '') {
             if ($this->definition->getInit() == 'now') {
                 $value = date('H:i');
 

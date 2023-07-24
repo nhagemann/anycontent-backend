@@ -48,7 +48,7 @@ class FormManager
 
         // first check for form elements added through insert annotations
         $formElementsDefinition       = $this->getFormElementsEventuallyInsertedThroughInsertAnnotation($formElementsDefinition, $values, $attributes);
-        $this->formElementsDefinition = $formElementsDefinition;
+        //$this->formElementsDefinition = $formElementsDefinition;
 
         $html = '';
         $i    = 0;
@@ -88,7 +88,7 @@ class FormManager
                 $html .= $htmlFormElement;
             }
         }
-        $this->formElementsDefinition = null;
+        //$this->formElementsDefinition = null;
 
         return $html;
     }
@@ -115,7 +115,7 @@ class FormManager
             }
         }
 
-        if ($type == 'default') {
+        if ($type === 'default') {
             $class   = $this->formElements['default']['class'];
             $options = $this->formElements['default']['options'];
         }
@@ -127,7 +127,7 @@ class FormManager
     {
         // first check for insertions and add form elements of those
         $formElementsDefinition       = $this->getFormElementsEventuallyInsertedThroughInsertAnnotation($formElementsDefinition, $values, $attributes);
-        $this->formElementsDefinition = $formElementsDefinition;
+        //$this->formElementsDefinition = $formElementsDefinition;
 
         $values = [];
         /** @var FormElementDefinition $formElementDefinition */
@@ -139,7 +139,6 @@ class FormManager
             $options  = $concrete['options'];
 
             $formElement = new $class(null, $name, $formElementDefinition, null, $options);
-            //$formElement->init($this->contextManager, $this->urlGenerator);
 
             $property = $formElementDefinition->getName();
             if ($property) {
@@ -147,7 +146,7 @@ class FormManager
             }
         }
 
-        $this->formElementsDefinition = null;
+        //$this->formElementsDefinition = null;
 
         return $values;
     }

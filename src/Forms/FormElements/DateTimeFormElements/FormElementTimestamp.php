@@ -13,7 +13,7 @@ class FormElementTimestamp extends \AnyContent\Backend\Forms\FormElements\FormEl
         $value = $this->getValue();
 
         // new record, respect the init param
-        if (!$this->context->getCurrentRecord() and $value == '') {
+        if (!$this->contextManager->getCurrentRecord() and $value == '') {
             switch ($this->definition->getInit()) {
                 case 'today':
                     $value = mktime(0, 0, 0, date('m'), date('d'), date('Y'));
