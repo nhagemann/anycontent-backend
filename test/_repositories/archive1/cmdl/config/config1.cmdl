@@ -1,4 +1,15 @@
 a
 
+c = sequence (s1)
+
++++ s1 +++
+a = color
+o = richtext
+i = date
+j = email
+k = password
+l = range 4 8
+m = link
+
 @languages (default,b)
 @workspaces (default,b)

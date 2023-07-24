@@ -9,9 +9,6 @@ use Twig\Environment;
 
 class FormManager
 {
-    protected $layout;
-    protected $url_generator;
-
     protected $formElements = [];
 
     protected $formVars = [];

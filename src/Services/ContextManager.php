@@ -142,6 +142,12 @@ class ContextManager
                     ->getAccessHash($this->getCurrentRepository(), $this->getCurrentContentType());
     }
 
+    public function getCurrentConfigTypeAccessHash()
+    {
+        return $this->repositoryManager
+            ->getAccessHash($this->getCurrentRepository(), $this->getCurrentConfigType());
+    }
+
     /**
      * @return ConfigTypeDefinition
      */

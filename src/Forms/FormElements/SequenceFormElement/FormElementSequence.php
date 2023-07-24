@@ -14,19 +14,34 @@ class FormElementSequence extends FormElementDefault
 
     public function init(RepositoryManager $repositoryManager, ContextManager $contextManager, FormManager $formManager, UrlGeneratorInterface $urlGenerator): void
     {
+        $dataTypeAccessHash = null;
+
+
         if ($contextManager->isContentContext()) {
-            // the sequence rendering form must know, if the sequence form element has be inserted via a insert to find it's definition
+            $dataTypeAccessHash = $contextManager->getCurrentContentTypeAccessHash();
+            $recordId = $contextManager->getCurrentRecord()->getId();
+            $dataType ='content';
+        }
+
+        if ($contextManager->isConfigContext()) {
+            $dataTypeAccessHash = $contextManager->getCurrentConfigTypeAccessHash();
+            $recordId = '-';
+            $dataType = 'config';
+        }
+
+        if ($dataTypeAccessHash!==null){
+            // the sequence rendering form must know if the sequence form element has be inserted via an insert to find its definition
             $insertName = '-';
             if ($this->definition->isInsertedByInsert()) {
                 $insertName = $this->definition->getInsertedByInsertName();
             }
 
             $url = $urlGenerator->generate('anycontent_sequence_edit', [
-                'dataType' => 'content',
-                'dataTypeAccessHash' => $contextManager->getCurrentContentTypeAccessHash(),
+                'dataType' => $dataType,
+                'dataTypeAccessHash' => $dataTypeAccessHash,
                 'viewName' => 'default',
                 'insertName' => $insertName,
-                'recordId' => $contextManager->getCurrentRecord()->getId(),
+                'recordId' => $recordId,
                 'property' => $this->definition->getName(),
             ]);
             $this->vars['src'] = $url;
