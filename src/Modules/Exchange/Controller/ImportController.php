@@ -3,10 +3,8 @@
 namespace AnyContent\Backend\Modules\Exchange\Controller;
 
 use AnyContent\Backend\Controller\AbstractAnyContentBackendController;
-
 use AnyContent\Backend\Modules\Exchange\Importer;
 use AnyContent\Client\Repository;
-
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,9 +34,6 @@ class ImportController extends AbstractAnyContentBackendController
         return $this->render('@AnyContentBackend/Export/importrecords-modal.html.twig', $vars);
     }
 
-      
-
-
     #[Route('/content/import/{contentTypeAccessHash}', 'anycontent_records_import')]
     public function executeImportRecords(Importer $importer, Request $request, $contentTypeAccessHash)
     {
@@ -47,34 +42,29 @@ class ImportController extends AbstractAnyContentBackendController
         $success    = false;
         $filename   = null;
 
-        if ($repository)
-        {
+        if ($repository) {
             $contentTypeDefinition = $repository->getContentTypeDefinition();
             $this->contextManager->setCurrentRepository($repository);
             $this->contextManager->setCurrentContentType($contentTypeDefinition);
 
             $workspace = $request->get('workspace');
-            if (!$contentTypeDefinition->hasWorkspace($workspace))
-            {
+            if (!$contentTypeDefinition->hasWorkspace($workspace)) {
                 $workspace = 'default';
             }
 
             $language = $request->get('language');
-            if (!$contentTypeDefinition->hasLanguage($language))
-            {
+            if (!$contentTypeDefinition->hasLanguage($language)) {
                 $language = 'default';
             }
 
             $format = $request->get('format');
 
-            if ($request->files->get('file'))
-            {
+            if ($request->files->get('file')) {
                 /** @var UploadedFile $uploadedFile */
                 $uploadedFile = $request->files->get('file');
 
-                if ($uploadedFile->isValid())
-                {
-                    $filename = $uploadedFile->getClientOriginalName();       
+                if ($uploadedFile->isValid()) {
+                    $filename = $uploadedFile->getClientOriginalName();
 
                     $importer->setTruncateRecords((bool)$request->get('truncate'));
                     $importer->setGenerateNewIDs((bool)$request->get('newids'));
@@ -83,44 +73,29 @@ class ImportController extends AbstractAnyContentBackendController
 
                     set_time_limit(0);
 
-                    if ($format == 'j')
-                    {
+                    if ($format == 'j') {
                         $data = file_get_contents($uploadedFile->getRealPath());
-                        if ($data)
-                        {
-                            if ($importer->importJSON($repository, $contentTypeDefinition->getName(), $data, $workspace, $language))
-                            {
+                        if ($data) {
+                            if ($importer->importJSON($repository, $contentTypeDefinition->getName(), $data, $workspace, $language)) {
                                 $success = true;
                             }
                         }
-                    }
-                    else
-                    {
-                        if ($importer->importXLSX($repository, $contentTypeDefinition->getName(), $uploadedFile->getRealPath(), $workspace, $language))
-                        {
+                    } else {
+                        if ($importer->importXLSX($repository, $contentTypeDefinition->getName(), $uploadedFile->getRealPath(), $workspace, $language)) {
                             $success = true;
                         }
                     }
-
                 }
-
-            }
-            else
-            {
+            } else {
                 $this->contextManager->addInfoMessage('Did you actually upload a file? Nothing here.');
             }
-
         }
-        if ($success)
-        {
+        if ($success) {
             $this->contextManager->addSuccessMessage($importer->getCount() . ' record(s) imported from ' . $filename);
-        }
-        else
-        {
+        } else {
             $this->contextManager->addErrorMessage('Could not import records.');
         }
 
-        return new RedirectResponse($this->generateUrl('anycontent_records', array( 'contentTypeAccessHash' => $contentTypeAccessHash, 'page' => $this->contextManager->getCurrentListingPage(), 'workspace' => $this->contextManager->getCurrentWorkspace(), 'language' => $this->contextManager->getCurrentLanguage() )));
-
+        return new RedirectResponse($this->generateUrl('anycontent_records', ['contentTypeAccessHash' => $contentTypeAccessHash, 'page' => $this->contextManager->getCurrentListingPage(), 'workspace' => $this->contextManager->getCurrentWorkspace(), 'language' => $this->contextManager->getCurrentLanguage()]));
     }
 }

@@ -2,13 +2,12 @@
 
 namespace AnyContent\Backend\Modules\Exchange;
 
-use AnyContent\Client\Repository;
 use AnyContent\Client\Record;
+use AnyContent\Client\Repository;
 use CMDL\Util;
 
 class Importer
 {
-
     protected $generateNewIDs = false;
 
     protected $truncateRecords = false;
@@ -33,13 +32,13 @@ class Importer
     /**
      * @var array stashed records to be saved
      */
-    protected $stash = array();
+    protected $stash = [];
 
     public function importJSON(Repository $repository, $contentTypeName, $data, $workspace = 'default', $language = 'default', $viewName = 'exchange')
     {
         $this->count   = 0;
         $this->records = null;
-        $this->stash   = array();
+        $this->stash   = [];
         $this->error   = false;
 
         $repository->selectContentType($contentTypeName);
@@ -106,7 +105,7 @@ class Importer
     {
         $this->count   = 0;
         $this->records = null;
-        $this->stash   = array();
+        $this->stash   = [];
         $this->error   = false;
 
         $repository->selectContentType($contentTypeName);
@@ -123,18 +122,17 @@ class Importer
         $objPHPExcel = \PhpOffice\PhpSpreadsheet\IOFactory::load($filename);
 
         if ($objPHPExcel) {
-
             $objWorksheet = $objPHPExcel->getActiveSheet();
 
             $this->importExcelSheet($repository, $objWorksheet);
-        }
-        else {
+        } else {
             $this->writeln('Error parsing Excel file.');
             $this->error = true;
         }
 
         return !$this->error;
     }
+
 //
 //    public function importBackupXLSX(Repository $repository, $filename, $contentTypeName = null, $viewName = 'exchange')
 //    {
@@ -203,7 +201,7 @@ class Importer
         $highestColumnIndex = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::columnIndexFromString($highestColumn); // e.g. 5
         $idColumnIndex      = null;
 
-        $propertiesColumnIndices = array();
+        $propertiesColumnIndices = [];
 
         for ($i = 0; $i <= $highestColumnIndex; $i++) {
             $value = trim($objWorksheet->getCellByColumnAndRow($i + 1, 1, true)->getValue());
@@ -212,8 +210,7 @@ class Importer
                     if ($value == '.id') {
                         $idColumnIndex = $i;
                     }
-                }
-                else {
+                } else {
                     $value = Util::generateValidIdentifier($value);
                     if ($contentTypeDefinition->hasProperty($value, $viewName)) {
                         $this->writeln('Detected valid property ' . $value);
@@ -225,9 +222,7 @@ class Importer
 
         $this->writeln('');
 
-
-        if ( count ($propertiesColumnIndices) != 0) {
-
+        if (count($propertiesColumnIndices) != 0) {
             for ($row = 2; $row <= $highestRow; ++$row) {
                 $id = null;
                 if ($idColumnIndex !== null) {
@@ -235,7 +230,7 @@ class Importer
                         $id = $objWorksheet->getCellByColumnAndRow($idColumnIndex + 1, $row, true)->getValue();
                     }
                 }
-                $properties = array();
+                $properties = [];
                 foreach ($propertiesColumnIndices as $property => $col) {
                     $value                 = $objWorksheet->getCellByColumnAndRow($col + 1, $row, true)->getValue();
                     $properties[$property] = $value;
@@ -261,15 +256,13 @@ class Importer
                 $this->writeln('');
                 $this->writeln('');
             }
-        }
-        else {
+        } else {
             $this->writeln('Excel sheet does not contain matching property columns.');
         }
     }
 
     protected function stashRecord(Repository $repository, Record $record)
     {
-
         $msg = trim('Preparing record ' . $record->getId()) . ' - ' . $record->getName();
 
         if ($this->isNewerRevisionUpdateProtection()) {
@@ -281,8 +274,7 @@ class Importer
         if ($this->isPropertyChangesCheck() == false || $this->hasChanged($repository, $record)) {
             $this->stash[] = $record;
             $this->count++;
-        }
-        else {
+        } else {
             $msg = 'Skipping record ' . $record->getId() . ' - ' . $record->getName() . (' (No changes)');
         }
 
@@ -305,7 +297,7 @@ class Importer
         if ($record->getId() != null) {
             $records = $this->getRecords($repository);
 
-            if (isset ($records[$record->getId()])) {
+            if (isset($records[$record->getId()])) {
                 /** @var Record $effectiveRecord */
                 $effectiveRecord = $records[$record->getId()];
                 foreach ($record->getProperties() as $property => $value) {
@@ -326,7 +318,7 @@ class Importer
         if ($record->getId() != null && $record->getRevision() != null) {
             $records = $this->getRecords($repository);
 
-            if (isset ($records[$record->getId()])) {
+            if (isset($records[$record->getId()])) {
                 /** @var Record $effectiveRecord */
                 $effectiveRecord = $records[$record->getId()];
 
@@ -457,5 +449,4 @@ class Importer
             $this->output->writeln($msg);
         }
     }
-
 }

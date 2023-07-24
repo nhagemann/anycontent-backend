@@ -64,7 +64,6 @@ abstract class AbstractAnyContentBackendController extends AbstractController
 
         $parameters['menu_mainmenu'] = $this->menuManager->renderMainMenu();
 
-
         // TimeShift Setup
         $date = new \DateTime();
 
@@ -75,16 +74,14 @@ abstract class AbstractAnyContentBackendController extends AbstractController
         $timeshift['time']      = $date->format('H:i');
         $timeshift['timestamp'] = time();
 
-        if ($this->contextManager->getCurrentTimeShift() != 0)
-        {
+        if ($this->contextManager->getCurrentTimeShift() != 0) {
             $date->setTimestamp($this->contextManager->getCurrentTimeShift());
             $timeshift['active']    = true;
             $timeshift['timestamp'] = $this->contextManager->getCurrentTimeShift();
             $timeshift['date']      = $date->format('d.m.Y');
             $timeshift['time']      = $date->format('H:i');
         }
-        $parameters['timeshift']=$timeshift;
-
+        $parameters['timeshift'] = $timeshift;
 
         return parent::render($view, $parameters, $response);
     }
