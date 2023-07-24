@@ -164,7 +164,7 @@ abstract class AbstractAnyContentBackendController extends AbstractController
         return $repository;
     }
 
-    protected function addRepositoryLinks(array &$vars, Repository $repository, $page)
+    protected function addRepositoryLinks(array &$vars, Repository $repository, $page = null)
     {
         $repositoryAccessHash        = $this->repositoryManager->getRepositoryAccessHash($repository);
         $contentTypeAccessHash = $this->repositoryManager->getContentTypeAccessHash($repository, $repository->getCurrentContentTypeName());
@@ -178,8 +178,10 @@ abstract class AbstractAnyContentBackendController extends AbstractController
         $vars['links']['search']         = $this->generateUrl('anycontent_records', ['contentTypeAccessHash' => $contentTypeAccessHash, 'page' => 1, 's' => 'name', 'workspace' => $this->contextManager->getCurrentWorkspace(), 'language' => $this->contextManager->getCurrentLanguage()]);
         $vars['links']['closeSearchBox'] = $this->generateUrl('anycontent_records', ['contentTypeAccessHash' => $contentTypeAccessHash, 'page' => 1, 'q' => '']);
 
+        if ($page === null) {
+            return;
+        }
         // context links
-        $vars['links']['timeshift']  = '';//$this->generateUrl('timeShiftListRecords', array( 'contentTypeAccessHash' => $contentTypeAccessHash, 'page' => $page ));
         $vars['links']['workspaces'] = $this->generateUrl('anycontent_records_change_workspace', ['contentTypeAccessHash' => $contentTypeAccessHash, 'page' => $page]);
         $vars['links']['languages'] = $this->generateUrl('anycontent_records_change_language', ['contentTypeAccessHash' => $contentTypeAccessHash, 'page' => $page]);
         $vars['links']['reset']      = $this->generateUrl('anycontent_records', ['contentTypeAccessHash' => $contentTypeAccessHash, 'page' => 1, 'q' => '']);

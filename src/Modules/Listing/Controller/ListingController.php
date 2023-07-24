@@ -128,6 +128,8 @@ class ListingController extends AbstractAnyContentBackendController
 
         $this->addRepositoryLinks($vars, $repository, $page);
 
+        $vars['links']['timeshift']  = $this->generateUrl('anycontent_timeshift_records', ['contentTypeAccessHash' => $contentTypeAccessHash, 'page' => 1]);
+
         $buttons = $this->getButtons($contentTypeAccessHash, $contentTypeDefinition);
         $vars['buttons'] = $this->menuManager->renderButtonGroup($buttons);
 

@@ -105,10 +105,9 @@ config/packages/security.yaml
 
 
 todo:
-- #change workspace/languages while sorting
-- #config records
-- revisions (change languages/workspace)
 - timeshift
+- revisions (change languages/workspace)
+- limit mysql configuraiton to lowercase, allow title 
 - file modals
 - files urls
 - #list repositories command

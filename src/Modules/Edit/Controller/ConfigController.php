@@ -27,6 +27,8 @@ class ConfigController extends AbstractAnyContentBackendController
         $vars['definition'] = $configTypeDefinition;
 
         $vars['links']['repository'] = $this->generateUrl('anycontent_repository', ['repositoryAccessHash' => $repositoryAccessHash]);
+        $vars['links']['timeshift']  = $this->generateUrl('anycontent_timeshift_config_edit', ['configTypeAccessHash' => $configTypeAccessHash]);
+
         //$vars['menu_mainmenu'] = $app['menus']->renderMainMenu();
 
 //

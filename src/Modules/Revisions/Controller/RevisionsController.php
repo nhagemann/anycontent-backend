@@ -46,8 +46,8 @@ class RevisionsController extends AbstractAnyContentBackendController
     ->bind('recreateConfigRevision')->value('workspace', null)->value('language', null);
      */
     #[Route('/content/revisions/{contentTypeAccessHash}/{recordId}/{workspace}/{language}', 'anycontent_records_revisions')]
-    #[Route('/content/revisions/{contentTypeAccessHash}/{recordId}/{workspace}/{language}', 'anycontent_records_revisions_timeshift')]
-    #[Route('/content/revisions/{contentTypeAccessHash}/{recordId}/{workspace}/{language}', 'anycontent_records_revisions_recreate')]
+   // #[Route('/content/revisions/{contentTypeAccessHash}/{recordId}/{workspace}/{language}', 'anycontent_records_revisions_timeshift')]
+   // #[Route('/content/revisions/{contentTypeAccessHash}/{recordId}/{workspace}/{language}', 'anycontent_records_revisions_recreate')]
     public function listRecordRevisions($contentTypeAccessHash, $recordId, $workspace, $language)
     {
         $vars = [];
@@ -213,8 +213,8 @@ class RevisionsController extends AbstractAnyContentBackendController
     }
 
     #[Route('/content/revisions/{configTypeAccessHash}/{workspace}/{language}', 'anycontent_config_revisions')]
-    #[Route('/content/revisions/{configTypeAccessHash}/{workspace}/{language}', 'anycontent_config_revisions_timeshift')]
-    #[Route('/content/revisions/{configTypeAccessHash}/{workspace}/{language}', 'anycontent_config_revisions_recreate')]
+    //#[Route('/content/revisions/{configTypeAccessHash}/{workspace}/{language}', 'anycontent_config_revisions_timeshift')]
+    //#[Route('/content/revisions/{configTypeAccessHash}/{workspace}/{language}', 'anycontent_config_revisions_recreate')]
     public function listConfigRevisions($configTypeAccessHash, $workspace, $language)
     {
         ///** @var UserManager $user */

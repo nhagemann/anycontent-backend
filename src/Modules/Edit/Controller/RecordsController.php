@@ -33,12 +33,15 @@ class RecordsController extends AbstractAnyContentBackendController
         $vars['definition'] = $contentTypeDefinition;
 
         // Links
+        $this->addRepositoryLinks($vars, $repository, 1);
         $vars['links']['edit'] = true;
         $vars['links']['search'] = $this->generateUrl('anycontent_records', ['contentTypeAccessHash' => $contentTypeAccessHash, 'page' => 1, 's' => 'name', 'workspace' => $this->contextManager->getCurrentWorkspace(), 'language' => $this->contextManager->getCurrentLanguage()]);
         $vars['links']['repository'] = $this->generateUrl('anycontent_repository', ['repositoryAccessHash' => $repositoryAccessHash]);
         $vars['links']['listRecords'] = $this->generateUrl('anycontent_records', ['contentTypeAccessHash' => $contentTypeAccessHash, 'page' => 1, 'workspace' => $this->contextManager->getCurrentWorkspace(), 'language' => $this->contextManager->getCurrentLanguage()]);
         $vars['links']['workspaces'] = $this->generateUrl('anycontent_record_add_change_workspace', ['contentTypeAccessHash' => $contentTypeAccessHash]);
         $vars['links']['languages'] = $this->generateUrl('anycontent_record_add_change_language', ['contentTypeAccessHash' => $contentTypeAccessHash]);
+
+        $vars['links']['timeshift']  = $this->generateUrl('anycontent_timeshift_record_edit', ['contentTypeAccessHash' => $contentTypeAccessHash, 'recordId' => $recordId]);
 
         // Buttons
         $buttons = $this->getButtons($contentTypeAccessHash, $contentTypeDefinition);

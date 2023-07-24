@@ -44,6 +44,8 @@ class SortController extends AbstractAnyContentBackendController
             ['contentTypeAccessHash' => $contentTypeAccessHash]
         );
 
+        $vars['links']['timeshift']  = $this->generateUrl('anycontent_timeshift_records_sort', ['contentTypeAccessHash' => $contentTypeAccessHash]);
+
         // Buttons
 
         $buttons         = [];
