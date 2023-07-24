@@ -286,7 +286,7 @@ class Importer
         $result = $repository->saveRecords($this->stash);
 
         if ($result) {
-            foreach ($result as $k => $v) {
+            foreach ($result as $v) {
                 $this->writeln('Imported record. Id ' . $v . ' has been asigned.');
             }
         }

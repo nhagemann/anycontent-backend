@@ -7,7 +7,6 @@ use AnyContent\Client\AbstractRecord;
 use AnyContent\Client\Config;
 use AnyContent\Client\Record;
 use AnyContent\Client\Repository;
-use AnyContent\CMCK\Modules\Backend\Core\Edit\EditRecordSaveEvent;
 use CMDL\ConfigTypeDefinition;
 use CMDL\DataTypeDefinition;
 use FineDiff\Diff;
@@ -19,35 +18,7 @@ use Symfony\Component\Yaml\Yaml;
 #[IsGranted('ROLE_ANYCONTENT')]
 class RevisionsController extends AbstractAnyContentBackendController
 {
-    /**
-     *  $app->addTemplatesFolders(__DIR__ . '/views/');
-    $app
-    ->get('/content/revisions/{contentTypeAccessHash}/{recordId}/{workspace}/{language}', 'AnyContent\CMCK\Modules\Backend\Core\Revisions\Controller::listRecordRevisions')
-    ->bind('listRecordRevisions')->value('workspace', null)->value('language', null);
-
-    $app
-    ->get('/config/revisions/{configTypeAccessHash}/{workspace}/{language}', 'AnyContent\CMCK\Modules\Backend\Core\Revisions\Controller::listConfigRevisions')
-    ->bind('listConfigRevisions')->value('workspace', null)->value('language', null);
-
-    $app
-    ->get('/content/revision-timeshift/{contentTypeAccessHash}/{recordId}-{timeshift}/{workspace}/{language}', 'AnyContent\CMCK\Modules\Backend\Core\Revisions\Controller::editRecordRevision')
-    ->bind('timeShiftIntoRecordRevision')->value('workspace', null)->value('language', null);
-
-    $app
-    ->get('/config/revision-timeshift/{configTypeAccessHash}/{timeshift}/{workspace}/{language}', 'AnyContent\CMCK\Modules\Backend\Core\Revisions\Controller::editConfigRevision')
-    ->bind('timeShiftIntoConfigRevision')->value('workspace', null)->value('language', null);
-
-    $app
-    ->get('/content/revision-recreate/{contentTypeAccessHash}/{recordId}-{timeshift}/{workspace}/{language}', 'AnyContent\CMCK\Modules\Backend\Core\Revisions\Controller::recreateRecordRevision')
-    ->bind('recreateRecordRevision')->value('workspace', null)->value('language', null);
-
-    $app
-    ->get('/config/revision-recreate/{configTypeAccessHash}/{timeshift}/{workspace}/{language}', 'AnyContent\CMCK\Modules\Backend\Core\Revisions\Controller::recreateConfigRevision')
-    ->bind('recreateConfigRevision')->value('workspace', null)->value('language', null);
-     */
     #[Route('/content/revisions/{contentTypeAccessHash}/{recordId}/{workspace}/{language}', 'anycontent_records_revisions')]
-   // #[Route('/content/revisions/{contentTypeAccessHash}/{recordId}/{workspace}/{language}', 'anycontent_records_revisions_timeshift')]
-   // #[Route('/content/revisions/{contentTypeAccessHash}/{recordId}/{workspace}/{language}', 'anycontent_records_revisions_recreate')]
     public function listRecordRevisions($contentTypeAccessHash, $recordId, $workspace, $language)
     {
         $vars = [];
@@ -59,7 +30,7 @@ class RevisionsController extends AbstractAnyContentBackendController
         // Context
 
         $repository = $this->updateContext($contentTypeAccessHash, $workspace, $language);
-        $vars['repository']          = $repository;
+        $vars['repository'] = $repository;
 
         $contentTypeDefinition = $repository->getContentTypeDefinition();
         $vars['definition'] = $contentTypeDefinition;
@@ -68,69 +39,20 @@ class RevisionsController extends AbstractAnyContentBackendController
 
         $this->addRepositoryLinks($vars, $repository, 1);
 
-        $vars['links']['timeshift']  = $this->generateUrl('anycontent_timeshift_record_edit', ['contentTypeAccessHash' => $contentTypeAccessHash, 'recordId' => $recordId]);
+        $vars['links']['timeshift'] = $this->generateUrl('anycontent_timeshift_record_edit', ['contentTypeAccessHash' => $contentTypeAccessHash, 'recordId' => $recordId]);
 
-
-        $vars['id']                   = $recordId;
-            $vars['repository']           = $repository;
-            $repositoryAccessHash         = $this->repositoryManager->getRepositoryAccessHash($repository);
-//            $vars['links']['repository']  = $this->generateUrl(
-//                'indexRepository',
-//                array('repositoryAccessHash' => $repositoryAccessHash)
-//            );
-//            $vars['links']['listRecords'] = $this->generateUrl(
-//                'listRecords',
-//                array(
-//                    'contentTypeAccessHash' => $contentTypeAccessHash,
-//                    'page'                  => 1,
-//                    'workspace'             => $this->contextManager->getCurrentWorkspace(),
-//                    'language'              => $this->contextManager->getCurrentLanguage(),
-//                )
-//            );
-
-//            $this->contextManager->setCurrentRepository($repository);
-//
-//            $contentTypeDefinition = $repository->getContentTypeDefinition();
-//            $this->contextManager->setCurrentContentType($contentTypeDefinition);
-//            $this->formManager->setDataTypeDefinition($contentTypeDefinition);
-//
-//            if ($workspace != null && $contentTypeDefinition->hasWorkspace($workspace)) {
-//                $this->contextManager->setCurrentWorkspace($workspace);
-//            }
-//            if ($language != null && $contentTypeDefinition->hasLanguage($language)) {
-//                $this->contextManager->setCurrentLanguage($language);
-//            }
-//
-//            $repository->selectWorkspace($this->contextManager->getCurrentWorkspace());
-//            $repository->selectLanguage($this->contextManager->getCurrentLanguage());
-//            $repository->setTimeShift($this->contextManager->getCurrentTimeShift());
-//            $repository->selectView('default');
+        $vars['id'] = $recordId;
+        $vars['repository'] = $repository;
 
         // Buttons
         $buttons = $this->getButtons($contentTypeAccessHash, $contentTypeDefinition);
         $vars['buttons'] = $this->menuManager->renderButtonGroup($buttons);
 
-////            $vars['links']['timeshift']  = $this->generateUrl(
-////                'timeShiftEditRecord',
-////                array('contentTypeAccessHash' => $contentTypeAccessHash, 'recordId' => $recordId)
-////            );
-////            $vars['links']['workspaces'] = $this->generateUrl(
-////                'changeWorkspaceEditRecord',
-////                array('contentTypeAccessHash' => $contentTypeAccessHash, 'recordId' => $recordId)
-////            );
-////            $vars['links']['languages']  = $this->generateUrl(
-////                'changeLanguageEditRecord',
-////                array('contentTypeAccessHash' => $contentTypeAccessHash, 'recordId' => $recordId)
-////            );
-////
-////            /** @var ContentTypeDefinition $contentTypeDefinition */
-////            $contentTypeDefinition = $repository->getContentTypeDefinition();
-//
-//            $vars['definition'] = $contentTypeDefinition;
+        $items = [];
 
-            $revisions = $repository->getRevisionsOfRecord($recordId);
+        $revisions = $repository->getRevisionsOfRecord($recordId);
         if ($revisions) {
-            $properties = self::getPropertiesForDiff($contentTypeDefinition);
+            $properties = $this->getPropertiesForDiff($contentTypeDefinition);
 
             /** @var Record|false $compare */
             $compare = false;
@@ -141,21 +63,21 @@ class RevisionsController extends AbstractAnyContentBackendController
                 }
 
                 if ($compare) {
-                    $item = ['record' => $compare, 'diff' => self::diffRecords($compare, $revision, $properties)];
+                    $item = ['record' => $compare, 'diff' => $this->diffRecords($compare, $revision, $properties)];
 
                     $item ['username'] = $compare->getLastChangeUserInfo()->getName();
                     $item ['gravatar'] = md5($compare->getLastChangeUserInfo()->getUsername());
-                    $item ['date']     = $compare->getLastChangeUserInfo()->getTimestamp();
-                    $item ['deleted']  = $compare->isADeletedRevision();
+                    $item ['date'] = $compare->getLastChangeUserInfo()->getTimestamp();
+                    $item ['deleted'] = $compare->isADeletedRevision();
 
                     $item ['links']['edit'] = $this->generateUrl(
                         'anycontent_revisions_record_timeshift',
                         [
                             'contentTypeAccessHash' => $contentTypeAccessHash,
-                            'recordId'              => $compare->getId(),
-                            'timeshift'             => $compare->getLastChangeUserInfo()->getTimestamp(),
-                            'workspace'             => $this->contextManager->getCurrentWorkspace(),
-                            'language'              => $this->contextManager->getCurrentLanguage(),
+                            'recordId' => $compare->getId(),
+                            'timeshift' => $compare->getLastChangeUserInfo()->getTimestamp(),
+                            'workspace' => $this->contextManager->getCurrentWorkspace(),
+                            'language' => $this->contextManager->getCurrentLanguage(),
                         ]
                     );
 
@@ -163,41 +85,41 @@ class RevisionsController extends AbstractAnyContentBackendController
                         'anycontent_revisions_record_recreate',
                         [
                             'contentTypeAccessHash' => $contentTypeAccessHash,
-                            'recordId'              => $compare->getId(),
-                            'timeshift'             => $compare->getLastChangeUserInfo()->getTimestamp(),
-                            'workspace'             => $this->contextManager->getCurrentWorkspace(),
-                            'language'              => $this->contextManager->getCurrentLanguage(),
+                            'recordId' => $compare->getId(),
+                            'timeshift' => $compare->getLastChangeUserInfo()->getTimestamp(),
+                            'workspace' => $this->contextManager->getCurrentWorkspace(),
+                            'language' => $this->contextManager->getCurrentLanguage(),
                         ]
                     );
-                    $items[]                    = $item;
+                    $items[] = $item;
                 } else {
                     $vars['record'] = $revision;
                     $this->contextManager->setCurrentRecord($revision);
                 }
                 if ($revision === end($revisions)) {
-                    $item                       = ['record' => $revision, 'diff' => self::diffRecords($revision, null, $properties)];
-                    $item ['username']          = $revision->getLastChangeUserInfo()->getName();
-                    $item ['gravatar']          = md5($revision->getLastChangeUserInfo()->getUsername());
-                    $item ['date']              = $revision->getLastChangeUserInfo()->getTimestamp();
-                    $item ['deleted']           = $revision->isADeletedRevision();
-                    $item ['links']['edit']     = $this->generateUrl(
+                    $item = ['record' => $revision, 'diff' => $this->diffRecords($revision, null, $properties)];
+                    $item ['username'] = $revision->getLastChangeUserInfo()->getName();
+                    $item ['gravatar'] = md5($revision->getLastChangeUserInfo()->getUsername());
+                    $item ['date'] = $revision->getLastChangeUserInfo()->getTimestamp();
+                    $item ['deleted'] = $revision->isADeletedRevision();
+                    $item ['links']['edit'] = $this->generateUrl(
                         'anycontent_revisions_record_timeshift',
                         [
                             'contentTypeAccessHash' => $contentTypeAccessHash,
-                            'recordId'              => $revision->getId(),
-                            'timeshift'             => $revision->getLastChangeUserInfo()->getTimestamp(),
-                            'workspace'             => $this->contextManager->getCurrentWorkspace(),
-                            'language'              => $this->contextManager->getCurrentLanguage(),
+                            'recordId' => $revision->getId(),
+                            'timeshift' => $revision->getLastChangeUserInfo()->getTimestamp(),
+                            'workspace' => $this->contextManager->getCurrentWorkspace(),
+                            'language' => $this->contextManager->getCurrentLanguage(),
                         ]
                     );
                     $item ['links']['recreate'] = $this->generateUrl(
                         'anycontent_revisions_record_recreate',
                         [
                             'contentTypeAccessHash' => $contentTypeAccessHash,
-                            'recordId'              => $revision->getId(),
-                            'timeshift'             => $revision->getLastChangeUserInfo()->getTimestamp(),
-                            'workspace'             => $this->contextManager->getCurrentWorkspace(),
-                            'language'              => $this->contextManager->getCurrentLanguage(),
+                            'recordId' => $revision->getId(),
+                            'timeshift' => $revision->getLastChangeUserInfo()->getTimestamp(),
+                            'workspace' => $this->contextManager->getCurrentWorkspace(),
+                            'language' => $this->contextManager->getCurrentLanguage(),
                         ]
                     );
 
@@ -212,17 +134,12 @@ class RevisionsController extends AbstractAnyContentBackendController
             return $this->render('@AnyContentBackend\Revisions\editrevision.html.twig', $vars);
         }
 
-            return $this->render('forbidden.twig', $vars);
+        return $this->render('forbidden.twig', $vars);
     }
 
     #[Route('/content/revisions/{configTypeAccessHash}/{workspace}/{language}', 'anycontent_config_revisions')]
-    //#[Route('/content/revisions/{configTypeAccessHash}/{workspace}/{language}', 'anycontent_config_revisions_timeshift')]
-    //#[Route('/content/revisions/{configTypeAccessHash}/{workspace}/{language}', 'anycontent_config_revisions_recreate')]
     public function listConfigRevisions($configTypeAccessHash, $workspace, $language)
     {
-        ///** @var UserManager $user */
-        //$user = $app['user'];
-
         $vars = [];
 
         $vars['menu_mainmenu'] = $this->menuManager->renderMainMenu();
@@ -231,12 +148,10 @@ class RevisionsController extends AbstractAnyContentBackendController
         $repository = $this->repositoryManager->getRepositoryByConfigTypeAccessHash($configTypeAccessHash);
 
         if ($repository) {
+            $vars['links']['timeshift'] = $this->generateUrl('anycontent_timeshift_config_edit', ['configTypeAccessHash' => $configTypeAccessHash]);
 
-            $vars['links']['timeshift']  = $this->generateUrl('anycontent_timeshift_config_edit', ['configTypeAccessHash' => $configTypeAccessHash]);
-
-
-            $vars['repository']          = $repository;
-            $repositoryAccessHash        = $this->repositoryManager->getRepositoryAccessHash($repository);
+            $vars['repository'] = $repository;
+            $repositoryAccessHash = $this->repositoryManager->getRepositoryAccessHash($repository);
             $vars['links']['repository'] = $this->generateUrl(
                 'anycontent_repository',
                 ['repositoryAccessHash' => $repositoryAccessHash]
@@ -268,10 +183,12 @@ class RevisionsController extends AbstractAnyContentBackendController
 
             //$vars['links']['timeshift']  = $this->generateUrl('anycontent_config_revisions_timeshift', ['configTypeAccessHash' => $configTypeAccessHash, 'workspace'=>$workspace,'language'=>$language]);
             $vars['links']['workspaces'] = $this->generateUrl('anycontent_config_edit_change_workspace', ['configTypeAccessHash' => $configTypeAccessHash]);
-            $vars['links']['languages']  = $this->generateUrl('anycontent_config_edit_change_language', ['configTypeAccessHash' => $configTypeAccessHash]);
+            $vars['links']['languages'] = $this->generateUrl('anycontent_config_edit_change_language', ['configTypeAccessHash' => $configTypeAccessHash]);
 
             /** @var Config $record */
             $record = $repository->getConfig($configTypeDefinition->getName());
+
+            $items = [];
 
             if ($record) {
                 $this->contextManager->setCurrentConfig($record);
@@ -281,63 +198,63 @@ class RevisionsController extends AbstractAnyContentBackendController
 
                 $revisions = $repository->getRevisionsOfConfig($configTypeDefinition->getName());
 
-                $properties = self::getPropertiesForDiff($configTypeDefinition);
+                $properties = $this->getPropertiesForDiff($configTypeDefinition);
 
                 /** @var Record|false $compare */
                 $compare = false;
                 foreach ($revisions as $revision) {
                     if ($compare) {
-                        $item = ['record' => $compare, 'diff' => self::diffRecords($compare, $revision, $properties)];
+                        $item = ['record' => $compare, 'diff' => $this->diffRecords($compare, $revision, $properties)];
 
-                        $item ['username']          = $compare->getLastChangeUserInfo()->getName();
-                        $item ['gravatar']          = md5($compare->getLastChangeUserInfo()->getUsername());
-                        $item ['date']              = $compare->getLastChangeUserInfo()->getTimestamp();
-                        $item ['deleted']           = false;
-                        $item ['links']['edit']     = $this->generateUrl(
+                        $item ['username'] = $compare->getLastChangeUserInfo()->getName();
+                        $item ['gravatar'] = md5($compare->getLastChangeUserInfo()->getUsername());
+                        $item ['date'] = $compare->getLastChangeUserInfo()->getTimestamp();
+                        $item ['deleted'] = false;
+                        $item ['links']['edit'] = $this->generateUrl(
                             'anycontent_revisions_config_timeshift',
                             [
                                 'configTypeAccessHash' => $configTypeAccessHash,
-                                'timeshift'            => $compare->getLastChangeUserInfo()->getTimestamp(),
-                                'workspace'            => $this->contextManager->getCurrentWorkspace(),
-                                'language'             => $this->contextManager->getCurrentLanguage(),
+                                'timeshift' => $compare->getLastChangeUserInfo()->getTimestamp(),
+                                'workspace' => $this->contextManager->getCurrentWorkspace(),
+                                'language' => $this->contextManager->getCurrentLanguage(),
                             ]
                         );
                         $item ['links']['recreate'] = $this->generateUrl(
                             'anycontent_revisions_config_recreate',
                             [
                                 'configTypeAccessHash' => $configTypeAccessHash,
-                                'timeshift'            => $compare->getLastChangeUserInfo()->getTimestamp(),
-                                'workspace'            => $this->contextManager->getCurrentWorkspace(),
-                                'language'             => $this->contextManager->getCurrentLanguage(),
+                                'timeshift' => $compare->getLastChangeUserInfo()->getTimestamp(),
+                                'workspace' => $this->contextManager->getCurrentWorkspace(),
+                                'language' => $this->contextManager->getCurrentLanguage(),
                             ]
                         );
-                        $items[]                    = $item;
+                        $items[] = $item;
                     }
                     if ($revision === end($revisions)) {
-                        $item                       = ['record' => $revision, 'diff' => self::diffRecords($revision, null, $properties)];
-                        $item ['username']          = $revision->getLastChangeUserInfo()->getName();
-                        $item ['gravatar']          = md5($revision->getLastChangeUserInfo()->getUsername());
-                        $item ['date']              = $revision->getLastChangeUserInfo()->getTimestamp();
-                        $item ['deleted']           = false;
-                        $item ['links']['edit']     = $this->generateUrl(
+                        $item = ['record' => $revision, 'diff' => $this->diffRecords($revision, null, $properties)];
+                        $item ['username'] = $revision->getLastChangeUserInfo()->getName();
+                        $item ['gravatar'] = md5($revision->getLastChangeUserInfo()->getUsername());
+                        $item ['date'] = $revision->getLastChangeUserInfo()->getTimestamp();
+                        $item ['deleted'] = false;
+                        $item ['links']['edit'] = $this->generateUrl(
                             'anycontent_revisions_config_timeshift',
                             [
                                 'configTypeAccessHash' => $configTypeAccessHash,
-                                'timeshift'            => $revision->getLastChangeUserInfo()->getTimestamp(),
-                                'workspace'            => $this->contextManager->getCurrentWorkspace(),
-                                'language'             => $this->contextManager->getCurrentLanguage(),
+                                'timeshift' => $revision->getLastChangeUserInfo()->getTimestamp(),
+                                'workspace' => $this->contextManager->getCurrentWorkspace(),
+                                'language' => $this->contextManager->getCurrentLanguage(),
                             ]
                         );
                         $item ['links']['recreate'] = $this->generateUrl(
                             'anycontent_revisions_config_recreate',
                             [
                                 'configTypeAccessHash' => $configTypeAccessHash,
-                                'timeshift'            => $revision->getLastChangeUserInfo()->getTimestamp(),
-                                'workspace'            => $this->contextManager->getCurrentWorkspace(),
-                                'language'             => $this->contextManager->getCurrentLanguage(),
+                                'timeshift' => $revision->getLastChangeUserInfo()->getTimestamp(),
+                                'workspace' => $this->contextManager->getCurrentWorkspace(),
+                                'language' => $this->contextManager->getCurrentLanguage(),
                             ]
                         );
-                        $items[]                    = $item;
+                        $items[] = $item;
                     }
 
                     $compare = $revision;
@@ -479,16 +396,11 @@ class RevisionsController extends AbstractAnyContentBackendController
         return $properties;
     }
 
-    /**
-     * @param AbstractRecord      $record1
-     * @param AbstractRecord|null $record2
-     * @param                     $properties
-     */
-    protected static function diffRecords(AbstractRecord $record1, $record2 = null, $properties)
+    protected function diffRecords(AbstractRecord $record1, ?AbstractRecord $record2, array $properties)
     {
         $granularity = new Word();
-        $differ      = new Diff($granularity);
-        $diff        = [];
+        $differ = new Diff($granularity);
+        $diff = [];
         foreach ($properties as $property => $label) {
             $value1 = $record1->getProperty($property);
             $value2 = '';
@@ -505,7 +417,7 @@ class RevisionsController extends AbstractAnyContentBackendController
                     }
                 }
 
-                $html   = $differ->render($value2, $value1);
+                $html = $differ->render($value2, $value1);
                 $diff[] = ['label' => $label, 'html' => $html];
             }
         }

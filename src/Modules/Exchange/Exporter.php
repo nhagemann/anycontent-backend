@@ -2,10 +2,10 @@
 
 namespace AnyContent\Backend\Modules\Exchange;
 
-use AnyContent\Client\Record;
 use AnyContent\Client\Repository;
 use CMDL\ContentTypeDefinition;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
 class Exporter
 {
@@ -29,7 +29,6 @@ class Exporter
         $repository->selectLanguage($language);
         $repository->selectView($viewName);
 
-        /** @var Record[] $records */
         $records = $repository->getRecords('', 'id');
 
         if ($records !== false) {
@@ -71,7 +70,6 @@ class Exporter
         $repository->selectLanguage($language);
         $repository->selectView($viewName);
 
-        /** @var Record[] $records */
         $records = $repository->getRecords('', '.id', 1);
 
         if ($records !== false) {
@@ -79,7 +77,7 @@ class Exporter
 
             $objPHPExcel = $this->addRecordsToExcelSheet($objPHPExcel, 0, $records, $contentTypeDefinition, $viewName, 'Export');
 
-            $objWriter = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($objPHPExcel, IOFactory::WRITER_XLSX);
+            $objWriter = IOFactory::createWriter($objPHPExcel, IOFactory::WRITER_XLSX);
             ob_start();
             $objWriter->save('php://output');
             return ob_get_clean();
@@ -116,7 +114,6 @@ class Exporter
 
                     $title = $contentTypeName . '.' . $workspace . '.' . $language;
 
-                    /** @var Record[] $records */
                     $records = $repository->getRecords('', '.id', 1);
 
                     $this->writeln('Writing sheet ' . $title . ' with ' . count($records) . ' record(s).');
@@ -130,7 +127,7 @@ class Exporter
 
         $objPHPExcel->setActiveSheetIndex();
 
-        $objWriter = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($objPHPExcel, IOFactory::WRITER_XLSX);
+        $objWriter = IOFactory::createWriter($objPHPExcel, IOFactory::WRITER_XLSX);
         ob_start();
         $objWriter->save('php://output');
         return ob_get_clean();
@@ -140,11 +137,6 @@ class Exporter
     {
         // Create new PHPExcel object
         $objPHPExcel = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
-
-        // use temp folder for processing of large files
-        //$cacheMethod   = \PhpOffice\PhpSpreadsheet\Collection\CellsFactory::cache_to_phpTemp;
-        //$cacheSettings = array('memoryCacheSize' => '12MB');
-        //\PhpOffice\PhpSpreadsheet\Settings::setCacheStorageMethod($cacheMethod, $cacheSettings);
 
         // Set document properties
         $objPHPExcel->getProperties()->setCreator("AnyContent CMCK")
@@ -156,18 +148,7 @@ class Exporter
         return $objPHPExcel;
     }
 
-    /**
-     * @param \PhpOffice\PhpSpreadsheet\Spreadsheet $objPHPExcel
-     * @param                       $i
-     * @param Record[]              $records
-     * @param ContentTypeDefinition $contentTypeDefinition
-     * @param                       $viewName
-     * @param                       $title
-     *
-     * @return \PhpOffice\PhpSpreadsheet\Spreadsheet
-     * @throws \PhpOffice\PhpSpreadsheet\Exception
-     */
-    protected function addRecordsToExcelSheet(\PhpOffice\PhpSpreadsheet\Spreadsheet $objPHPExcel, $i, $records, ContentTypeDefinition $contentTypeDefinition, $viewName, $title)
+    protected function addRecordsToExcelSheet(Spreadsheet $objPHPExcel, $i, $records, ContentTypeDefinition $contentTypeDefinition, $viewName, $title)
     {
         if ($i > 0) {
             $objPHPExcel->createSheet($i);
@@ -179,8 +160,6 @@ class Exporter
         } else {
             $worksheet->setTitle($title);
         }
-
-        //$worksheet->getComment()->getText()->createTextRun($title);
 
         $worksheet->setCellValueByColumnAndRow(1, 1, '.id');
         $worksheet->getStyleByColumnAndRow(1, 1)->getFont()->setBold(false)->setItalic(true);
@@ -199,7 +178,6 @@ class Exporter
 
         $row++;
 
-        /** @var Record $record */
         foreach ($records as $record) {
             $this->writeln('Processing record ' . $record->getId() . ' - ' . $record->getName());
 

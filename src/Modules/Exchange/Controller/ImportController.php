@@ -96,6 +96,11 @@ class ImportController extends AbstractAnyContentBackendController
             $this->contextManager->addErrorMessage('Could not import records.');
         }
 
-        return new RedirectResponse($this->generateUrl('anycontent_records', ['contentTypeAccessHash' => $contentTypeAccessHash, 'page' => $this->contextManager->getCurrentListingPage(), 'workspace' => $this->contextManager->getCurrentWorkspace(), 'language' => $this->contextManager->getCurrentLanguage()]));
+        return new RedirectResponse($this->generateUrl('anycontent_records', [
+            'contentTypeAccessHash' => $contentTypeAccessHash,
+            'page' => $this->contextManager->getCurrentListingPage(),
+            'workspace' => $this->contextManager->getCurrentWorkspace(),
+            'language' => $this->contextManager->getCurrentLanguage(),
+        ]));
     }
 }

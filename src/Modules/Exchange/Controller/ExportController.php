@@ -31,9 +31,17 @@ class ExportController extends AbstractAnyContentBackendController
 
         $downloadToken = md5(microtime());
 
-        $vars['links']['execute'] = $this->generateUrl('anycontent_records_export', ['contentTypeAccessHash' => $contentTypeAccessHash, 'token' => $downloadToken]);
-        $vars['links']['list']    = $this->generateUrl('anycontent_records', ['contentTypeAccessHash' => $contentTypeAccessHash, 'page' => $this->contextManager->getCurrentListingPage(), 'workspace' => $this->contextManager->getCurrentWorkspace(), 'language' => $this->contextManager->getCurrentLanguage()]);
-        $vars['token']            = $downloadToken;
+        $vars['links']['execute'] = $this->generateUrl('anycontent_records_export', [
+            'contentTypeAccessHash' => $contentTypeAccessHash,
+            'token' => $downloadToken,
+        ]);
+        $vars['links']['list'] = $this->generateUrl('anycontent_records', [
+            'contentTypeAccessHash' => $contentTypeAccessHash,
+            'page' => $this->contextManager->getCurrentListingPage(),
+            'workspace' => $this->contextManager->getCurrentWorkspace(),
+            'language' => $this->contextManager->getCurrentLanguage(),
+        ]);
+        $vars['token'] = $downloadToken;
 
         return $this->render('@AnyContentBackend/Export/exportrecords-modal.html.twig', $vars);
     }
@@ -64,11 +72,11 @@ class ExportController extends AbstractAnyContentBackendController
             $format = $request->get('format');
 
             if ($format == 'j') {
-                $data     = $exporter->exportJSON($repository, $repository->getContentTypeDefinition()
+                $data = $exporter->exportJSON($repository, $repository->getContentTypeDefinition()
                     ->getName(), $workspace, $language);
                 $filename = strtolower(date('Ymd') . '_export_' . $contentTypeDefinition->getName() . '_' . $workspace . '_' . $language . '.json');
             } else {
-                $data     = $exporter->exportXLSX($repository, $repository->getContentTypeDefinition()
+                $data = $exporter->exportXLSX($repository, $repository->getContentTypeDefinition()
                     ->getName(), $workspace, $language);
                 $filename = strtolower(date('Ymd') . '_export_' . $contentTypeDefinition->getName() . '_' . $workspace . '_' . $language . '.xlsx');
             }
@@ -94,7 +102,7 @@ class ExportController extends AbstractAnyContentBackendController
                 header('Pragma: public'); // HTTP/1.0
 
                 $response = new Response($data);
-                $cookie   = new Cookie("anycontent-download", $token, 0, '/', null, false, false); //Not http only!
+                $cookie = new Cookie("anycontent-download", $token, 0, '/', null, false, false); //Not http only!
                 $response->headers->setCookie($cookie);
 
                 $this->contextManager->addSuccessMessage('Records exported to ' . $filename);
@@ -104,6 +112,11 @@ class ExportController extends AbstractAnyContentBackendController
         }
         $this->contextManager->addErrorMessage('Could not export records.');
 
-        return new RedirectResponse($this->generateUrl('anycontent_records', ['contentTypeAccessHash' => $contentTypeAccessHash, 'page' => $this->contextManager->getCurrentListingPage(), 'workspace' => $this->contextManager->getCurrentWorkspace(), 'language' => $this->contextManager->getCurrentLanguage()]));
+        return new RedirectResponse($this->generateUrl('anycontent_records', [
+            'contentTypeAccessHash' => $contentTypeAccessHash,
+            'page' => $this->contextManager->getCurrentListingPage(),
+            'workspace' => $this->contextManager->getCurrentWorkspace(),
+            'language' => $this->contextManager->getCurrentLanguage(),
+        ]));
     }
 }
