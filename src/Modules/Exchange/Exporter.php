@@ -1,6 +1,6 @@
 <?php
 
-namespace AnyContent\Backend\Modules\Export;
+namespace AnyContent\Backend\Modules\Exchange;
 
 use AnyContent\Client\Record;
 use AnyContent\Client\Repository;

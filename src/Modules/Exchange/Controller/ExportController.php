@@ -1,9 +1,9 @@
 <?php
 
-namespace AnyContent\Backend\Modules\Export\Controller;
+namespace AnyContent\Backend\Modules\Exchange\Controller;
 
 use AnyContent\Backend\Controller\AbstractAnyContentBackendController;
-use AnyContent\Backend\Modules\Export\Exporter;
+use AnyContent\Backend\Modules\Exchange\Exporter;
 use AnyContent\Client\Repository;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\RedirectResponse;
