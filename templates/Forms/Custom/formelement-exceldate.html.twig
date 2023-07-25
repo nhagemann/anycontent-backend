@@ -1,0 +1,15 @@
+{% extends "@AnyContentBackend/Forms/formelement-default.html.twig" %}
+
+{% block input %}
+    <div class="col-xs-2">
+        <input type="text" class="form-control formelement-tooltip" id="{{ id }}" name="{{ name }}"
+               placeholder="{{ definition.placeholder }}" value="{{ value }}" data-toggle="tooltip" data-trigger="hover"
+               data-placement="right"
+               data-content="{{ definition.hint }}"{% if definition.isProtected %} disabled="disabled"{% endif %}>
+    </div>
+    <div class="col-xs-3">
+        {% if date !='' %}
+            <p>≙ {{ date }}</p>
+        {% endif %}
+    </div>
+{% endblock %}

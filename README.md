@@ -110,9 +110,7 @@ todo:
 - limit mysql configuraiton to lowercase, allow title 
 - file modals
 - files urls
-- #list repositories command
 - remove revisions command
-- export/import
 - all other form elements
 - phpstan
 - admin routes
@@ -122,3 +120,9 @@ todo:
 
 backup:
 - import/export/archive commands Core/Edit/Exchange
+
+idea:
+- https://symfony.com/doc/current/security/voters.html
+- repository: read / admin
+- record: create / read / update / delete / sort
+- $this->denyAccessUnlessGranted(PostVoter::VIEW, $post);

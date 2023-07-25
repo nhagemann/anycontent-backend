@@ -6,10 +6,10 @@
         "numberofplanes": "141",
         "foundationyear": "1940",
         "parent": "1",
-        "position": "3"
+        "position": "2"
     },
     "info": {
-        "revision": 15,
+        "revision": 16,
         "creation": {
             "timestamp": null,
             "username": "",
@@ -17,7 +17,7 @@
             "lastname": ""
         },
         "lastchange": {
-            "timestamp": 1687441680,
+            "timestamp": 1690274540,
             "username": "",
             "firstname": "",
             "lastname": ""

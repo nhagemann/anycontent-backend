@@ -39,6 +39,7 @@ class Configuration implements ConfigurationInterface
                     ->children()
                     ->scalarNode('type')->isRequired()->end()
                     ->scalarNode('class')->isRequired()->end()
+                    ->scalarNode('custom_type')->end()
                 ->end()
             ->end()
             ->end();

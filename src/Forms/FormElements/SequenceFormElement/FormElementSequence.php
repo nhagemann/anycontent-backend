@@ -16,11 +16,10 @@ class FormElementSequence extends FormElementDefault
     {
         $dataTypeAccessHash = null;
 
-
         if ($contextManager->isContentContext()) {
             $dataTypeAccessHash = $contextManager->getCurrentContentTypeAccessHash();
             $recordId = $contextManager->getCurrentRecord()->getId();
-            $dataType ='content';
+            $dataType = 'content';
         }
 
         if ($contextManager->isConfigContext()) {
@@ -29,7 +28,7 @@ class FormElementSequence extends FormElementDefault
             $dataType = 'config';
         }
 
-        if ($dataTypeAccessHash!==null){
+        if ($dataTypeAccessHash !== null) {
             // the sequence rendering form must know if the sequence form element has be inserted via an insert to find its definition
             $insertName = '-';
             if ($this->definition->isInsertedByInsert()) {

@@ -2,6 +2,7 @@
 
 namespace AnyContent\Backend\Setup;
 
+use AnyContent\Backend\Exception\AnyContentBackendException;
 use AnyContent\Backend\Forms\FormElements\ColorFormElement\FormElementColor;
 use AnyContent\Backend\Forms\FormElements\DateTimeFormElements\FormElementDate;
 use AnyContent\Backend\Forms\FormElements\DateTimeFormElements\FormElementTime;
@@ -43,6 +44,9 @@ class FormElementsAdder
         foreach ($this->getFormElementClasses() as $type => $class) {
             $formManager->registerFormElement($type, $class);
         }
+        foreach ($this->getCustomFormElementClasses() as $type => $class) {
+            $formManager->registerCustomFormElement($type, $class);
+        }
     }
 
     private function getFormElementClasses(): array
@@ -83,8 +87,25 @@ class FormElementsAdder
         $classes['sequence'] = FormElementSequence::class;
         $classes['insert'] = FormElementInsert::class;
 
+        // now add potentially configured standard form elements
         foreach ($this->formElements as $formElement) {
-            $classes[$formElement['type']] = $formElement['class'];
+            if ($formElement['type'] !== 'custom') {
+                $classes[$formElement['type']] = $formElement['class'];
+            }
+        }
+        return $classes;
+    }
+
+    private function getCustomFormElementClasses(): array
+    {
+        $classes = [];
+        foreach ($this->formElements as $formElement) {
+            if ($formElement['type'] === 'custom') {
+                if (!array_key_exists('custom_type', $formElement)) {
+                    throw new AnyContentBackendException('Missing mandatory parameter custom_type for custom form elements.');
+                }
+                $classes[$formElement['custom_type']] = $formElement['class'];
+            }
         }
         return $classes;
     }

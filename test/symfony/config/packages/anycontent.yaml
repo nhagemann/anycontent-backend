@@ -5,4 +5,5 @@ any_content_backend:
     - { name: 'anycontent', type: 'mysql', db_host: 'anycontent-backend-mysql', db_name: 'anycontent', db_user: 'user', db_password: 'password', path: '%kernel.project_dir%/../_repositories/hahnair/anycontent', files: '%kernel.project_dir%/../_repositories/_files'}
     - { name: 'hrs2', type: 'mysql', db_host: 'anycontent-backend-mysql', db_name: 'anycontent', db_user: 'user', db_password: 'password', path: '%kernel.project_dir%/../_repositories/hahnair/hrs', files: '%kernel.project_dir%/../_repositories/_files'}
   formelements:
-    - {'type': 'default', class: 'AnyContent\Backend\Forms\FormElements\FormElementDefault'}
+    - {type: 'default', class: 'AnyContent\Backend\Forms\FormElements\FormElementDefault'}
+    - {type: 'custom', custom_type: 'exceldate', class: 'AnyContent\Backend\Forms\FormElements\CustomFormElements\FormElementWindowsExcelDate'}
