@@ -4,8 +4,11 @@
 
     <div class="row">
 
-
+        {% if id is defined %}
         <h3>Record #{{ id }} not found!</h3>
+        {% else %}
+        <h3>Record not found!</h3>
+        {% endif %}
 
         <br/>
         There's no version of this record in workspace <strong>{{ workspaces.currentName }}</strong> and language
@@ -13,8 +16,9 @@
         <br/>
         <br/>
 
-
+        {% if links.addrecordversion is defined %}
         <a href="{{ links.addrecordversion }}" class="btn btn-primary">Create now</a>
+        {% endif %}
 
 
     </div>

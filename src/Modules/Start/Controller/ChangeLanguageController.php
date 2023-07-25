@@ -49,4 +49,20 @@ class ChangeLanguageController extends AbstractAnyContentBackendController
 
         return $this->redirect($this->generateUrl('anycontent_config_edit', ['configTypeAccessHash' => $configTypeAccessHash]), 303);
     }
+
+    #[Route('/change-language/revisions/content/{contentTypeAccessHash}/{recordId}', 'anycontent_revisions_content_change_language', methods: ['POST'])]
+    public function changeLanguageRecordRevisions(Request $request, $contentTypeAccessHash, $recordId)
+    {
+        $this->contextManager->setCurrentLanguage($request->get('language'));
+
+        return $this->redirect($this->generateUrl('anycontent_record_revisions', ['contentTypeAccessHash' => $contentTypeAccessHash, 'recordId' => $recordId, 'workspace' => $this->contextManager->getCurrentWorkspace(), 'language' => $this->contextManager->getCurrentLanguage()]), 303);
+    }
+
+    #[Route('/change-language/revisions/config/{configTypeAccessHash}', 'anycontent_revisions_config_change_language', methods: ['POST'])]
+    public function changeLanguageConfigRevisions(Request $request, $configTypeAccessHash)
+    {
+        $this->contextManager->setCurrentLanguage($request->get('language'));
+
+        return $this->redirect($this->generateUrl('anycontent_config_revisions', ['configTypeAccessHash' => $configTypeAccessHash, 'workspace' => $this->contextManager->getCurrentWorkspace(), 'language' => $this->contextManager->getCurrentLanguage()]), 303);
+    }
 }

@@ -18,7 +18,7 @@ use Symfony\Component\Yaml\Yaml;
 #[IsGranted('ROLE_ANYCONTENT')]
 class RevisionsController extends AbstractAnyContentBackendController
 {
-    #[Route('/content/revisions/{contentTypeAccessHash}/{recordId}/{workspace}/{language}', 'anycontent_records_revisions')]
+    #[Route('/content/revisions/{contentTypeAccessHash}/{recordId}/{workspace}/{language}', 'anycontent_record_revisions')]
     public function listRecordRevisions($contentTypeAccessHash, $recordId, $workspace, $language)
     {
         $vars = [];
@@ -40,6 +40,9 @@ class RevisionsController extends AbstractAnyContentBackendController
         $this->addRepositoryLinks($vars, $repository, 1);
 
         $vars['links']['timeshift'] = $this->generateUrl('anycontent_timeshift_record_edit', ['contentTypeAccessHash' => $contentTypeAccessHash, 'recordId' => $recordId]);
+
+        $vars['links']['workspaces'] = $this->generateUrl('anycontent_revisions_content_change_workspace', ['contentTypeAccessHash' => $contentTypeAccessHash, 'recordId' => $recordId]);
+        $vars['links']['languages'] = $this->generateUrl('anycontent_revisions_content_change_language', ['contentTypeAccessHash' => $contentTypeAccessHash, 'recordId' => $recordId]);
 
         $vars['id'] = $recordId;
         $vars['repository'] = $repository;
@@ -134,7 +137,7 @@ class RevisionsController extends AbstractAnyContentBackendController
             return $this->render('@AnyContentBackend\Revisions\editrevision.html.twig', $vars);
         }
 
-        return $this->render('forbidden.twig', $vars);
+        return $this->render('@AnyContentBackend\Content\record-not-found.html.twig', $vars);
     }
 
     #[Route('/content/revisions/{configTypeAccessHash}/{workspace}/{language}', 'anycontent_config_revisions')]
@@ -182,8 +185,8 @@ class RevisionsController extends AbstractAnyContentBackendController
             $vars['buttons'] = $this->menuManager->renderButtonGroup($buttons);
 
             //$vars['links']['timeshift']  = $this->generateUrl('anycontent_config_revisions_timeshift', ['configTypeAccessHash' => $configTypeAccessHash, 'workspace'=>$workspace,'language'=>$language]);
-            $vars['links']['workspaces'] = $this->generateUrl('anycontent_config_edit_change_workspace', ['configTypeAccessHash' => $configTypeAccessHash]);
-            $vars['links']['languages'] = $this->generateUrl('anycontent_config_edit_change_language', ['configTypeAccessHash' => $configTypeAccessHash]);
+            $vars['links']['workspaces'] = $this->generateUrl('anycontent_revisions_config_change_workspace', ['configTypeAccessHash' => $configTypeAccessHash]);
+            $vars['links']['languages'] = $this->generateUrl('anycontent_revisions_config_change_language', ['configTypeAccessHash' => $configTypeAccessHash]);
 
             /** @var Config $record */
             $record = $repository->getConfig($configTypeDefinition->getName());
@@ -197,6 +200,10 @@ class RevisionsController extends AbstractAnyContentBackendController
                 $vars['definition'] = $configTypeDefinition;
 
                 $revisions = $repository->getRevisionsOfConfig($configTypeDefinition->getName());
+
+                if (!$revisions) {
+                    return $this->render('@AnyContentBackend\Content\record-not-found.html.twig', $vars);
+                }
 
                 $properties = $this->getPropertiesForDiff($configTypeDefinition);
 
@@ -265,7 +272,7 @@ class RevisionsController extends AbstractAnyContentBackendController
                 return $this->render('@AnyContentBackend\Revisions\editrevision.html.twig', $vars);
             }
 
-            return $this->render('forbidden.twig', $vars);
+            return $this->render('@AnyContentBackend\Content\record-not-found.html.twig', $vars);
         }
     }
 

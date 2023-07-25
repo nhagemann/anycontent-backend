@@ -102,7 +102,7 @@ class RecordsController extends AbstractAnyContentBackendController
             );
 
             $vars['links']['revisions'] = $this->generateUrl(
-                'anycontent_records_revisions',
+                'anycontent_record_revisions',
                 [
                     'recordId' => $recordId,
                     'contentTypeAccessHash' => $contentTypeAccessHash,

@@ -105,9 +105,7 @@ config/packages/security.yaml
 
 
 todo:
-- timeshift
-- revisions (change languages/workspace)
-- limit mysql configuraiton to lowercase, allow title 
+- limit mysql configuration to lowercase, allow title 
 - file modals
 - files urls
 - remove revisions command
@@ -115,7 +113,6 @@ todo:
 - phpstan
 - admin routes
 - content views
-- custom form elements logic
 - additional connection types
 
 backup:
