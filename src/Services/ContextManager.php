@@ -16,7 +16,7 @@ class ContextManager
 {
     protected Session $session;
 
-    protected Repository |null $repository = null;
+    protected Repository|null $repository = null;
 
     protected ContentTypeDefinition|ConfigTypeDefinition|DataTypeDefinition|null $dataTypeDefinition = null;
 
@@ -26,7 +26,7 @@ class ContextManager
 
     protected string $prefix = 'anycontent_context_';
 
-    protected $context = null;
+    protected ?string $context = null;
 
     protected $defaultNumberOfItemsPerPage = 10;
 
@@ -147,7 +147,7 @@ class ContextManager
     public function getCurrentContentTypeAccessHash()
     {
         return $this->repositoryManager
-                    ->getAccessHash($this->getCurrentRepository(), $this->getCurrentContentType());
+            ->getAccessHash($this->getCurrentRepository(), $this->getCurrentContentType());
     }
 
     public function getCurrentConfigTypeAccessHash()
@@ -167,7 +167,7 @@ class ContextManager
         if (!$this->isConfigContext() || $this->dataTypeDefinition === null) {
             throw new AnyContentBackendException('Not a config context.');
         }
-        assert($this->dataTypeDefinition instanceof  ConfigTypeDefinition);
+        assert($this->dataTypeDefinition instanceof ConfigTypeDefinition);
         return $this->dataTypeDefinition;
     }
 
@@ -176,10 +176,7 @@ class ContextManager
         return $this->getCurrentConfigType();
     }
 
-    /**
-     * @return DataTypeDefinition
-     */
-    public function getCurrentDataTypeDefinition()
+    public function getCurrentDataTypeDefinition(): ?DataTypeDefinition
     {
         return $this->dataTypeDefinition;
 //        if ($this->isContentContext()) {
@@ -220,18 +217,18 @@ class ContextManager
         $this->context = 'files';
     }
 
-    public function isContentContext()
+    public function isContentContext(): bool
     {
-        if ($this->context == 'content') {
+        if ($this->context === 'content') {
             return true;
         }
 
         return false;
     }
 
-    public function isConfigContext()
+    public function isConfigContext(): bool
     {
-        if ($this->context == 'config') {
+        if ($this->context === 'config') {
             return true;
         }
 
@@ -261,12 +258,10 @@ class ContextManager
     {
         $dataTypeDefinition = $this->getCurrentDataTypeDefinition();
 
-        if ($dataTypeDefinition) {
-            $languages = $dataTypeDefinition->getLanguages();
+        $languages = $dataTypeDefinition->getLanguages();
 
-            if (array_key_exists($this->getCurrentLanguage(), $languages)) {
-                return $languages[$this->getCurrentLanguage()];
-            }
+        if (array_key_exists($this->getCurrentLanguage(), $languages)) {
+            return $languages[$this->getCurrentLanguage()];
         }
 
         return false;
@@ -281,11 +276,9 @@ class ContextManager
     {
         $dataTypeDefinition = $this->getCurrentDataTypeDefinition();
 
-        if ($dataTypeDefinition) {
-            $workspaces = $dataTypeDefinition->getWorkspaces();
-            if (array_key_exists($this->getCurrentWorkspace(), $workspaces)) {
-                return $workspaces[$this->getCurrentWorkspace()];
-            }
+        $workspaces = $dataTypeDefinition->getWorkspaces();
+        if (array_key_exists($this->getCurrentWorkspace(), $workspaces)) {
+            return $workspaces[$this->getCurrentWorkspace()];
         }
 
         return false;
@@ -354,7 +347,7 @@ class ContextManager
             }
         }
 
-        $sorting                                           = $this->session->get($this->prefix . 'sorting');
+        $sorting = $this->session->get($this->prefix . 'sorting');
         $sorting[$this->getCurrentContentTypeAccessHash()] = $order;
         $this->session->set($this->prefix . 'sorting', $sorting);
     }
@@ -373,7 +366,7 @@ class ContextManager
 
     public function setCurrentListingPage($page)
     {
-        $listing                                           = $this->session->get($this->prefix . 'listing_page');
+        $listing = $this->session->get($this->prefix . 'listing_page');
         $listing[$this->getCurrentContentTypeAccessHash()] = $page;
         $this->session->set($this->prefix . 'listing_page', $listing);
     }
@@ -392,7 +385,7 @@ class ContextManager
 
     public function setCurrentSearchTerm($searchTerm)
     {
-        $searchTerms                                           = $this->session->get($this->prefix . 'searchterms');
+        $searchTerms = $this->session->get($this->prefix . 'searchterms');
         $searchTerms[$this->getCurrentContentTypeAccessHash()] = $searchTerm;
         $this->session->set($this->prefix . 'searchterms', $searchTerms);
     }
@@ -411,9 +404,9 @@ class ContextManager
 
     public function setCurrentContentViewNr($type)
     {
-        $contentTypeAccessHash                = $this->repositoryManager
-                                                     ->getAccessHash($this->getCurrentRepository(), $this->getCurrentContentType());
-        $contentViews                         = $this->session->get($this->prefix . 'contentviews');
+        $contentTypeAccessHash = $this->repositoryManager
+            ->getAccessHash($this->getCurrentRepository(), $this->getCurrentContentType());
+        $contentViews = $this->session->get($this->prefix . 'contentviews');
         $contentViews[$contentTypeAccessHash] = $type;
         $this->session->set($this->prefix . 'contentviews', $contentViews);
     }
@@ -421,7 +414,7 @@ class ContextManager
     public function getCurrentContentViewNr()
     {
         $contentTypeAccessHash = $this->repositoryManager
-                                      ->getAccessHash($this->getCurrentRepository(), $this->getCurrentContentType());
+            ->getAccessHash($this->getCurrentRepository(), $this->getCurrentContentType());
         if ($this->session->has($this->prefix . 'contentviews')) {
             $contentViews = $this->session->get($this->prefix . 'contentviews');
             if (array_key_exists($contentTypeAccessHash, $contentViews)) {
@@ -434,9 +427,9 @@ class ContextManager
 
     public function setCurrentItemsPerPage($c)
     {
-        $contentTypeAccessHash                = $this->repositoryManager
-                                                     ->getAccessHash($this->getCurrentRepository(), $this->getCurrentContentType());
-        $itemsPerPage                         = $this->session->get($this->prefix . 'itemsperpage');
+        $contentTypeAccessHash = $this->repositoryManager
+            ->getAccessHash($this->getCurrentRepository(), $this->getCurrentContentType());
+        $itemsPerPage = $this->session->get($this->prefix . 'itemsperpage');
         $itemsPerPage[$contentTypeAccessHash] = $c;
         $this->session->set($this->prefix . 'itemsperpage', $itemsPerPage);
     }
@@ -444,7 +437,7 @@ class ContextManager
     public function getCurrentItemsPerPage()
     {
         $contentTypeAccessHash = $this->repositoryManager
-                                      ->getAccessHash($this->getCurrentRepository(), $this->getCurrentContentType());
+            ->getAccessHash($this->getCurrentRepository(), $this->getCurrentContentType());
         if ($this->session->has($this->prefix . 'itemsperpage')) {
             $itemsPerPage = $this->session->get($this->prefix . 'itemsperpage');
             if (array_key_exists($contentTypeAccessHash, $itemsPerPage)) {
@@ -491,23 +484,16 @@ class ContextManager
         $this->defaultNumberOfItemsPerPage = $defaultNumberOfItemsPerPage;
     }
 
-    public function canDoTimeshift()
+    public function canDoTimeshift(): bool
     {
-        if ($this->isContentContext()) {
-            if ($this->getCurrentContentType()) {
-                return $this->getCurrentContentType()->isTimeShiftable();
-            }
+        $definition = $this->getCurrentDataTypeDefinition();
+        if ($definition === null) {
+            return false;
         }
-        if ($this->isConfigContext()) {
-            if ($this->getCurrentConfigType()) {
-                return $this->getCurrentConfigType()->isTimeShiftable();
-            }
-        }
-
-        return false;
+        return $definition->isTimeShiftable();
     }
 
-    public function canDoSearch()
+    public function canDoSearch(): bool
     {
         if ($this->isContentContext()) {
             return true;

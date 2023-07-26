@@ -4,10 +4,7 @@ namespace AnyContent\Backend\Modules\Revisions\Controller;
 
 use AnyContent\Backend\Controller\AbstractAnyContentBackendController;
 use AnyContent\Client\AbstractRecord;
-use AnyContent\Client\Config;
 use AnyContent\Client\Record;
-use AnyContent\Client\Repository;
-use CMDL\ConfigTypeDefinition;
 use CMDL\DataTypeDefinition;
 use FineDiff\Diff;
 use FineDiff\Granularity\Word;
@@ -147,7 +144,6 @@ class RevisionsController extends AbstractAnyContentBackendController
 
         $vars['menu_mainmenu'] = $this->menuManager->renderMainMenu();
 
-        /** @var Repository $repository */
         $repository = $this->repositoryManager->getRepositoryByConfigTypeAccessHash($configTypeAccessHash);
 
         if ($repository) {
@@ -160,7 +156,6 @@ class RevisionsController extends AbstractAnyContentBackendController
                 ['repositoryAccessHash' => $repositoryAccessHash]
             );
 
-            /** @var ConfigTypeDefinition $configTypeDefinition */
             $configTypeDefinition = $this->repositoryManager->getConfigTypeDefinitionByConfigTypeAccessHash($configTypeAccessHash);
 
             $this->contextManager->setCurrentRepository($repository);
@@ -188,7 +183,6 @@ class RevisionsController extends AbstractAnyContentBackendController
             $vars['links']['workspaces'] = $this->generateUrl('anycontent_revisions_config_change_workspace', ['configTypeAccessHash' => $configTypeAccessHash]);
             $vars['links']['languages'] = $this->generateUrl('anycontent_revisions_config_change_language', ['configTypeAccessHash' => $configTypeAccessHash]);
 
-            /** @var Config $record */
             $record = $repository->getConfig($configTypeDefinition->getName());
 
             $items = [];
@@ -295,7 +289,6 @@ class RevisionsController extends AbstractAnyContentBackendController
     #[Route('/content/revisions/{contentTypeAccessHash}/{recordId}/{workspace}/{language}/recreate/{timeshift}', 'anycontent_revisions_record_recreate')]
     public function recreateRecordRevision($contentTypeAccessHash, $recordId, $workspace, $language, $timeshift)
     {
-        /** @var Repository $repository */
         $repository = $this->repositoryManager->getRepositoryByContentTypeAccessHash($contentTypeAccessHash);
 
         if ($repository) {
@@ -319,7 +312,6 @@ class RevisionsController extends AbstractAnyContentBackendController
             $repository->setTimeShift($this->contextManager->getCurrentTimeShift());
             $repository->selectView('default');
 
-            /** @var Record $record */
             $record = $repository->getRecord($recordId);
 
             if ($record) {
@@ -340,13 +332,11 @@ class RevisionsController extends AbstractAnyContentBackendController
     #[Route('/config/revisions/{configTypeAccessHash}/{workspace}/{language}/recreate/{timeshift}', 'anycontent_revisions_config_recreate')]
     public function recreateConfigRevision($configTypeAccessHash, $workspace, $language, $timeshift)
     {
-        /** @var Repository $repository */
         $repository = $this->repositoryManager->getRepositoryByConfigTypeAccessHash($configTypeAccessHash);
 
         if ($repository) {
             $this->contextManager->setCurrentRepository($repository);
 
-            /** @var ConfigTypeDefinition $configTypeDefinition */
             $configTypeDefinition = $this->repositoryManager->getConfigTypeDefinitionByConfigTypeAccessHash($configTypeAccessHash);
 
             $this->contextManager->setCurrentRepository($repository);
@@ -366,7 +356,6 @@ class RevisionsController extends AbstractAnyContentBackendController
             $repository->setTimeShift($this->contextManager->getCurrentTimeShift());
             $repository->selectView('default');
 
-            /** @var Config $record */
             $record = $repository->getConfig($configTypeDefinition->getName());
 
             if ($record) {

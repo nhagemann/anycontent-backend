@@ -31,7 +31,6 @@ class Exporter
 
         $records = $repository->getRecords('', 'id');
 
-        if ($records !== false) {
             $result                         = [];
             $result['info']['content_type'] = $contentTypeName;
             $result['info']['workspace']    = $workspace;
@@ -41,16 +40,13 @@ class Exporter
 
             $result['records'] = [];
 
-            foreach ($records as $record) {
-                $this->writeln('Processing record ' . $record->getID() . ' - ' . $record->getName());
+        foreach ($records as $record) {
+            $this->writeln('Processing record ' . $record->getID() . ' - ' . $record->getName());
 
-                $result['records'][$record->getID()] = ['id' => $record->getID(), 'revision' => $record->getRevision(), 'properties' => $record->getProperties()];
-            }
-
-            return json_encode($result, JSON_PRETTY_PRINT);
+            $result['records'][$record->getID()] = ['id' => $record->getID(), 'revision' => $record->getRevision(), 'properties' => $record->getProperties()];
         }
 
-        return false;
+            return json_encode($result, JSON_PRETTY_PRINT);
     }
 
     public function exportXLSX(Repository $repository, $contentTypeName, $workspace = 'default', $language = 'default', $viewName = 'exchange')
@@ -72,7 +68,6 @@ class Exporter
 
         $records = $repository->getRecords('', '.id', 1);
 
-        if ($records !== false) {
             $objPHPExcel = $this->createExcelDocument('Content Export for content type ' . $contentTypeDefinition->getTitle());
 
             $objPHPExcel = $this->addRecordsToExcelSheet($objPHPExcel, 0, $records, $contentTypeDefinition, $viewName, 'Export');
@@ -81,9 +76,6 @@ class Exporter
             ob_start();
             $objWriter->save('php://output');
             return ob_get_clean();
-        }
-
-        return false;
     }
 
     public function backupXLSX(Repository $repository, $contentTypeName = null, $viewName = 'exchange')

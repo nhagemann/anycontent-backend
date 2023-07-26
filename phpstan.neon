@@ -1,5 +1,7 @@
 # phpstan.neon
 parameters:
+    ignoreErrors:
+        - '#\$definition is not covariant with PHPDoc type CMDL\\FormElementDefinitions\\(.)* of overridden property#'
     excludePaths:
         - 'src/AnyContent/Connection/RecordsFileHTTPReadOnlyConnection.php'
         - 'src/AnyContent/Connection/RestLikeBasicReadOnlyConnection.php'

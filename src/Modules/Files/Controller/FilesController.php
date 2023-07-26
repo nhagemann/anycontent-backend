@@ -3,8 +3,6 @@
 namespace AnyContent\Backend\Modules\Files\Controller;
 
 use AnyContent\Backend\Controller\AbstractAnyContentBackendController;
-use AnyContent\Client\File;
-use AnyContent\Client\Repository;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -45,7 +43,6 @@ class FilesController extends AbstractAnyContentBackendController
         $vars['links']['files'] = $this->generateUrl($listFilesRouteName, ['repositoryAccessHash' => $repositoryAccessHash, 'path' => '']);
         $vars['links']['newwindow'] = $this->generateUrl('anycontent_files', ['repositoryAccessHash' => $repositoryAccessHash, 'path' => $path]);
 
-        /** @var Repository $repository */
         $repository = $this->repositoryManager->getRepositoryByRepositoryAccessHash($repositoryAccessHash);
 
         if ($repository) {
@@ -129,12 +126,11 @@ class FilesController extends AbstractAnyContentBackendController
     public function viewFile(Request $request, $repositoryAccessHash, $id)
     {
         if ($id) {
-            /** @var Repository $repository */
             $repository = $this->repositoryManager->getRepositoryByRepositoryAccessHash($repositoryAccessHash);
 
             if ($repository) {
                 $this->contextManager->setCurrentRepository($repository);
-                /** @var File $file */
+
                 $file = $repository->getFile($id);
 
                 if ($file) {
@@ -173,12 +169,11 @@ class FilesController extends AbstractAnyContentBackendController
     #[Route('/file/{repositoryAccessHash}/download/{id}', name: 'anycontent_file_download', requirements: ['id' => '.*'], methods: ['GET'])]
     public function downloadFile(Request $request, $repositoryAccessHash, $id)
     {
-        /** @var Repository $repository */
         $repository = $this->repositoryManager->getRepositoryByRepositoryAccessHash($repositoryAccessHash);
 
         if ($repository) {
             $this->contextManager->setCurrentRepository($repository);
-            /** @var File $file */
+
             $file = $repository->getFile($id);
 
             if ($file) {
@@ -198,12 +193,11 @@ class FilesController extends AbstractAnyContentBackendController
     #[Route('/file/{repositoryAccessHash}/delete/{id}', name: 'anycontent_file_delete', requirements: ['id' => '.*'], methods: ['GET'])]
     public function deleteFile(Request $request, $repositoryAccessHash, $id)
     {
-        /** @var Repository $repository */
         $repository = $this->repositoryManager->getRepositoryByRepositoryAccessHash($repositoryAccessHash);
 
         if ($repository) {
             $this->contextManager->setCurrentRepository($repository);
-            /** @var File $file */
+
             $file = $repository->getFile($id);
 
             if ($file) {
@@ -224,7 +218,6 @@ class FilesController extends AbstractAnyContentBackendController
     #[Route('/modal/files/{repositoryAccessHash}/{path}', name: 'anycontent_files_post_modal', requirements: ['path' => '.*'], defaults: ['mode' => 'modal'], methods: ['POST'])]
     public function post(Request $request, $repositoryAccessHash, $path, $mode)
     {
-        /** @var Repository $repository */
         $repository = $this->repositoryManager->getRepositoryByRepositoryAccessHash($repositoryAccessHash);
 
         if ($repository) {

@@ -5,6 +5,7 @@ namespace AnyContent\Backend\Modules\Exchange;
 use AnyContent\Client\Record;
 use AnyContent\Client\Repository;
 use CMDL\Util;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class Importer
 {
@@ -31,10 +32,7 @@ class Importer
 
     public function importJSON(Repository $repository, $contentTypeName, $data, $workspace = 'default', $language = 'default', $viewName = 'exchange')
     {
-        $this->count = 0;
-        $this->records = null;
-        $this->stash = [];
-        $this->error = false;
+        $this->reset();
 
         $repository->selectContentType($contentTypeName);
 
@@ -84,7 +82,7 @@ class Importer
             $this->writeln('Found ' . $this->count . ' records to import');
             $this->writeln('');
 
-            if ($this->count != 0) {
+            if ($this->count > 0) {
                 $this->writeln('Starting bulk import');
                 $this->writeln('');
                 $this->saveRecords($repository);
@@ -98,10 +96,7 @@ class Importer
 
     public function importXLSX(Repository $repository, $contentTypeName, $filename, $workspace = 'default', $language = 'default', $viewName = 'exchange')
     {
-        $this->count = 0;
-        $this->records = null;
-        $this->stash = [];
-        $this->error = false;
+        $this->reset();
 
         $repository->selectContentType($contentTypeName);
 
@@ -114,13 +109,12 @@ class Importer
         $repository->selectLanguage($language);
         $repository->selectView($viewName);
 
-        $objPHPExcel = \PhpOffice\PhpSpreadsheet\IOFactory::load($filename);
-
-        if ($objPHPExcel) {
+        try {
+            $objPHPExcel = IOFactory::load($filename);
             $objWorksheet = $objPHPExcel->getActiveSheet();
 
             $this->importExcelSheet($repository, $objWorksheet);
-        } else {
+        } catch (\Exception $exception) {
             $this->writeln('Error parsing Excel file.');
             $this->error = true;
         }
@@ -128,56 +122,6 @@ class Importer
         return !$this->error;
     }
 
-//
-//    public function importBackupXLSX(Repository $repository, $filename, $contentTypeName = null, $viewName = 'exchange')
-//    {
-//        $objPHPExcel = \PhpOffice\PhpSpreadsheet\IOFactory::load($filename);
-//
-//        if ($objPHPExcel) {
-//            foreach ($objPHPExcel->getAllSheets() as $objWorksheet) {
-//
-//                $title = $objWorksheet->getTitle();
-//                $this->writeln('Checking Sheet ' . $title);
-//
-//                if (substr_count($title, '.') != 2) {
-//                    $title = $objWorksheet->getComment()->getText();
-//                    $this->writeln('Extracting info from comment: ' . $title);
-//                }
-//
-//                $identified = false;
-//                if (substr_count($title, '.') == 2) {
-//                    $info = explode('.', $title);
-//
-//                    if ($repository->hasContentType($info[0])) {
-//
-//                        if ($contentTypeName == null || $info[0] == $contentTypeName) {
-//                            $repository->selectContentType($info[0]);
-//                            $contentTypeDefinition = $repository->getCurrentContentTypeDefinition();
-//
-//                            if ($contentTypeDefinition->hasWorkspace($info[1])) {
-//                                $repository->selectWorkspace($info[1]);
-//
-//                                if ($contentTypeDefinition->hasLanguage($info[2])) {
-//                                    $repository->selectLanguage($info[2]);
-//                                    $this->importExcelSheet($repository, $objWorksheet);
-//                                    $identified = true;
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
-//
-//                if (!$identified) {
-//                    $this->writeln('Skipping sheet - unknown target.');
-//                }
-//            }
-//        }
-//        else {
-//            $this->writeln('Error parsing Excel file.');
-//            $this->error = true;
-//        }
-//    }
-//
     protected function importExcelSheet(Repository $repository, \PhpOffice\PhpSpreadsheet\Worksheet\Worksheet $objWorksheet)
     {
         if ($this->isTruncateRecords()) {
@@ -353,9 +297,6 @@ class Importer
             $this->writeln('Start fetching current effective records');
             $this->writeln('');
             $this->records = $repository->getRecords();
-            if ($this->records === false) {
-                throw new \Exception('Error fetching current effective records.');
-            }
             $this->writeln('Done fetching current effective records');
             $this->writeln('');
         }
@@ -440,5 +381,13 @@ class Importer
         if ($this->output) {
             $this->output->writeln($msg);
         }
+    }
+
+    public function reset(): void
+    {
+        $this->count = 0;
+        $this->records = null;
+        $this->stash = [];
+        $this->error = false;
     }
 }

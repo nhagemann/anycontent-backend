@@ -39,7 +39,6 @@ class FormElementTable extends FormElementDefault
                     $columns[$i++]      = $item;
 
                     $sum = $sum + $percentage;
-                    $percentage;
                 }
             }
 

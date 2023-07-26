@@ -5,6 +5,7 @@ namespace AnyContent\Backend\Services;
 use AnyContent\Backend\Setup\RepositoryAdder;
 use AnyContent\Client\Repository;
 use AnyContent\Client\UserInfo;
+use CMDL\ConfigTypeDefinition;
 
 class RepositoryManager
 {
@@ -202,27 +203,17 @@ class RepositoryManager
         return false;
     }
 
-    /**
-     * @param $hash
-     *
-     * @return Repository|bool
-     */
-    public function getRepositoryByConfigTypeAccessHash($hash)
+    public function getRepositoryByConfigTypeAccessHash($hash): ?Repository
     {
         if (array_key_exists($hash, $this->configTypeAccessHashes)) {
             $id         = $this->configTypeAccessHashes[$hash]['repositoryId'];
             return $this->getRepositoryById($id);
         }
 
-        return false;
+        return null;
     }
 
-    /**
-     * @param $hash
-     *
-     * @return bool|\CMDL\ConfigTypeDefinition
-     */
-    public function getConfigTypeDefinitionByConfigTypeAccessHash($hash)
+    public function getConfigTypeDefinitionByConfigTypeAccessHash($hash): ?ConfigTypeDefinition
     {
         if (array_key_exists($hash, $this->configTypeAccessHashes)) {
             $id             = $this->configTypeAccessHashes[$hash]['repositoryId'];
@@ -234,6 +225,6 @@ class RepositoryManager
             }
         }
 
-        return false;
+        return null;
     }
 }
