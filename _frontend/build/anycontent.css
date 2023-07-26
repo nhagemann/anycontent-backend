@@ -320,6 +320,14 @@ span.label > small {
     margin-bottom: 0px;
     border-top: 1px solid #ddd;
 }
+.file-item-preview {
+    padding-bottom: 4px;
+}
+
+.file-item-preview img {
+    border: 1px solid #e3e3e3;
+    border-radius: 4px;
+}
 div.form-group.has-error div.mce-tinymce {
     border-color: #a94442;
 }

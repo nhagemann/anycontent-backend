@@ -8,6 +8,8 @@ use AnyContent\Backend\Forms\FormElements\DateTimeFormElements\FormElementDate;
 use AnyContent\Backend\Forms\FormElements\DateTimeFormElements\FormElementTime;
 use AnyContent\Backend\Forms\FormElements\DateTimeFormElements\FormElementTimestamp;
 use AnyContent\Backend\Forms\FormElements\EmailFormElement\FormElementEmail;
+use AnyContent\Backend\Forms\FormElements\FileFormElements\FormElementFile;
+use AnyContent\Backend\Forms\FormElements\FileFormElements\FormElementImage;
 use AnyContent\Backend\Forms\FormElements\FormElementDefault;
 use AnyContent\Backend\Forms\FormElements\InsertFormElement\FormElementInsert;
 use AnyContent\Backend\Forms\FormElements\LayoutFormElements\FormElementHeadline;
@@ -72,8 +74,9 @@ class FormElementsAdder
         $classes['date'] = FormElementDate::class;
         $classes['time'] = FormElementTime::class;
         $classes['color'] = FormElementColor::class;
-        $classes['table'] = FormElementTable::class;
-
+        // Media form elements
+        $classes['file'] = FormElementFile::class;
+        $classes['image'] = FormElementImage::class;
         // layout form elements
         $classes['print'] = FormElementPrint::class;
         $classes['headline'] = FormElementHeadline::class;
@@ -82,6 +85,7 @@ class FormElementsAdder
         $classes['tab-start'] = FormElementTabStart::class;
         $classes['tab-next'] = FormElementTabNext::class;
         $classes['tab-end'] = FormElementTabEnd::class;
+        $classes['table'] = FormElementTable::class;
 
         // content type structure elements
         $classes['sequence'] = FormElementSequence::class;

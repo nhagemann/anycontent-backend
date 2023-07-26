@@ -1,9 +1,7 @@
-{% extends "layout-plain-white.twig" %}
+{% extends "@AnyContentBackend/anycontent-backend-plain-white.html.twig" %}
 
 {% block content %}
     <div class="container files-list-modal">
-
-        <div class="row"><div class="col-xs-12">{% include 'messages.twig' %}</div></div>
 
         {% for folder in folders %}
             <div class="row folders-list">
@@ -98,7 +96,15 @@
             </div>
         </div>
     </div>
-
+    <script>
+       $('td.file-select-item').click(function () {
+            var value = $(this).attr('data-src');
+            input = parent.cmck_get_var('fe_file_property');
+            $(input).val(value).trigger('change');
+            top.cmck_trigger_change(input);
+            parent.cmck_modal_hide();
+        });
+    </script>
 {% endblock %}
 
 

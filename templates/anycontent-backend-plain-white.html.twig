@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block head %}
+        {% include '@AnyContentBackend/_head.html.twig' %}
+    {% endblock %}
+</head>
+
+<body class="layout-plain-white">
+{% block body %}
+
+        {% block content_before %}{% endblock %}
+
+        {% include '@AnyContentBackend/_messages.html.twig' %}
+
+        {% block content %}{% endblock %}
+
+        {% block content_after %}{% endblock %}
+
+{% endblock %}
+</body>
+</html>

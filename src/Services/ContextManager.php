@@ -15,7 +15,6 @@ class ContextManager
 {
     protected Session $session;
 
-
     protected Repository |null $repository = null;
 
     protected ?DataTypeDefinition $dataTypeDefinition = null;
@@ -146,6 +145,12 @@ class ContextManager
     {
         return $this->repositoryManager
             ->getAccessHash($this->getCurrentRepository(), $this->getCurrentConfigType());
+    }
+
+    public function getCurrentRepositoryAccessHash()
+    {
+        return $this->repositoryManager
+            ->getRepositoryAccessHash($this->getCurrentRepository());
     }
 
     /**
@@ -437,75 +442,22 @@ class ContextManager
     public function addSuccessMessage($message, $errorCode = null)
     {
         $this->session->getFlashBag()->add('success', $message);
-
-//        $messages              = $this->session->get($this->prefix . 'messages');
-//        $messages['success'][] = array('errorCode' => $errorCode, 'message' => $message);
-//        $this->session->set($this->prefix . 'messages', $messages);
     }
 
     public function addInfoMessage($message, $errorCode = null)
     {
         $this->session->getFlashBag()->add('info', $message);
-//        $messages           = $this->session->get($this->prefix . 'messages');
-//        $messages['info'][] = array('errorCode' => $errorCode, 'message' => $message);
-//        $this->session->set($this->prefix . 'messages', $messages);
     }
 
     public function addAlertMessage($message, $errorCode = null)
     {
         $this->session->getFlashBag()->add('alert', $message);
-//        $messages            = $this->session->get($this->prefix . 'messages');
-//        $messages['alert'][] = array('errorCode' => $errorCode, 'message' => $message);
-//        $this->session->set($this->prefix . 'messages', $messages);
     }
 
     public function addErrorMessage($message, $errorCode = null)
     {
         $this->session->getFlashBag()->add('error', $message);
-//        $messages            = $this->session->get($this->prefix . 'messages');
-//        $messages['error'][] = array('errorCode' => $errorCode, 'message' => $message);
-//        $this->session->set($this->prefix . 'messages', $messages);
     }
-
-//    public function getSuccessMessages()
-//    {
-//        $messages            = $this->session->get($this->prefix . 'messages');
-//        $result              = $messages['success'];
-//        $messages['success'] = array();
-//        $this->session->set($this->prefix . 'messages', $messages);
-//
-//        return $result;
-//    }
-//
-//    public function getInfoMessages()
-//    {
-//        $messages         = $this->session->get($this->prefix . 'messages');
-//        $result           = $messages['info'];
-//        $messages['info'] = array();
-//        $this->session->set($this->prefix . 'messages', $messages);
-//
-//        return $result;
-//    }
-//
-//    public function getAlertMessages()
-//    {
-//        $messages          = $this->session->get($this->prefix . 'messages');
-//        $result            = $messages['alert'];
-//        $messages['alert'] = array();
-//        $this->session->set($this->prefix . 'messages', $messages);
-//
-//        return $result;
-//    }
-//
-//    public function getErrorMessages()
-//    {
-//        $messages          = $this->session->get($this->prefix . 'messages');
-//        $result            = $messages['error'];
-//        $messages['error'] = array();
-//        $this->session->set($this->prefix . 'messages', $messages);
-//
-//        return $result;
-//    }
 
     /**
      * @return int

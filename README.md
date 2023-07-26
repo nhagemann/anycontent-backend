@@ -117,9 +117,12 @@ todo:
 
 backup:
 - import/export/archive commands Core/Edit/Exchange
+- events
 
 idea:
 - https://symfony.com/doc/current/security/voters.html
 - repository: read / admin
 - record: create / read / update / delete / sort
 - $this->denyAccessUnlessGranted(PostVoter::VIEW, $post);
+- webp
+- help

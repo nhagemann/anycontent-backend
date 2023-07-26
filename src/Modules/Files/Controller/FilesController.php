@@ -15,18 +15,21 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[IsGranted('ROLE_ANYCONTENT')]
 class FilesController extends AbstractAnyContentBackendController
 {
-    /*
-    // routes for file selection (as used in file form elements)
-
-    $app->get('/file-select/{repositoryAccessHash}/{path}', 'AnyContent\CMCK\Modules\Backend\Core\Files\Controller::listFiles')
-    ->assert('path', '.*')->value('mode','modal')->bind('listFilesSelect');
-
-    $app->post('/file-select/{repositoryAccessHash}/{path}', 'AnyContent\CMCK\Modules\Backend\Core\Files\Controller::post')
-    ->assert('path', '.*')->value('mode','modal')->value('mode','modal');
+    /**
+     * File Selection Modal, which integrates files list via IFrame
      */
+    #[Route('/modal/files/select/{repositoryAccessHash}/{path}', name:'anycontent_files_select_modal', requirements: ['path' => '.*'], methods: ['GET'])]
+    public function modal(Request $request, $repositoryAccessHash, $path = '/')
+    {
+        $vars = [];
+        $vars['url_file_select'] = $this->generateUrl('anycontent_files_modal', ['repositoryAccessHash' => $repositoryAccessHash, 'path' => $path]);
 
-    #[Route('/files/{repositoryAccessHash}/{path}', 'anycontent_files', requirements: ['path' => '.*'], methods: ['GET'])]
-    public function listFiles(Request $request, $repositoryAccessHash, $path = '', $mode = 'page')
+        return $this->render('@AnyContentBackend/Forms/Files/formelement-file-modal.html.twig', $vars);
+    }
+
+    #[Route('/files/{repositoryAccessHash}/{path}', name: 'anycontent_files', requirements: ['path' => '.*'], defaults: ['mode' => 'page'], methods: ['GET'])]
+    #[Route('/modal/files/{repositoryAccessHash}/{path}', name: 'anycontent_files_modal', requirements: ['path' => '.*'], defaults: ['mode' => 'modal'], methods: ['GET'])]
+    public function listFiles(Request $request, $repositoryAccessHash, $path, $mode)
     {
         $vars         = [];
         $vars['root'] = false;
@@ -34,7 +37,6 @@ class FilesController extends AbstractAnyContentBackendController
         if ($mode == 'modal') {
             $listFilesRouteName    = 'anycontent_files_modal';
             $listFilesTemplateName = '@AnyContentBackend/Files/files-list-modal.html.twig';
-            //$app['layout']->addJsFile('files-modal.js');
         } else {
             $listFilesRouteName    = 'anycontent_files';
             $listFilesTemplateName = '@AnyContentBackend/Files/files-list-page.html.twig';
@@ -123,7 +125,7 @@ class FilesController extends AbstractAnyContentBackendController
         return $this->render($listFilesTemplateName, $vars);
     }
 
-    #[Route('/file/{repositoryAccessHash}/view/{id}', 'anycontent_file_view', requirements: ['id' => '.*'], methods: ['GET'])]
+    #[Route('/file/{repositoryAccessHash}/view/{id}', name: 'anycontent_file_view', requirements: ['id' => '.*'], methods: ['GET'])]
     public function viewFile(Request $request, $repositoryAccessHash, $id)
     {
         if ($id) {
@@ -168,7 +170,7 @@ class FilesController extends AbstractAnyContentBackendController
         return new Response('File not found', 404);
     }
 
-    #[Route('/file/{repositoryAccessHash}/download/{id}', 'anycontent_file_download', requirements: ['id' => '.*'], methods: ['GET'])]
+    #[Route('/file/{repositoryAccessHash}/download/{id}', name: 'anycontent_file_download', requirements: ['id' => '.*'], methods: ['GET'])]
     public function downloadFile(Request $request, $repositoryAccessHash, $id)
     {
         /** @var Repository $repository */
@@ -193,7 +195,7 @@ class FilesController extends AbstractAnyContentBackendController
         return new Response('File not found', 404);
     }
 
-    #[Route('/file/{repositoryAccessHash}/delete/{id}', 'anycontent_file_delete', requirements: ['id' => '.*'], methods: ['GET'])]
+    #[Route('/file/{repositoryAccessHash}/delete/{id}', name: 'anycontent_file_delete', requirements: ['id' => '.*'], methods: ['GET'])]
     public function deleteFile(Request $request, $repositoryAccessHash, $id)
     {
         /** @var Repository $repository */
@@ -218,8 +220,9 @@ class FilesController extends AbstractAnyContentBackendController
         return new RedirectResponse($url, 303);
     }
 
-    #[Route('/files/{repositoryAccessHash}/{path}', 'anycontent_files_post', requirements: ['path' => '.*'], methods: ['POST'])]
-    public function post(Request $request, $repositoryAccessHash, $path = '', $mode = 'page')
+    #[Route('/files/{repositoryAccessHash}/{path}', name: 'anycontent_files_post', requirements: ['path' => '.*'], defaults: ['mode' => 'page'], methods: ['POST'])]
+    #[Route('/modal/files/{repositoryAccessHash}/{path}', name: 'anycontent_files_post_modal', requirements: ['path' => '.*'], defaults: ['mode' => 'modal'], methods: ['POST'])]
+    public function post(Request $request, $repositoryAccessHash, $path, $mode)
     {
         /** @var Repository $repository */
         $repository = $this->repositoryManager->getRepositoryByRepositoryAccessHash($repositoryAccessHash);

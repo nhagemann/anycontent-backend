@@ -1,0 +1,48 @@
+{% extends "@AnyContentBackend/Forms/formelement-default.html.twig" %}
+
+{% block input %}
+    <div class="col-xs-6">
+        {% if preview %}
+            <div class="file-item-preview" id="{{ id }}_preview">
+                <a href="{{ url_view }}{{ value }}" target="_blank"><img src="{{ url_view }}{{ value }}" width="60"/></a>
+            </div>
+        {% else %}
+            <div class="file-item-preview" id="{{ id }}_preview" style="display: none">
+                <a href=""></a><img src="" width="60"/>
+            </div>
+        {% endif %}
+    </div>
+    </div>
+    <div class="row">
+
+    <div class="col-xs-6">
+
+        <div class="input-group">
+
+            {% block icon %}
+                <span class="input-group-addon"><span class="glyphicon glyphicon-file"></span></span>
+            {% endblock %}
+
+            <input type="text" class="form-control" id="{{ id }}" name="{{ name }}"
+                   placeholder="{{ definition.placeholder }}" value="{{ value }}" data-url-view="{{ url_view }}"{% if definition.isProtected %} disabled="disabled"{% endif %}>
+
+        </div>
+
+
+    </div>
+    <div class="col-xs-4">
+
+        <a data-input="#{{ id }}" href="{{ url_modal }}" name="{{ name }}"
+           class="btn btn-default formelement-file-modal-button"><span
+                    class="glyphicon glyphicon-folder-open"></span> &nbsp;Select</a>
+
+        <a data-input="#{{ id }}" href="#" name="{{ name }}"
+           class="btn btn-default formelement-file-modal-button-view"><span
+                    class="glyphicon glyphicon-zoom-in"></span> &nbsp;View</a>
+
+        <a data-input="#{{ id }}" href="{{ url_download }}" name="{{ name }}"
+           class="btn btn-default formelement-file-modal-button-download"><span
+                    class="glyphicon glyphicon-cloud-download"></span> &nbsp;Download</a>
+
+    </div>
+{% endblock %}
