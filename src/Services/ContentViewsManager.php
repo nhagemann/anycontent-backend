@@ -2,63 +2,46 @@
 
 namespace AnyContent\Backend\Services;
 
+use AnyContent\Backend\Setup\ContentViewsAdder;
 use AnyContent\Client\Repository;
-use AnyContent\CMCK\Modules\Backend\Core\Listing\BaseContentView;
 use CMDL\ContentTypeDefinition;
 
 class ContentViewsManager
 {
-    protected $contentViewRegistrations = [];
+    private array $contentViews = [];
 
-    protected $contentViewObjects = [];
-
-    public function registerContentView($type, $class, $options = [])
-    {
-        $this->contentViewRegistrations[$type] = ['class' => $class, 'options' => $options];
+    public function __construct(
+        private ContentViewsAdder $contentViewsAdder
+    ) {
+        $this->contentViewsAdder->setupContentViews($this);
     }
 
-    /**
-     * @param ContentTypeDefinition $contentTypeDefinition
-     * @param                       $contentTypeAccessHash
-     * @param                       $nr
-     *
-     * @return bool | BaseContentView
-     */
-    public function getContentView(Repository $repository, ContentTypeDefinition $contentTypeDefinition, $contentTypeAccessHash, $nr)
+    public function getContentView(string $name, Repository $repository, ContentTypeDefinition $contentTypeDefinition)
     {
-        $contentViews = $this->getContentViews($repository, $contentTypeDefinition, $contentTypeAccessHash);
-
-        if (array_key_exists($nr, $contentViews)) {
-            return $contentViews[$nr];
+        if (array_key_exists($name, $this->contentViews)) {
+            return $this->contentViews[$name];
         }
-
-        return false;
+        return $this->contentViews['default'];
     }
 
-    public function getContentViews(Repository $repository, ContentTypeDefinition $contentTypeDefinition, $contentTypeAccessHash)
+    public function getContentViews(Repository $repository, ContentTypeDefinition $contentTypeDefinition)
     {
-        if (!array_key_exists($contentTypeAccessHash, $this->contentViewObjects)) {
-            $i                                                = 0;
-            $this->contentViewObjects[$contentTypeAccessHash] = [];
-            /** @var  $customAnnotation CustomAnnotation */
-            foreach ($contentTypeDefinition->getCustomAnnotations() as $customAnnotation) {
-                if ($customAnnotation->getType() == 'content-view') {
-                    if ($customAnnotation->hasParam(1)) {
-                        $i++;
-                        $type = $customAnnotation->getParam(1);
-
-                        if (array_key_exists($type, $this->contentViewRegistrations)) {
-                            $class = $this->contentViewRegistrations[$type]['class'];
-
-                            $contentView = new $class($i, $this->app, $repository, $contentTypeDefinition, $contentTypeAccessHash, $customAnnotation, $this->contentViewRegistrations[$type]['options']);
-
-                            $this->contentViewObjects[$contentTypeAccessHash][$i] = $contentView;
-                        }
+        $contentViews = [];
+        foreach ($contentTypeDefinition->getCustomAnnotations() as $customAnnotation) {
+            if ($customAnnotation->getType() == 'content-view') {
+                if ($customAnnotation->hasParam(1)) {
+                    $name = $customAnnotation->getParam(1);
+                    if (array_key_exists($name, $this->contentViews)) {
+                        $contentViews[$name] = $this->contentViews[$name];
                     }
                 }
             }
         }
+        return $contentViews;
+    }
 
-        return $this->contentViewObjects[$contentTypeAccessHash];
+    public function registerContentView(string $name, $defaultContentView)
+    {
+        $this->contentViews[$name] = $defaultContentView;
     }
 }

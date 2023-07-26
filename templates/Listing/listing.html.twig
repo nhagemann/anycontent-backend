@@ -26,8 +26,8 @@
 
                 <ul class="nav nav-tabs">
 
-                    {% for nr,contentView in contentViews %}
-                        <li role="presentation" {% if nr == currentContentViewNr %}class="active"{% endif %}><a
+                    {% for contentView in contentViews %}
+                        <li role="presentation" {% if contentView.active %}class="active"{% endif %}><a
                                     href="{{ contentView.url }}">{{ contentView.title }}</a></li>
                     {% endfor %}
                 </ul>

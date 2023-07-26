@@ -13,10 +13,9 @@ use AnyContent\Backend\Modules\Listing\PagingHelper;
 use AnyContent\Backend\Services\ContextManager;
 use CMDL\CMDLParserException;
 
-class DefaultContentView //extends AbstractContentView
+class DefaultContentView
 {
-    //private Repository $repository;
-
+    private string $name;
 
     public function __construct(
         private ContextManager $contextManager,
@@ -26,11 +25,20 @@ class DefaultContentView //extends AbstractContentView
     ) {
     }
 
-//    public function __construct($nr, Repository $repository, ContentTypeDefinition $contentTypeDefinition, $contentTypeAccessHash, CustomAnnotation $customAnnotation = null)
-//    {
-//        parent::__construct($nr, $repository, $contentTypeDefinition, $contentTypeAccessHash, $customAnnotation);
-//    }
+    public function getName(): string
+    {
+        return $this->name;
+    }
 
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
+
+    public function getTitle()
+    {
+        return 'Listing';
+    }
 
     public function getTemplate(): string
     {
@@ -42,7 +50,7 @@ class DefaultContentView //extends AbstractContentView
         return true;
     }
 
-    public function apply(ContextManager $contextManager, $vars)
+    public function __invoke(&$vars)
     {
         //parent::apply($contextManager,$vars);
 
@@ -170,10 +178,7 @@ class DefaultContentView //extends AbstractContentView
 
         $buttonColumn = new ButtonColumn();
         $buttonColumn->setEditButton(true);
-        //if ($this->canDo('delete', $this->getRepository(), $this->getContentTypeDefinition()))
-        //{
         $buttonColumn->setDeleteButton(true);
-        //}
         $buttonColumn->setRenderer($this->getCellRenderer());
         $columns[] = $buttonColumn;
 
@@ -225,13 +230,8 @@ class DefaultContentView //extends AbstractContentView
 
         $page = $this->contextManager->getCurrentListingPage();
         $itemsPerPage = $this->contextManager->getCurrentItemsPerPage();
-        //$viewName     = 'default';
-
         $sorting = $this->getSortingOrder();
 
         return $repository->getRecords($filter, $sorting, $page, $itemsPerPage);
-
-        //return $repository->getRecords($this->contextManager->getCurrentWorkspace(), $viewName, $this->contextManager
-        //->getCurrentLanguage(), $sorting[0], $sorting[1], $itemsPerPage, $page, $filter, null, $this->contextManager
     }
 }

@@ -2,7 +2,6 @@
 
 namespace AnyContent\Backend\Modules\Listing\Controller;
 
-use AnyContent\Backend\ContentViews\DefaultContentView;
 use AnyContent\Backend\Controller\AbstractAnyContentBackendController;
 use AnyContent\Backend\Services\ContentViewsManager;
 use AnyContent\Backend\Services\ContextManager;
@@ -24,13 +23,13 @@ class ListingController extends AbstractAnyContentBackendController
         protected FormManager $formManager,
         protected MenuManager $menuManager,
         protected EventDispatcherInterface $dispatcher,
-        private DefaultContentView $defaultContentView
+        private ContentViewsManager $contentViewsManager,
     ) {
         parent::__construct($this->repositoryManager, $this->contextManager, $this->formManager, $this->menuManager, $this->dispatcher);
     }
 
-    #[Route('/content/list/{contentTypeAccessHash}/{nr}/{page}/{workspace}/{language}', 'anycontent_records', methods: ['GET'])]
-    public function listRecords(#[CurrentUser] ?UserInterface $user, Request $request, ContentViewsManager $contentViewsManager, $contentTypeAccessHash, $page = 1, $workspace = null, $language = null, $nr = 0)
+    #[Route('/content/list/{contentTypeAccessHash}/{contentView}/{page}/{workspace}/{language}', name: 'anycontent_records', methods: ['GET'])]
+    public function listRecords(#[CurrentUser] ?UserInterface $user, Request $request, ContentViewsManager $contentViewsManager, $contentTypeAccessHash, $page = 1, $workspace = null, $language = null, $contentView = 'default')
     {
         $vars = [];
 
@@ -84,48 +83,6 @@ class ListingController extends AbstractAnyContentBackendController
             $this->contextManager->setCurrentItemsPerPage($request->query->get('c'));
         }
 
-        // Determine Content View
-
-        $contentViews = $contentViewsManager->getContentViews($repository, $contentTypeDefinition, $contentTypeAccessHash);
-
-        if ((int)($nr) == 0) {
-            $nr = $this->contextManager->getCurrentContentViewNr();
-        }
-
-        if (count($contentViews) == 0) {
-            $contentViews[1] = $this->defaultContentView;
-            $currentContentView = $contentViews[1];
-
-                //new DefaultContentView(1, $repository, $contentTypeDefinition, $contentTypeAccessHash);
-        }
-        $vars['contentViews'] = $contentViews;
-
-//        $currentContentView = $contentViewsManager->getContentView($repository, $contentTypeDefinition, $contentTypeAccessHash, $nr);
-//
-//        if (!$currentContentView)
-//        {
-//            $currentContentView = reset($contentViews);
-//            $nr                 = key($contentViews);
-//        }
-
-        // Switch to first content view which support search queries
-        if ($request->query->has('q') && !$currentContentView->doesProcessSearch()) {
-            $error = true;
-            foreach ($contentViews as $nr => $currentContentView) {
-                if ($currentContentView->doesProcessSearch()) {
-                    $error = false;
-                    break;
-                }
-            }
-            if ($error) {
-                $this->contextManager->addAlertMessage('Configuration error. Could not find content view, which is able to process search queries.');
-            }
-        }
-
-        $vars['contentView']          = $currentContentView;
-        $vars['currentContentViewNr'] = $nr;
-        $this->contextManager->setCurrentContentViewNr($nr);
-
         $this->addRepositoryLinks($vars, $repository, $page);
 
         $vars['links']['timeshift']  = $this->generateUrl('anycontent_timeshift_records', ['contentTypeAccessHash' => $contentTypeAccessHash, 'page' => 1]);
@@ -133,8 +90,41 @@ class ListingController extends AbstractAnyContentBackendController
         $buttons = $this->getButtons($contentTypeAccessHash, $contentTypeDefinition);
         $vars['buttons'] = $this->menuManager->renderButtonGroup($buttons);
 
-        $vars = $currentContentView->apply($this->contextManager, $vars);
+        $currentContentView = $this->selectContentView($contentView, $vars);
+        $currentContentView->__invoke($vars);
 
         return $this->render($currentContentView->getTemplate(), $vars);
+    }
+
+    private function selectContentView($contentViewName, &$vars)
+    {
+        $selectedContentView = $this->contentViewsManager->getContentView($contentViewName, $this->contextManager->getCurrentRepository(), $this->contextManager->getCurrentContentType());
+
+        $vars['contentView'] = $selectedContentView;
+
+        $contentViewName = $selectedContentView->getName();
+
+        $vars['contentViews'] = [];
+        foreach ($this->contentViewsManager->getContentViews($this->contextManager->getCurrentRepository(), $this->contextManager->getCurrentContentType()) as $selectableContentView) {
+            $active = false;
+            if ($selectableContentView->getName() === $selectedContentView->getName()) {
+                $active = true;
+            }
+
+            $vars['contentViews'][] = [
+                'title' => $selectableContentView->getTitle(),
+                'url' => $this->generateUrl('anycontent_records', [
+                    'contentTypeAccessHash' => $this->contextManager->getCurrentContentTypeAccessHash(),
+                    'contentView' => $selectableContentView->getName(),
+                    'page' => 1,
+                    'workspace' => $this->contextManager->getCurrentWorkspace(),
+                    'language' => $this->contextManager->getCurrentLanguage(),
+                ]),
+                'active' => $active,
+            ];
+        }
+
+        $this->contextManager->setCurrentContentViewNr($contentViewName);
+        return $selectedContentView;
     }
 }

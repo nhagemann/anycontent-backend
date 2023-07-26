@@ -6,3 +6,6 @@ Captains Name {captain}
 @languages (default:English,german:German)
 @workspaces (default:Draft,live:Live)
 @sortable
+
+@custom content-view default
+@custom content-view glossary
