@@ -17,18 +17,15 @@ class CellRenderer
     ) {
     }
 
-    /**
-     * @return \Twig_Environment
-     */
-    public function getTwig()
-    {
-        return $this->twig;
-    }
-
-    public function getUrlGenerator()
-    {
-        return $this->urlGenerator;
-    }
+//    public function getTwig()
+//    {
+//        return $this->twig;
+//    }
+//
+//    public function getUrlGenerator()
+//    {
+//        return $this->urlGenerator;
+//    }
 
     /**
      * @param BaseColumn $column
@@ -49,7 +46,7 @@ class CellRenderer
         $vars['deleteButton'] = false;
         $vars['customButton'] = false;
 
-        if ($column->getType() == 'Button') {
+        if ($column instanceof ButtonColumn) {
             if ($column->isEditButton()) {
                 $vars['editButton'] = true;
                 $vars['editLink']   = $this->getEditLink($record);
@@ -60,7 +57,7 @@ class CellRenderer
             }
         }
 
-        if ($column->getType() == 'Attribute') {
+        if ($column instanceof AttributeColumn) {
             switch ($column->getAttribute()) {
                 case 'id':
                     $vars['value'] = $record->getID();
@@ -72,10 +69,10 @@ class CellRenderer
                     $vars['value'] = $record->getPosition();
                     break;
                 case 'parent_id':
-                    $vars['value'] = $record->getParentRecordId();
+                    $vars['value'] = $record->getParent();
                     break;
                 case 'level':
-                    $vars['value'] = $record->getLevelWithinSortedTree();
+                    $vars['value'] = $record->getLevel();
                     break;
                 case 'lastchange':
                     $template = '@AnyContentBackend/Listing/listing-cell-userinfo.html.twig';
@@ -100,7 +97,7 @@ class CellRenderer
             $vars['link'] = $this->getEditLink($record);
         }
 
-        return $this->getTwig()->render($template, $vars);
+        return $this->twig->render($template, $vars);
     }
 
     protected function getUserInfoVars(UserInfo $userInfo)
@@ -117,7 +114,7 @@ class CellRenderer
 
     protected function getEditLink(Record $record)
     {
-        return $this->getUrlGenerator()->generate('anycontent_record_edit', [ 'contentTypeAccessHash' => $this->contextManager
+        return $this->urlGenerator->generate('anycontent_record_edit', [ 'contentTypeAccessHash' => $this->contextManager
                                                                                                        ->getCurrentContentTypeAccessHash(),
                                                                        'recordId' => $record->getID(), 'workspace' => $this->contextManager
                                                                                                                            ->getCurrentWorkspace(), 'language' => $this->contextManager
@@ -127,7 +124,7 @@ class CellRenderer
 
     protected function getDeleteLink(Record $record)
     {
-        return $this->getUrlGenerator()->generate(
+        return $this->urlGenerator->generate(
             'anycontent_record_delete',
             [ 'contentTypeAccessHash' => $this->contextManager
                                                                                          ->getCurrentContentTypeAccessHash(), 'recordId' => $record->getID(), 'workspace' => $this->contextManager

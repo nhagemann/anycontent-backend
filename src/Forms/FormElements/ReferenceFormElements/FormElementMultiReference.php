@@ -4,8 +4,6 @@ namespace AnyContent\Backend\Forms\FormElements\ReferenceFormElements;
 
 use AnyContent\Backend\Forms\FormElements\SelectionFormElements\FormElementMultiSelection;
 use AnyContent\Client\DataDimensions;
-use AnyContent\Client\Repository;
-use AnyContent\CMCK\Modules\Backend\Core\Repositories\RepositoryManager;
 use CMDL\FormElementDefinitions\MultiReferenceFormElementDefinition;
 
 class FormElementMultiReference extends FormElementMultiSelection
@@ -15,11 +13,9 @@ class FormElementMultiReference extends FormElementMultiSelection
 
     protected function getOptionsForSelectBox()
     {
-        /** @var Repository $repository */
         $repository = $this->contextManager->getCurrentRepository();
 
         if ($this->definition->hasRepositoryName()) {
-            /** @var RepositoryManager $repositoryManager */
             $repositoryManager = $this->repositoryManager;
 
             $repository = $repositoryManager->getRepositoryById($this->definition->getRepositoryName());

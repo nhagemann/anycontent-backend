@@ -2,6 +2,7 @@
 
 namespace AnyContent\Backend\Services;
 
+use AnyContent\Backend\Exception\AnyContentBackendException;
 use AnyContent\Client\Config;
 use AnyContent\Client\Record;
 use AnyContent\Client\Repository;
@@ -124,12 +125,18 @@ class ContextManager
         }
     }
 
-    /**
-     * @return ContentTypeDefinition
-     */
-    public function getCurrentContentType()
+    public function getCurrentContentType(): ContentTypeDefinition
     {
+        if (!$this->isContentContext()) {
+            throw new AnyContentBackendException('Not a content context.');
+        }
+
         return $this->dataTypeDefinition;
+    }
+
+    public function getCurrentContentTypeDefinition(): ContentTypeDefinition
+    {
+        return $this->getCurrentContentType();
     }
 
     /**
@@ -153,12 +160,17 @@ class ContextManager
             ->getRepositoryAccessHash($this->getCurrentRepository());
     }
 
-    /**
-     * @return ConfigTypeDefinition
-     */
-    public function getCurrentConfigType()
+    public function getCurrentConfigType(): ConfigTypeDefinition
     {
+        if (!$this->isConfigContext()) {
+            throw new AnyContentBackendException('Not a config context.');
+        }
         return $this->dataTypeDefinition;
+    }
+
+    public function getCurrentConfigTypeDefinition(): ConfigTypeDefinition
+    {
+        return $this->getCurrentConfigType();
     }
 
     /**
@@ -166,11 +178,12 @@ class ContextManager
      */
     public function getCurrentDataTypeDefinition()
     {
-        if ($this->isContentContext()) {
-            return $this->getCurrentContentType();
-        } else {
-            return $this->getCurrentConfigType();
-        }
+        return $this->dataTypeDefinition;
+//        if ($this->isContentContext()) {
+//            return $this->getCurrentContentType();
+//        } else {
+//            return $this->getCurrentConfigType();
+//        }
     }
 
     public function setCurrentRecord(Record $record)

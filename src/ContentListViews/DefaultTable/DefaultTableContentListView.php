@@ -7,6 +7,7 @@ use AnyContent\Backend\DependencyInjection\DefaultImplementation;
 use AnyContent\Backend\Modules\Listing\PagingHelper;
 use AnyContent\Backend\Services\ContextManager;
 use CMDL\CMDLParserException;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class DefaultTableContentListView implements ContentListViewInterface, DefaultImplementation
 {
@@ -14,7 +15,8 @@ class DefaultTableContentListView implements ContentListViewInterface, DefaultIm
         private ContextManager $contextManager,
         private CellRenderer $cellRenderer,
         private PagingHelper $pagingHelper,
-        private FilterUtil $filterUtil
+        private FilterUtil $filterUtil,
+        private RequestStack $requestStack
     ) {
     }
 
@@ -43,6 +45,7 @@ class DefaultTableContentListView implements ContentListViewInterface, DefaultIm
         }
 
         // reset sorting order and search query if listing button has been pressed inside a listing
+//        var_dump($this->requestStack->getMainRequest()->get('_route'));
 //        if ($this->getRequest()->get('_route') == 'listRecordsReset')
 //        {
 //            $this->contextManager->setCurrentSortingOrder('.info.lastchange.timestamp-', false);
@@ -110,7 +113,7 @@ class DefaultTableContentListView implements ContentListViewInterface, DefaultIm
 
     public function getColumnsDefinition()
     {
-        $contentTypeDefinition = $this->contextManager->getCurrentDataTypeDefinition();
+        $contentTypeDefinition = $this->contextManager->getCurrentContentTypeDefinition();
 
         $columns = [];
 

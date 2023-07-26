@@ -33,13 +33,13 @@ abstract class AbstractAnyContentBackendController extends AbstractController
         $workspaces = [];
         $workspaces['active'] = false;
 
-        $contentTypeDefinition = $this->contextManager->getCurrentContentType();
+        $dataTypeDefinition = $this->contextManager->getCurrentDataTypeDefinition();
 
-        if ($contentTypeDefinition) {
+        if ($dataTypeDefinition) {
             $workspaces['current'] = $this->contextManager->getCurrentWorkspace();
             $workspaces['currentName'] = $this->contextManager->getCurrentWorkspaceName();
-            if (count($contentTypeDefinition->getWorkspaces()) > 1) {
-                $workspaces['list']   = $contentTypeDefinition->getWorkspaces();
+            if (count($dataTypeDefinition->getWorkspaces()) > 1) {
+                $workspaces['list']   = $dataTypeDefinition->getWorkspaces();
                 $workspaces['active'] = true;
             }
         }
@@ -49,14 +49,12 @@ abstract class AbstractAnyContentBackendController extends AbstractController
         $languages = [];
         $languages['active'] = false;
 
-        $contentTypeDefinition = $this->contextManager->getCurrentContentType();
-
-        if ($contentTypeDefinition) {
+        if ($dataTypeDefinition) {
             $languages['current'] = $this->contextManager->getCurrentLanguage();
             $languages['currentName'] = $this->contextManager->getCurrentLanguageName();
-            if ($contentTypeDefinition->hasLanguages()) {
+            if ($dataTypeDefinition->hasLanguages()) {
                 $languages['active'] = true;
-                $languages['list']   = $contentTypeDefinition->getLanguages();
+                $languages['list']   = $dataTypeDefinition->getLanguages();
             }
         }
 

@@ -4,8 +4,6 @@ namespace AnyContent\Backend\Forms\FormElements\ReferenceFormElements;
 
 use AnyContent\Backend\Forms\FormElements\SelectionFormElements\FormElementSelection;
 use AnyContent\Client\DataDimensions;
-use AnyContent\Client\Repository;
-use AnyContent\CMCK\Modules\Backend\Core\Repositories\RepositoryManager;
 use CMDL\FormElementDefinitions\ReferenceFormElementDefinition;
 
 class FormElementReference extends FormElementSelection
@@ -23,11 +21,9 @@ class FormElementReference extends FormElementSelection
             return $this->optionsForSelectBox;
         }
 
-        /** @var Repository $repository */
         $repository = $this->contextManager->getCurrentRepository();
 
         if ($this->definition->hasRepositoryName()) {
-            /** @var RepositoryManager $repositoryManager */
             $repositoryManager = $this->repositoryManager;
 
             $repository = $repositoryManager->getRepositoryById($this->definition->getRepositoryName());
@@ -61,7 +57,6 @@ class FormElementReference extends FormElementSelection
                     $records[$record->getId()] = $record->getName();
                 }
 
-                /** @var RepositoryManager $repositoryManager */
                 $repositoryManager = $this->repositoryManager;
 
                 $accessHash = $repositoryManager->getAccessHash($repository, $contentTypeDefinition);

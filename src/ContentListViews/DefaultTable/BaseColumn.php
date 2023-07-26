@@ -2,7 +2,6 @@
 
 namespace AnyContent\Backend\ContentListViews\DefaultTable;
 
-use AnyContent\Backend\Modules\Listing\ContentViews\DefaultTable\ColumnRenderer;
 use AnyContent\Client\Record;
 
 class BaseColumn
@@ -27,7 +26,6 @@ class BaseColumn
         return $this->type;
     }
 
-    /** @var  ColumnRenderer */
     protected $renderer;
 
     /**
