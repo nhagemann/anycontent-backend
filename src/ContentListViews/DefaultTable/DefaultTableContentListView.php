@@ -2,14 +2,14 @@
 
 namespace AnyContent\Backend\ContentListViews\DefaultTable;
 
+use AnyContent\Backend\ContentListViews\ContentListViewInterface;
+use AnyContent\Backend\DependencyInjection\DefaultImplementation;
 use AnyContent\Backend\Modules\Listing\PagingHelper;
 use AnyContent\Backend\Services\ContextManager;
 use CMDL\CMDLParserException;
 
-class DefaultTableContentListView
+class DefaultTableContentListView implements ContentListViewInterface, DefaultImplementation
 {
-    private string $name;
-
     public function __construct(
         private ContextManager $contextManager,
         private CellRenderer $cellRenderer,
@@ -20,12 +20,7 @@ class DefaultTableContentListView
 
     public function getName(): string
     {
-        return $this->name;
-    }
-
-    public function setName(string $name): void
-    {
-        $this->name = $name;
+        return 'default';
     }
 
     public function getTitle()
@@ -36,11 +31,6 @@ class DefaultTableContentListView
     public function getTemplate(): string
     {
         return '@AnyContentBackend/Listing/listing-contentview-default.html.twig';
-    }
-
-    public function doesProcessSearch()
-    {
-        return true;
     }
 
     public function __invoke(&$vars)

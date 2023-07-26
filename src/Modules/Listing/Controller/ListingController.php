@@ -18,12 +18,12 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 class ListingController extends AbstractAnyContentBackendController
 {
     public function __construct(
-        protected RepositoryManager        $repositoryManager,
-        protected ContextManager           $contextManager,
-        protected FormManager              $formManager,
-        protected MenuManager              $menuManager,
+        protected RepositoryManager $repositoryManager,
+        protected ContextManager $contextManager,
+        protected FormManager $formManager,
+        protected MenuManager $menuManager,
         protected EventDispatcherInterface $dispatcher,
-        private ContentListViewsManager    $contentViewsManager,
+        private ContentListViewsManager $contentViewsManager,
     ) {
         parent::__construct($this->repositoryManager, $this->contextManager, $this->formManager, $this->menuManager, $this->dispatcher);
     }

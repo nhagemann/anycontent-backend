@@ -2,6 +2,7 @@
 
 namespace AnyContent\Backend\DependencyInjection;
 
+use AnyContent\Backend\ContentListViews\ContentListViewInterface;
 use AnyContent\Backend\Setup\FormElementsAdder;
 use AnyContent\Backend\Setup\RepositoryAdder;
 use Symfony\Component\Config\FileLocator;
@@ -26,5 +27,8 @@ class AnyContentBackendExtension extends Extension
 
         $service = $container->getDefinition(FormElementsAdder::class);
         $service->setArgument('$formElements', $config['formelements']);
+
+        // Tag Content List Views
+        $container->registerForAutoconfiguration(ContentListViewInterface::class)->addTag(ServiceTags::CONTENT_LIST_VIEW);
     }
 }

@@ -109,7 +109,6 @@ todo:
 - remove revisions command
 - phpstan
 - admin routes
-- content views
 - additional connection types
 
 ignored:
@@ -119,6 +118,7 @@ ignored:
 - formelement sourcecode
 
 idea:
+- https://symfony.com/doc/current/service_container/tags.html
 - https://symfony.com/doc/current/security/voters.html
 - repository: read / admin
 - record: create / read / update / delete / sort

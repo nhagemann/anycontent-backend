@@ -38,11 +38,9 @@
     {% endblock %}
 
     {% block listing_search %}
-        {% if contentView.doesProcessSearch() %}
         <div class="row">
             {% include "@AnyContentBackend/Listing/listing-searchbox.html.twig" %}
         </div>
-        {% endif %}
     {% endblock %}
 
     {% block listing_filter %}

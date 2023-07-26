@@ -2,11 +2,25 @@
 
 namespace AnyContent\Backend\ContentListViews\Glossary;
 
-use AnyContent\Backend\ContentListViews\AbstractContentListView;
+use AnyContent\Backend\ContentListViews\ContentListViewInterface;
+use AnyContent\Backend\DependencyInjection\DefaultImplementation;
+use AnyContent\Backend\Services\ContextManager;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class ContentListListViewGlossary extends AbstractContentListView
+class ContentListListViewGlossary implements ContentListViewInterface, DefaultImplementation
 {
-    public function getTitle()
+    public function __construct(
+        private ContextManager $contextManager,
+        private UrlGeneratorInterface $urlGenerator
+    ) {
+    }
+
+    public function getName(): string
+    {
+        return 'glossary';
+    }
+
+    public function getTitle(): string
     {
         return 'Glossary';
     }

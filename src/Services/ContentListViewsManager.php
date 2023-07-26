@@ -2,19 +2,14 @@
 
 namespace AnyContent\Backend\Services;
 
-use AnyContent\Backend\Setup\ContentListViewsAdder;
+use AnyContent\Backend\ContentListViews\ContentListViewInterface;
+use AnyContent\Backend\DependencyInjection\DefaultImplementation;
 use AnyContent\Client\Repository;
 use CMDL\ContentTypeDefinition;
 
 class ContentListViewsManager
 {
     private array $contentViews = [];
-
-    public function __construct(
-        private ContentListViewsAdder $contentViewsAdder
-    ) {
-        $this->contentViewsAdder->setupContentViews($this);
-    }
 
     public function getContentView(string $name, Repository $repository, ContentTypeDefinition $contentTypeDefinition)
     {
@@ -40,8 +35,13 @@ class ContentListViewsManager
         return $contentViews;
     }
 
-    public function registerContentView(string $name, $defaultContentView)
+    public function registerContentView(ContentListViewInterface $defaultContentView)
     {
-        $this->contentViews[$name] = $defaultContentView;
+        if (array_key_exists($defaultContentView->getName(), $this->contentViews)) {
+            if (!$this->contentViews[$defaultContentView->getName()] instanceof DefaultImplementation) {
+                return;
+            }
+        }
+        $this->contentViews[$defaultContentView->getName()] = $defaultContentView;
     }
 }
