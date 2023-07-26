@@ -1,19 +1,12 @@
 <?php
 
-namespace AnyContent\Backend\ContentViews;
+namespace AnyContent\Backend\ContentListViews\DefaultTable;
 
-use AnyContent\Backend\ContentViews\DefaultTable\AttributeColumn;
-use AnyContent\Backend\ContentViews\DefaultTable\ButtonColumn;
-use AnyContent\Backend\ContentViews\DefaultTable\CellRenderer;
-use AnyContent\Backend\ContentViews\DefaultTable\FilterUtil;
-use AnyContent\Backend\ContentViews\DefaultTable\PropertyColumn;
-use AnyContent\Backend\ContentViews\DefaultTable\StatusColumn;
-use AnyContent\Backend\ContentViews\DefaultTable\SubtypeColumn;
 use AnyContent\Backend\Modules\Listing\PagingHelper;
 use AnyContent\Backend\Services\ContextManager;
 use CMDL\CMDLParserException;
 
-class DefaultContentView
+class DefaultTableContentListView
 {
     private string $name;
 

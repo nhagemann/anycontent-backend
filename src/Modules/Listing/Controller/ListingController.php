@@ -3,7 +3,7 @@
 namespace AnyContent\Backend\Modules\Listing\Controller;
 
 use AnyContent\Backend\Controller\AbstractAnyContentBackendController;
-use AnyContent\Backend\Services\ContentViewsManager;
+use AnyContent\Backend\Services\ContentListViewsManager;
 use AnyContent\Backend\Services\ContextManager;
 use AnyContent\Backend\Services\FormManager;
 use AnyContent\Backend\Services\MenuManager;
@@ -18,18 +18,18 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 class ListingController extends AbstractAnyContentBackendController
 {
     public function __construct(
-        protected RepositoryManager $repositoryManager,
-        protected ContextManager $contextManager,
-        protected FormManager $formManager,
-        protected MenuManager $menuManager,
+        protected RepositoryManager        $repositoryManager,
+        protected ContextManager           $contextManager,
+        protected FormManager              $formManager,
+        protected MenuManager              $menuManager,
         protected EventDispatcherInterface $dispatcher,
-        private ContentViewsManager $contentViewsManager,
+        private ContentListViewsManager    $contentViewsManager,
     ) {
         parent::__construct($this->repositoryManager, $this->contextManager, $this->formManager, $this->menuManager, $this->dispatcher);
     }
 
     #[Route('/content/list/{contentTypeAccessHash}/{contentView}/{page}/{workspace}/{language}', name: 'anycontent_records', methods: ['GET'])]
-    public function listRecords(#[CurrentUser] ?UserInterface $user, Request $request, ContentViewsManager $contentViewsManager, $contentTypeAccessHash, $page = 1, $workspace = null, $language = null, $contentView = 'default')
+    public function listRecords(#[CurrentUser] ?UserInterface $user, Request $request, ContentListViewsManager $contentViewsManager, $contentTypeAccessHash, $page = 1, $workspace = null, $language = null, $contentView = 'default')
     {
         $vars = [];
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace AnyContent\Backend\ContentViews\DefaultTable;
+namespace AnyContent\Backend\ContentListViews\DefaultTable;
 
 use AnyContent\Backend\Modules\Listing\ContentViews\DefaultTable\ColumnRenderer;
 use AnyContent\Client\Record;

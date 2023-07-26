@@ -2,16 +2,16 @@
 
 namespace AnyContent\Backend\Services;
 
-use AnyContent\Backend\Setup\ContentViewsAdder;
+use AnyContent\Backend\Setup\ContentListViewsAdder;
 use AnyContent\Client\Repository;
 use CMDL\ContentTypeDefinition;
 
-class ContentViewsManager
+class ContentListViewsManager
 {
     private array $contentViews = [];
 
     public function __construct(
-        private ContentViewsAdder $contentViewsAdder
+        private ContentListViewsAdder $contentViewsAdder
     ) {
         $this->contentViewsAdder->setupContentViews($this);
     }
@@ -28,7 +28,7 @@ class ContentViewsManager
     {
         $contentViews = [];
         foreach ($contentTypeDefinition->getCustomAnnotations() as $customAnnotation) {
-            if ($customAnnotation->getType() == 'content-view') {
+            if ($customAnnotation->getType() == 'content-list-view') {
                 if ($customAnnotation->hasParam(1)) {
                     $name = $customAnnotation->getParam(1);
                     if (array_key_exists($name, $this->contentViews)) {

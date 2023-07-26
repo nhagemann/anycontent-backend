@@ -1,12 +1,12 @@
 <?php
 
-namespace AnyContent\Backend\ContentViews;
+namespace AnyContent\Backend\ContentListViews;
 
 use AnyContent\Backend\Services\ContextManager;
 use AnyContent\Backend\Services\RepositoryManager;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class AbstractContentView
+class AbstractContentListView
 {
     protected string $name;
 

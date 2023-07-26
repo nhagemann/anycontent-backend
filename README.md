@@ -112,10 +112,10 @@ todo:
 - content views
 - additional connection types
 
-backup:
+ignored:
 - import/export/archive commands Core/Edit/Exchange + Admin/Excelbackup
 - events
-- formelement geolocation
+- formelement geolocation, content list view map
 - formelement sourcecode
 
 idea:

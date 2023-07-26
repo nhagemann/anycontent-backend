@@ -7,5 +7,5 @@ Captains Name {captain}
 @workspaces (default:Draft,live:Live)
 @sortable
 
-@custom content-view default
-@custom content-view glossary
+@custom content-list-view default
+@custom content-list-view glossary

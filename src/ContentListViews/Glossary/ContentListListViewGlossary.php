@@ -1,10 +1,10 @@
 <?php
 
-namespace AnyContent\Backend\ContentViews\Glossary;
+namespace AnyContent\Backend\ContentListViews\Glossary;
 
-use AnyContent\Backend\ContentViews\AbstractContentView;
+use AnyContent\Backend\ContentListViews\AbstractContentListView;
 
-class ContentViewGlossary extends AbstractContentView
+class ContentListListViewGlossary extends AbstractContentListView
 {
     public function getTitle()
     {

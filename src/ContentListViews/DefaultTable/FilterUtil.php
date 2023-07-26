@@ -1,6 +1,6 @@
 <?php
 
-namespace AnyContent\Backend\ContentViews\DefaultTable;
+namespace AnyContent\Backend\ContentListViews\DefaultTable;
 
 use AnyContent\Backend\Services\ContextManager;
 use AnyContent\Filter\PropertyFilter;

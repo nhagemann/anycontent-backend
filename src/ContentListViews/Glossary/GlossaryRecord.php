@@ -1,6 +1,6 @@
 <?php
 
-namespace AnyContent\Backend\ContentViews\Glossary;
+namespace AnyContent\Backend\ContentListViews\Glossary;
 
 use AnyContent\Client\Record;
 
