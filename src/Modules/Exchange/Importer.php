@@ -63,7 +63,7 @@ class Importer
 
         if (array_key_exists('records', $data)) {
             if ($this->isTruncateRecords()) {
-                $this->deleteEffectiveRecords($repository, $workspace, $viewName, $language);
+                $this->deleteEffectiveRecords($repository);
             }
 
             $rows = $data['records'];
@@ -80,7 +80,7 @@ class Importer
                 $record->setProperties($properties);
                 $record->setID($id);
 
-                $msg = $this->stashRecord($repository, $record, $workspace, $viewName, $language);
+                $msg = $this->stashRecord($repository, $record);
 
                 $this->writeln($msg);
             }

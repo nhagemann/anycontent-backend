@@ -41,7 +41,11 @@ class RecordsController extends AbstractAnyContentBackendController
         $vars['links']['workspaces'] = $this->generateUrl('anycontent_record_add_change_workspace', ['contentTypeAccessHash' => $contentTypeAccessHash]);
         $vars['links']['languages'] = $this->generateUrl('anycontent_record_add_change_language', ['contentTypeAccessHash' => $contentTypeAccessHash]);
 
-        $vars['links']['timeshift']  = $this->generateUrl('anycontent_timeshift_record_edit', ['contentTypeAccessHash' => $contentTypeAccessHash, 'recordId' => $recordId]);
+        if ($addRecord === true) {
+            $vars['links']['timeshift'] = $this->generateUrl('anycontent_timeshift_records', ['contentTypeAccessHash' => $contentTypeAccessHash]);
+        } else {
+            $vars['links']['timeshift'] = $this->generateUrl('anycontent_timeshift_record_edit', ['contentTypeAccessHash' => $contentTypeAccessHash, 'recordId' => $recordId]);
+        }
 
         // Buttons
         $buttons = $this->getButtons($contentTypeAccessHash, $contentTypeDefinition);

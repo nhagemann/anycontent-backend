@@ -44,20 +44,20 @@ class FormManager
         $this->clearFormVars();
 
         // first check for form elements added through insert annotations
-        $formElementsDefinition       = $this->getFormElementsEventuallyInsertedThroughInsertAnnotation($formElementsDefinition, $values, $attributes);
+        $formElementsDefinition = $this->getFormElementsEventuallyInsertedThroughInsertAnnotation($formElementsDefinition, $values, $attributes);
         //$this->formElementsDefinition = $formElementsDefinition;
 
         $html = '';
-        $i    = 0;
+        $i = 0;
         /** @var FormElementDefinition $formElementDefinition */
         foreach ($formElementsDefinition as $formElementDefinition) {
             $i++;
             $value = '';
-            $type  = $formElementDefinition->getFormElementType();
+            $type = $formElementDefinition->getFormElementType();
 
             $concrete = $this->getConcreteClassAndOptionsForFormElementDefinition($formElementDefinition);
-            $class    = $concrete['class'];
-            $options  = $concrete['options'];
+            $class = $concrete['class'];
+            $options = $concrete['options'];
 
             if (array_key_exists($formElementDefinition->getName(), $values)) {
                 $value = $values[$formElementDefinition->getName()];
@@ -94,28 +94,20 @@ class FormManager
     {
         $type = $formElementDefinition->getFormElementType();
 
+        if ($type === 'custom') {
+            $type = $formElementDefinition->getType();
+
+            $class = $this->formElements['custom'][$type]['class'];
+            $options = $this->formElements['custom'][$type]['options'];
+            return ['class' => $class, 'options' => $options];
+        }
+
         if (!array_key_exists($type, $this->formElements)) {
             $type = 'default';
-        } else {
-            if ($type == 'custom') {
-                $type = $formElementDefinition->getType();
-
-                if (array_key_exists($type, $this->formElements['custom'])) {
-                    $class   = $this->formElements['custom'][$type]['class'];
-                    $options = $this->formElements['custom'][$type]['options'];
-                } else {
-                    $type = 'default';
-                }
-            } else {
-                $class   = $this->formElements[$type]['class'];
-                $options = $this->formElements[$type]['options'];
-            }
         }
 
-        if ($type === 'default') {
-            $class   = $this->formElements['default']['class'];
-            $options = $this->formElements['default']['options'];
-        }
+        $class = $this->formElements[$type]['class'];
+        $options = $this->formElements[$type]['options'];
 
         return ['class' => $class, 'options' => $options];
     }
@@ -123,7 +115,7 @@ class FormManager
     public function extractFormElementValuesFromPostRequest($request, $formElementsDefinition, $values = [], $attributes = [])
     {
         // first check for insertions and add form elements of those
-        $formElementsDefinition       = $this->getFormElementsEventuallyInsertedThroughInsertAnnotation($formElementsDefinition, $values, $attributes);
+        $formElementsDefinition = $this->getFormElementsEventuallyInsertedThroughInsertAnnotation($formElementsDefinition, $values, $attributes);
         //$this->formElementsDefinition = $formElementsDefinition;
 
         $values = [];
@@ -132,8 +124,8 @@ class FormManager
             $name = $formElementDefinition->getName();
 
             $concrete = $this->getConcreteClassAndOptionsForFormElementDefinition($formElementDefinition);
-            $class    = $concrete['class'];
-            $options  = $concrete['options'];
+            $class = $concrete['class'];
+            $options = $concrete['options'];
 
             $formElement = new $class(null, $name, $formElementDefinition, null, $options);
 
@@ -153,7 +145,7 @@ class FormManager
         $integratedFormElementsDefinition = [];
         foreach ($formElementsDefinition as $formElementDefinition) {
             if ($formElementDefinition->getFormElementType() == 'insert' and array_key_exists('insert', $this->formElements)) {
-                $class       = $this->formElements['insert']['class'];
+                $class = $this->formElements['insert']['class'];
                 //$formElement = new $class(null, null, $formElementDefinition, $this->app, null, $this->formElements['insert']['options']);
                 $formElement = new $class(null, null, $formElementDefinition, null, $this->formElements['insert']['options']);
                 $formElement->init($this->repositoryManager, $this->contextManager, $this, $this->urlGenerator);
@@ -206,14 +198,14 @@ class FormManager
     public function startBuffer()
     {
         $this->buffering = true;
-        $this->buffer    = '';
+        $this->buffer = '';
     }
 
     public function endBuffer()
     {
         $this->buffering = false;
-        $buffer          = $this->buffer;
-        $this->buffer    = '';
+        $buffer = $this->buffer;
+        $this->buffer = '';
 
         return $buffer;
     }

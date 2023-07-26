@@ -14,18 +14,14 @@ class FormElementSequence extends FormElementDefault
 
     public function init(RepositoryManager $repositoryManager, ContextManager $contextManager, FormManager $formManager, UrlGeneratorInterface $urlGenerator): void
     {
-        $dataTypeAccessHash = null;
-
-        if ($contextManager->isContentContext()) {
-            $dataTypeAccessHash = $contextManager->getCurrentContentTypeAccessHash();
-            $recordId = $contextManager->getCurrentRecord()->getId();
-            $dataType = 'content';
-        }
-
         if ($contextManager->isConfigContext()) {
             $dataTypeAccessHash = $contextManager->getCurrentConfigTypeAccessHash();
             $recordId = '-';
             $dataType = 'config';
+        } else {
+            $dataTypeAccessHash = $contextManager->getCurrentContentTypeAccessHash();
+            $recordId = $contextManager->getCurrentRecord()->getId();
+            $dataType = 'content';
         }
 
         if ($dataTypeAccessHash !== null) {

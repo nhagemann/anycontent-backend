@@ -7,8 +7,6 @@ use AnyContent\Filter\PropertyFilter;
 use CMDL\ContentTypeDefinition;
 use CMDL\Util;
 
-use function AnyContent\Backend\Modules\Listing\ContentViews\DefaultTable\count;
-
 class FilterUtil
 {
     public function __construct(private ContextManager $contextManager)

@@ -107,9 +107,9 @@ class Exporter
 
             $repository->selectView($viewName);
 
-            foreach ($contentTypeDefinition->getWorkspaces() as $workspace => $workspaceName) {
+            foreach (array_keys($contentTypeDefinition->getWorkspaces()) as $workspace) {
                 $repository->selectWorkspace($workspace);
-                foreach ($contentTypeDefinition->getLanguages() as $language => $languageName) {
+                foreach (array_keys($contentTypeDefinition->getLanguages()) as $language) {
                     $repository->selectLanguage($language);
 
                     $title = $contentTypeName . '.' . $workspace . '.' . $language;

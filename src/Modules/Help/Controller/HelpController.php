@@ -13,5 +13,6 @@ class HelpController extends AbstractAnyContentBackendController
     #[Route('/help', 'anycontent_help')]
     public function help(): Response
     {
+        return $this->render('@AnyContentBackend/Help/help.html.twig');
     }
 }

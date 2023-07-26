@@ -13,6 +13,7 @@ class ContentListViewCompilerPass implements CompilerPassInterface
     public function process(ContainerBuilder $container): void
     {
         $necessaryServiceClass = ContentListViewsManager::class;
+
         // first check if the necessary service is defined
         if (!$container->has($necessaryServiceClass)) {
             return;
@@ -21,7 +22,7 @@ class ContentListViewCompilerPass implements CompilerPassInterface
         $definition = $container->findDefinition($necessaryServiceClass);
         $taggedServices = $container->findTaggedServiceIds(ServiceTags::CONTENT_LIST_VIEW);
 
-        foreach ($taggedServices as $id => $tags) {
+        foreach (array_keys($taggedServices) as $id) {
             $definition->addMethodCall('registerContentView', [new Reference($id)]);
         }
     }
