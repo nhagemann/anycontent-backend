@@ -1,7 +1,8 @@
 <?php
 
-namespace AnyContent\Backend\Modules\Listing\ContentViews\DefaultTable;
+namespace AnyContent\Backend\ContentViews\DefaultTable;
 
+use AnyContent\Backend\Modules\Listing\ContentViews\DefaultTable\ColumnRenderer;
 use AnyContent\Client\Record;
 
 class BaseColumn

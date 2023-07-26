@@ -2,8 +2,8 @@
 
 namespace AnyContent\Backend\Modules\Listing\Controller;
 
+use AnyContent\Backend\ContentViews\DefaultContentView;
 use AnyContent\Backend\Controller\AbstractAnyContentBackendController;
-use AnyContent\Backend\Modules\Listing\ContentViews\DefaultContentView;
 use AnyContent\Backend\Services\ContentViewsManager;
 use AnyContent\Backend\Services\ContextManager;
 use AnyContent\Backend\Services\FormManager;

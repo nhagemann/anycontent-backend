@@ -1,6 +1,6 @@
 <?php
 
-namespace AnyContent\Backend\Modules\Listing\ContentViews\DefaultTable;
+namespace AnyContent\Backend\ContentViews\DefaultTable;
 
 class ButtonColumn extends BaseColumn
 {

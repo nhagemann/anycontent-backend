@@ -1,6 +1,6 @@
 <?php
 
-namespace AnyContent\Backend\Modules\Listing\ContentViews\DefaultTable;
+namespace AnyContent\Backend\ContentViews\DefaultTable;
 
 use AnyContent\Client\Record;
 use AnyContent\CMCK\Modules\Backend\Core\Application\Application;

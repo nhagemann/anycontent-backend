@@ -106,18 +106,17 @@ config/packages/security.yaml
 
 todo:
 - limit mysql configuration to lowercase, allow title 
-- file modals
-- files urls
 - remove revisions command
-- all other form elements
 - phpstan
 - admin routes
 - content views
 - additional connection types
 
 backup:
-- import/export/archive commands Core/Edit/Exchange
+- import/export/archive commands Core/Edit/Exchange + Admin/Excelbackup
 - events
+- formelement geolocation
+- formelement sourcecode
 
 idea:
 - https://symfony.com/doc/current/security/voters.html
