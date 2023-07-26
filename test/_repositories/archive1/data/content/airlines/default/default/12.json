@@ -5,11 +5,11 @@
         "captain": "Jude Nolan",
         "numberofplanes": "158",
         "foundationyear": "1975",
-        "parent": "",
-        "position": ""
+        "parent": "0",
+        "position": "5"
     },
     "info": {
-        "revision": 18,
+        "revision": 19,
         "creation": {
             "timestamp": null,
             "username": "",
@@ -17,7 +17,7 @@
             "lastname": ""
         },
         "lastchange": {
-            "timestamp": 1690274540,
+            "timestamp": 1690398581,
             "username": "",
             "firstname": "",
             "lastname": ""

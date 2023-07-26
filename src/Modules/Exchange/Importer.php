@@ -22,12 +22,7 @@ class Importer
 
     protected $error = false;
 
-    /**
-     * current records of a content type for compare operations
-     *
-     * @var null
-     */
-    protected $records = null;
+    protected ?array $records = null;
 
     /**
      * @var array stashed records to be saved
@@ -351,9 +346,6 @@ class Importer
         return $this->count;
     }
 
-    /**
-     * @return null
-     */
     protected function getRecords(Repository $repository)
     {
         if (!$this->records) {

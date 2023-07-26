@@ -18,7 +18,7 @@ class ContextManager
 
     protected Repository |null $repository = null;
 
-    protected ?DataTypeDefinition $dataTypeDefinition = null;
+    protected ContentTypeDefinition|ConfigTypeDefinition|DataTypeDefinition|null $dataTypeDefinition = null;
 
     protected ?Record $record = null;
 
@@ -34,7 +34,9 @@ class ContextManager
         RequestStack $requestStack,
         private RepositoryManager $repositoryManager,
     ) {
-        $this->session = $requestStack->getSession();
+        $session = $requestStack->getMainRequest()->getSession();
+        assert($session instanceof Session);
+        $this->session = $session;
 
         if (!$this->session->has($this->prefix . 'messages')) {
             $this->session->set($this->prefix . 'messages', ['success' => [], 'info' => [], 'alert' => [], 'error' => []]);
@@ -76,14 +78,14 @@ class ContextManager
     {
         $this->context = 'content';
 
-        return $this->setCurrentDataType($contentTypeDefinition);
+        $this->setCurrentDataType($contentTypeDefinition);
     }
 
     public function setCurrentConfigType(ConfigTypeDefinition $configTypeDefinition)
     {
         $this->context = 'config';
 
-        return $this->setCurrentDataType($configTypeDefinition);
+        $this->setCurrentDataType($configTypeDefinition);
     }
 
     public function setCurrentDataType(DataTypeDefinition $dataTypeDefinition)
@@ -127,10 +129,10 @@ class ContextManager
 
     public function getCurrentContentType(): ContentTypeDefinition
     {
-        if (!$this->isContentContext()) {
+        if (!$this->isContentContext() || $this->dataTypeDefinition === null) {
             throw new AnyContentBackendException('Not a content context.');
         }
-
+        assert($this->dataTypeDefinition instanceof ContentTypeDefinition);
         return $this->dataTypeDefinition;
     }
 
@@ -162,9 +164,10 @@ class ContextManager
 
     public function getCurrentConfigType(): ConfigTypeDefinition
     {
-        if (!$this->isConfigContext()) {
+        if (!$this->isConfigContext() || $this->dataTypeDefinition === null) {
             throw new AnyContentBackendException('Not a config context.');
         }
+        assert($this->dataTypeDefinition instanceof  ConfigTypeDefinition);
         return $this->dataTypeDefinition;
     }
 

@@ -70,11 +70,8 @@ class FilterUtil
     /**
      * http://stackoverflow.com/questions/4955433/php-multiple-delimiters-in-explode
      *
-     * @param $s
-     *
-     * @return bool
      */
-    protected function parseCondition($s)
+    protected function parseCondition($s): ?array
     {
         $match = preg_match("/([^>=|<=|!=|>|<|=|\*=)]*)(>=|<=|!=|>|<|=|\*=)(.*)/", $s, $matches);
 
@@ -87,6 +84,6 @@ class FilterUtil
             return $condition;
         }
 
-        return false;
+        return null;
     }
 }
