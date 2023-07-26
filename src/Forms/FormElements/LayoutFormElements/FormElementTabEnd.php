@@ -3,10 +3,14 @@
 namespace AnyContent\Backend\Forms\FormElements\LayoutFormElements;
 
 use AnyContent\Backend\Forms\FormElements\FormElementDefault;
+use CMDL\FormElementDefinitions\TabEndFormElementDefinition;
 use Twig\Environment;
 
 class FormElementTabEnd extends FormElementDefault
 {
+    /** @var  TabEndFormElementDefinition */
+    protected $definition;
+
     protected string $template = '@AnyContentBackend/Forms/formelement-tab.html.twig';
 
     public function render(Environment $twig)

@@ -3,10 +3,14 @@
 namespace AnyContent\Backend\Forms\FormElements\LayoutFormElements;
 
 use AnyContent\Backend\Forms\FormElements\FormElementDefault;
+use CMDL\FormElementDefinitions\SectionStartFormElementDefinition;
 use Twig\Environment;
 
 class FormElementSectionStart extends FormElementDefault
 {
+    /** @var  SectionStartFormElementDefinition */
+    protected $definition;
+
     protected string $template = '@AnyContentBackend/Forms/formelement-section-start.html.twig';
 
     public function render(Environment $twig)

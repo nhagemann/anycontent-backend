@@ -24,8 +24,8 @@ class PagingHelper
 
         $items = [];
 
-        $start = max(1, $currentPage - $addLeft);
-        $stop  = min($currentPage + $addRight, $maxPages);
+        $start = (int)max(1, $currentPage - $addLeft);
+        $stop  = (int)min($currentPage + $addRight, $maxPages);
 
         $parameters[$pageParameter] = $currentPage - 1;
         $url                        = $this->urlGenerator->generate($routeName, $parameters);

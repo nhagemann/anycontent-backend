@@ -3,10 +3,14 @@
 namespace AnyContent\Backend\Forms\FormElements\RangeFormElement;
 
 use AnyContent\Backend\Forms\FormElements\FormElementDefault;
+use CMDL\FormElementDefinitions\RangeFormElementDefinition;
 use Twig\Environment;
 
 class FormElementRange extends FormElementDefault
 {
+    /** @var  RangeFormElementDefinition */
+    protected $definition;
+
     protected string $template = '@AnyContentBackend/Forms/formelement-range.html.twig';
 
     public function render(Environment $twig)

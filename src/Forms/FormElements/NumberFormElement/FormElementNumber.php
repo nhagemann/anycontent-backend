@@ -3,10 +3,14 @@
 namespace AnyContent\Backend\Forms\FormElements\NumberFormElement;
 
 use AnyContent\Backend\Forms\FormElements\FormElementDefault;
+use CMDL\FormElementDefinitions\NumberFormElementDefinition;
 use Twig\Environment;
 
 class FormElementNumber extends FormElementDefault
 {
+    /** @var  NumberFormElementDefinition */
+    protected $definition;
+
     protected string $template = '@AnyContentBackend/Forms/formelement-number.html.twig';
 
     public function render(Environment $twig)

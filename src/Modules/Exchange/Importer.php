@@ -36,17 +36,17 @@ class Importer
 
     public function importJSON(Repository $repository, $contentTypeName, $data, $workspace = 'default', $language = 'default', $viewName = 'exchange')
     {
-        $this->count   = 0;
+        $this->count = 0;
         $this->records = null;
-        $this->stash   = [];
-        $this->error   = false;
+        $this->stash = [];
+        $this->error = false;
 
         $repository->selectContentType($contentTypeName);
 
         // Select view and fallback if necessary
         $contentTypeDefinition = $repository->getContentTypeDefinition();
-        $viewDefinition        = $contentTypeDefinition->getExchangeViewDefinition($viewName);
-        $viewName              = $viewDefinition->getName();
+        $viewDefinition = $contentTypeDefinition->getExchangeViewDefinition($viewName);
+        $viewName = $viewDefinition->getName();
 
         $repository->selectWorkspace($workspace);
         $repository->selectLanguage($language);
@@ -69,7 +69,7 @@ class Importer
             $rows = $data['records'];
 
             foreach ($rows as $row) {
-                $id         = $row['id'];
+                $id = $row['id'];
                 $properties = $row['properties'];
 
                 if ($this->isGenerateNewIDs()) {
@@ -103,17 +103,17 @@ class Importer
 
     public function importXLSX(Repository $repository, $contentTypeName, $filename, $workspace = 'default', $language = 'default', $viewName = 'exchange')
     {
-        $this->count   = 0;
+        $this->count = 0;
         $this->records = null;
-        $this->stash   = [];
-        $this->error   = false;
+        $this->stash = [];
+        $this->error = false;
 
         $repository->selectContentType($contentTypeName);
 
         // Select view and fallback if necessary
         $contentTypeDefinition = $repository->getContentTypeDefinition();
-        $viewDefinition        = $contentTypeDefinition->getExchangeViewDefinition($viewName);
-        $viewName              = $viewDefinition->getName();
+        $viewDefinition = $contentTypeDefinition->getExchangeViewDefinition($viewName);
+        $viewName = $viewDefinition->getName();
 
         $repository->selectWorkspace($workspace);
         $repository->selectLanguage($language);
@@ -191,20 +191,20 @@ class Importer
 
         $contentTypeDefinition = $repository->getCurrentContentTypeDefinition();
 
-        $viewName  = $repository->getCurrentDataDimensions()->getViewName();
+        $viewName = $repository->getCurrentDataDimensions()->getViewName();
         $workspace = $repository->getCurrentDataDimensions()->getWorkspace();
-        $language  = $repository->getCurrentDataDimensions()->getLanguage();
+        $language = $repository->getCurrentDataDimensions()->getLanguage();
 
-        $highestRow    = $objWorksheet->getHighestRow(); // e.g. 10
+        $highestRow = $objWorksheet->getHighestRow(); // e.g. 10
         $highestColumn = $objWorksheet->getHighestColumn(); // e.g 'F'
 
         $highestColumnIndex = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::columnIndexFromString($highestColumn); // e.g. 5
-        $idColumnIndex      = null;
+        $idColumnIndex = null;
 
         $propertiesColumnIndices = [];
 
         for ($i = 0; $i <= $highestColumnIndex; $i++) {
-            $value = trim($objWorksheet->getCellByColumnAndRow($i + 1, 1, true)->getValue());
+            $value = trim($objWorksheet->getCellByColumnAndRow($i + 1, 1)->getValue());
             if ($value != '') {
                 if (substr($value, 0, 1) == '.') {
                     if ($value == '.id') {
@@ -227,12 +227,12 @@ class Importer
                 $id = null;
                 if ($idColumnIndex !== null) {
                     if (!$this->isGenerateNewIDs()) {
-                        $id = $objWorksheet->getCellByColumnAndRow($idColumnIndex + 1, $row, true)->getValue();
+                        $id = $objWorksheet->getCellByColumnAndRow($idColumnIndex + 1, $row)->getValue();
                     }
                 }
                 $properties = [];
                 foreach ($propertiesColumnIndices as $property => $col) {
-                    $value                 = $objWorksheet->getCellByColumnAndRow($col + 1, $row, true)->getValue();
+                    $value = $objWorksheet->getCellByColumnAndRow($col + 1, $row)->getValue();
                     $properties[$property] = $value;
                 }
 
@@ -335,8 +335,8 @@ class Importer
     {
         $this->writeln('');
         $this->writeln('Deleting all records in workspace ' . $repository->getCurrentDataDimensions()
-                                                                         ->getWorkspace() . ' with language ' . $repository->getCurrentDataDimensions()
-                                                                                                                           ->getLanguage());
+                ->getWorkspace() . ' with language ' . $repository->getCurrentDataDimensions()
+                ->getLanguage());
 
         $repository->deleteAllRecords();
 

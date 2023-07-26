@@ -6,10 +6,13 @@ use AnyContent\Backend\Forms\FormElements\FormElementDefault;
 use AnyContent\Backend\Services\ContextManager;
 use AnyContent\Backend\Services\FormManager;
 use AnyContent\Backend\Services\RepositoryManager;
+use CMDL\FormElementDefinitions\TextfieldFormElementDefinition;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class FormElementTextField extends FormElementDefault
 {
+    /** @var  TextfieldFormElementDefinition */
+    protected $definition;
     protected string $template = '@AnyContentBackend/Forms/formelement-textfield.html.twig';
 
     public function init(RepositoryManager $repositoryManager, ContextManager $contextManager, FormManager $formManager, UrlGeneratorInterface $urlGenerator): void

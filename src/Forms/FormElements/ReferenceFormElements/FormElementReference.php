@@ -10,10 +10,10 @@ use CMDL\FormElementDefinitions\ReferenceFormElementDefinition;
 
 class FormElementReference extends FormElementSelection
 {
-    protected string $template = '@AnyContentBackend/Forms/formelement-reference.html.twig';
-
     /** @var  ReferenceFormElementDefinition */
     protected $definition;
+
+    protected string $template = '@AnyContentBackend/Forms/formelement-reference.html.twig';
 
     protected $optionsForSelectBox = false;
 

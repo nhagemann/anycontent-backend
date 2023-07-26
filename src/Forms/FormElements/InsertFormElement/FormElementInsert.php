@@ -10,7 +10,7 @@ use Twig\Environment;
 class FormElementInsert extends FormElementDefault
 {
     /** @var  InsertFormElementDefinition */
-    //protected $definition;
+    protected $definition;
 
     public function render(Environment $twig)
     {
@@ -29,7 +29,6 @@ class FormElementInsert extends FormElementDefault
             $value = null;
             if (strpos($this->definition->getPropertyName(), '.') !== false) {
                 $attribute = substr($this->definition->getPropertyName(), 1);
-                //array_pop(explode('.', $this->definition->getPropertyName()));
 
                 if (array_key_exists($attribute, $attributes)) {
                     $value = $attributes[$attribute];

@@ -3,9 +3,13 @@
 namespace AnyContent\Backend\Forms\FormElements\PasswordFormElement;
 
 use AnyContent\Backend\Forms\FormElements\FormElementDefault;
+use CMDL\FormElementDefinitions\PasswordFormElementDefinition;
 
 class FormElementPassword extends FormElementDefault
 {
+    /** @var  PasswordFormElementDefinition */
+    protected $definition;
+
     protected string $template = '@AnyContentBackend/Forms/formelement-password.html.twig';
 
     public function parseFormInput($input)

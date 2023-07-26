@@ -3,10 +3,14 @@
 namespace AnyContent\Backend\Forms\FormElements\LayoutFormElements;
 
 use AnyContent\Backend\Forms\FormElements\FormElementDefault;
+use CMDL\FormElementDefinitions\TabNextFormElementDefinition;
 use Twig\Environment;
 
 class FormElementTabNext extends FormElementDefault
 {
+    /** @var  TabNextFormElementDefinition */
+    protected $definition;
+
     protected function fetchTabContent()
     {
         $nr = $this->formManager->getFormVar('tab.nr', 1);

@@ -8,10 +8,12 @@ use Twig\Environment;
 
 class FormElementSelection extends FormElementDefault
 {
-    protected string $template = '@AnyContentBackend/Forms/formelement-selection.html.twig';
-
     /** @var  SelectionFormElementDefinition */
     protected $definition;
+
+    protected string $template = '@AnyContentBackend/Forms/formelement-selection.html.twig';
+
+
 
     protected $autocompleteThreshold = 20;
 

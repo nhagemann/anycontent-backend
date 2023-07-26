@@ -3,10 +3,14 @@
 namespace AnyContent\Backend\Forms\FormElements\TableFormElement;
 
 use AnyContent\Backend\Forms\FormElements\FormElementDefault;
+use CMDL\FormElementDefinitions\TableFormElementDefinition;
 use Twig\Environment;
 
 class FormElementTable extends FormElementDefault
 {
+    /** @var  TableFormElementDefinition */
+    protected $definition;
+
     protected string $template = '@AnyContentBackend/Forms/formelement-table.html.twig';
 
     public function render(Environment $twig)

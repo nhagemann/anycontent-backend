@@ -3,10 +3,14 @@
 namespace AnyContent\Backend\Forms\FormElements\SelectionFormElements;
 
 use AnyContent\Backend\Forms\FormElements\FormElementDefault;
+use CMDL\FormElementDefinitions\CheckboxFormElementDefinition;
 use Twig\Environment;
 
 class FormElementCheckbox extends FormElementDefault
 {
+    /** @var CheckboxFormElementDefinition */
+    protected $definition;
+
     protected string $template = '@AnyContentBackend/Forms/formelement-checkbox.html.twig';
 
     public function render(Environment $twig)

@@ -3,20 +3,13 @@
 namespace AnyContent\Backend\Forms\FormElements\ColorFormElement;
 
 use AnyContent\Backend\Forms\FormElements\FormElementDefault;
+use CMDL\FormElementDefinitions\ColorFormElementDefinition;
 
 class FormElementColor extends FormElementDefault
 {
+    /** @var  ColorFormElementDefinition */
+    protected $definition;
     protected string $template = '@AnyContentBackend/Forms/formelement-color.html.twig';
-
-//    public function render(Environment $twig)
-//    {
-//
-//        $layout->addJsFile('jquery.minicolors.min.js'); // from related library module Libs/jQueryMiniColors
-//        $layout->addJsFile('feco.js');
-//        $layout->addCssLinkToHead('/css/jquery-minicolors/jquery.minicolors.css');  // from related library module Libs/jQueryMiniColors
-//
-//        return $this->twig->render('formelement-color.twig', $this->vars);
-//    }
 
     public function parseFormInput($input)
     {

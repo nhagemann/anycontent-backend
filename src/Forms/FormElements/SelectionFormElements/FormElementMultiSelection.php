@@ -3,10 +3,14 @@
 namespace AnyContent\Backend\Forms\FormElements\SelectionFormElements;
 
 use AnyContent\Backend\Forms\FormElements\FormElementDefault;
+use CMDL\FormElementDefinitions\MultiSelectionFormElementDefinition;
 use Twig\Environment;
 
 class FormElementMultiSelection extends FormElementDefault
 {
+    /** @var MultiSelectionFormElementDefinition */
+    protected $definition;
+
     protected string $template = '@AnyContentBackend/Forms/formelement-multiselection.html.twig';
 
     public function render(Environment $twig)

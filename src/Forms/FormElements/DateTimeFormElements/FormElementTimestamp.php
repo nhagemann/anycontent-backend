@@ -2,10 +2,14 @@
 
 namespace AnyContent\Backend\Forms\FormElements\DateTimeFormElements;
 
+use CMDL\FormElementDefinitions\TimestampFormElementDefinition;
 use Twig\Environment;
 
 class FormElementTimestamp extends \AnyContent\Backend\Forms\FormElements\FormElementDefault
 {
+    /** @var  TimestampFormElementDefinition */
+    protected $definition;
+
     protected string $template = '@AnyContentBackend/Forms/formelement-datetime.html.twig';
 
     public function render(Environment $twig)

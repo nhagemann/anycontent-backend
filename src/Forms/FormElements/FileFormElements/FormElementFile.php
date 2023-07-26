@@ -3,10 +3,13 @@
 namespace AnyContent\Backend\Forms\FormElements\FileFormElements;
 
 use AnyContent\Backend\Forms\FormElements\FormElementDefault;
+use CMDL\FormElementDefinitions\FileFormElementDefinition;
 use Twig\Environment;
 
 class FormElementFile extends FormElementDefault
 {
+    /** @var  FileFormElementDefinition */
+    protected $definition;
     protected string $template = '@AnyContentBackend/Forms/formelement-file.html.twig';
 
     public function render(Environment $twig)

@@ -233,12 +233,12 @@ class ContextManager
 
     public function setCurrentWorkspace($workspace)
     {
-        return $this->session->set($this->prefix . 'workspace', $workspace);
+        $this->session->set($this->prefix . 'workspace', $workspace);
     }
 
     public function setCurrentLanguage($language)
     {
-        return $this->session->set($this->prefix . 'language', $language);
+        $this->session->set($this->prefix . 'language', $language);
     }
 
     public function getCurrentLanguageName()
