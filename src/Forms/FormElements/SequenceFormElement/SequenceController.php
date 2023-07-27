@@ -3,11 +3,11 @@
 namespace AnyContent\Backend\Forms\FormElements\SequenceFormElement;
 
 use AnyContent\Backend\Controller\AbstractAnyContentBackendController;
-use AnyContent\Client\Record;
 use AnyContent\Client\Repository;
 use CMDL\ClippingDefinition;
 use CMDL\DataTypeDefinition;
 use CMDL\FormElementDefinition;
+use CMDL\FormElementDefinitions\SequenceFormElementDefinition;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
@@ -49,8 +49,6 @@ class SequenceController extends AbstractAnyContentBackendController
             ]
         );
 
-        //$app['layout']->addJsFile('editsequence.js');
-
         $vars['property'] = $property;
 
         $repository = $this->getRepository($dataType, $dataTypeAccessHash);
@@ -78,13 +76,12 @@ class SequenceController extends AbstractAnyContentBackendController
             );
 
             if ($formElementDefinition) {
-                if ($formElementDefinition->getFormElementType() == 'sequence') {
+                if ($formElementDefinition instanceof SequenceFormElementDefinition) {
                     $sequence = [];
 
                     if ($dataType === 'content') {
                         if ($recordId) {
-                            /** @var Record $record */
-                            $record = $repository->getRecord($recordId);
+                            $record = $repository->getRecord((int)$recordId);
                             $sequence = $record->getProperty($property, []);
                         } else {
                             if (is_array($formElementDefinition->getDefaultValue())) {
@@ -248,7 +245,7 @@ class SequenceController extends AbstractAnyContentBackendController
             );
 
             if ($formElementDefinition) {
-                if ($formElementDefinition->getFormElementType() == 'sequence') {
+                if ($formElementDefinition instanceof SequenceFormElementDefinition) {
                     if ($request->query->has('insert') and $request->query->has('count')) {
                         $vars = [];
                         $inserts = $formElementDefinition->getInserts();

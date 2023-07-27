@@ -56,7 +56,7 @@ class FormElementWindowsExcelDate extends FormElementDefault
             $hours = round($dateValue * 24);
             $mins = round($dateValue * 1440) - round($hours * 60);
             $secs = round($dateValue * 86400) - round($hours * 3600) - round($mins * 60);
-            $timestap = (int)mktime($hours, $mins, $secs);
+            $timestap = (int)mktime((int)$hours, (int)$mins, (int)$secs);
         }
 
         return $timestap;

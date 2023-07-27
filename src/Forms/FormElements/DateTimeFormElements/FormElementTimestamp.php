@@ -20,7 +20,7 @@ class FormElementTimestamp extends \AnyContent\Backend\Forms\FormElements\FormEl
         if (!$this->contextManager->getCurrentRecord() and $value == '') {
             switch ($this->definition->getInit()) {
                 case 'today':
-                    $value = mktime(0, 0, 0, date('m'), date('d'), date('Y'));
+                    $value = mktime(0, 0, 0, (int)date('m'), (int)date('d'), (int)date('Y'));
                     break;
                 case 'now':
                     $value = time();
@@ -55,8 +55,6 @@ class FormElementTimestamp extends \AnyContent\Backend\Forms\FormElements\FormEl
 
     public function parseFormInput(mixed $input): string
     {
-        $value = '';
-
         if (is_array($input)) {
             $tokens = explode('-', $input[0]);
             if (count($tokens) == 3) {
@@ -71,10 +69,13 @@ class FormElementTimestamp extends \AnyContent\Backend\Forms\FormElements\FormEl
                     $seconds = $input[3];
                 }
 
-                $value = mktime($hour, $minute, $seconds, $month, $day, $year);
+                $value = mktime((int)$hour, (int)$minute, (int)$seconds, (int)$month, (int)$day, (int)$year);
+                if ($value !== null) {
+                    return (string)$value;
+                };
             }
         }
 
-        return $value;
+        return '';
     }
 }

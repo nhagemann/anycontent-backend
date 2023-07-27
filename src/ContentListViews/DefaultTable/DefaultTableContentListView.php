@@ -82,7 +82,7 @@ class DefaultTableContentListView implements ContentListViewInterface, DefaultIm
 
         $searchTerm = $this->contextManager->getCurrentSearchTerm();
         if ($searchTerm != '') {
-            $filter = $this->filterUtil->normalizeFilterQuery($searchTerm, $this->contextManager->getCurrentDataTypeDefinition());
+            $filter = $this->filterUtil->normalizeFilterQuery($searchTerm, $this->contextManager->getCurrentContentTypeDefinition());
         }
 
         return $filter;

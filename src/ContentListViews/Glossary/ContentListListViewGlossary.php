@@ -62,7 +62,7 @@ class ContentListListViewGlossary implements ContentListViewInterface, DefaultIm
         foreach ($glossary as $index => $items) {
             $c = max(25, count($items));
             $c = ceil($c / 3);
-            $glossary[$index] = array_chunk($items, $c);
+            $glossary[$index] = array_chunk($items, (int)$c);
         }
 
         $vars['glossary'] = $glossary;

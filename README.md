@@ -125,6 +125,11 @@ idea:
 - $this->denyAccessUnlessGranted(PostVoter::VIEW, $post);
 - webp
 - help
+- FormElementDefinitionInterface in Parser
+- AnyContent Client return $this->getFileManager()->getBinary($file); // getBinary returntype must be string
+- allow selective adding of javascript/css files
+- auto adding of form elements
+- repositories instead of connection in config
 
 bugs:
 - no save message when saving config with sequence
