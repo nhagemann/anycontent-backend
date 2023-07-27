@@ -214,44 +214,42 @@ class RecordsController extends AbstractAnyContentBackendController
                     $record->setProperty($property, $value);
                 }
 
-                if ($save) { // check for unique properties
+                // check for unique properties
                     $properties = [];
 
                     $formElementDefinitions = $viewDefinition->getFormElementDefinitions();
-                    foreach ($formElementDefinitions as $formElementDefinition) {
-                        if ($formElementDefinition->isUnique() && $record->getProperty($formElementDefinition->getName()) != '') {
-                            $filter = $formElementDefinition->getName() . ' = ' . $record->getProperty(
-                                $formElementDefinition->getName()
-                            );
-                            $records = $repository->getRecords($filter);
+                foreach ($formElementDefinitions as $formElementDefinition) {
+                    if ($formElementDefinition->isUnique() && $record->getProperty($formElementDefinition->getName()) != '') {
+                        $filter = $formElementDefinition->getName() . ' = ' . $record->getProperty(
+                            $formElementDefinition->getName()
+                        );
+                        $records = $repository->getRecords($filter);
 
-                            if (count($records) > 1) {
+                        if (count($records) > 1) {
+                            $properties[$formElementDefinition->getName()] = $formElementDefinition->getLabel();
+                        } elseif (count($records) == 1) {
+                            $oldRecord = array_shift($records);
+
+                            if ($oldRecord->getID() != $recordId) {
                                 $properties[$formElementDefinition->getName()] = $formElementDefinition->getLabel();
-                            } elseif (count($records) == 1) {
-                                $oldRecord = array_shift($records);
-
-                                if ($oldRecord->getID() != $recordId) {
-                                    $properties[$formElementDefinition->getName()] = $formElementDefinition->getLabel();
-                                }
                             }
                         }
                     }
-                    if (count($properties) > 0) {
-                        $message = 'Could not save record. <em>' . join(
-                            ',',
-                            array_values($properties)
-                        ) . '</em> must be unique for all records of this content type.';
-                        $response = [
-                            'success' => false,
-                            'message' => $message,
-                            'properties' => array_keys($properties),
-                        ];
+                }
+                if (count($properties) > 0) {
+                    $message = 'Could not save record. <em>' . join(
+                        ',',
+                        array_values($properties)
+                    ) . '</em> must be unique for all records of this content type.';
+                    $response = [
+                        'success' => false,
+                        'message' => $message,
+                        'properties' => array_keys($properties),
+                    ];
 
-                        return new JsonResponse($response);
-                    }
+                    return new JsonResponse($response);
                 }
 
-                if ($save) {
                     $this->dispatcher->dispatch(new RecordBeforeSaveEvent($record));
 
                     $recordId = $repository->saveRecord($record);
@@ -259,19 +257,19 @@ class RecordsController extends AbstractAnyContentBackendController
                     $this->dispatcher->dispatch(new RecordSavedEvent($record));
 
                     $this->contextManager->resetTimeShift();
-                    if ($recordId) {
-                        $this->contextManager->addSuccessMessage('Record saved.');
-                    } else {
-                        $response = [
-                            'success' => false,
-                            'error' => true,
-                            'message' => 'Could not save record. Please check your input.',
-                            'properties' => [''],
-                        ];
+                if ($recordId) {
+                    $this->contextManager->addSuccessMessage('Record saved.');
+                } else {
+                    $response = [
+                        'success' => false,
+                        'error' => true,
+                        'message' => 'Could not save record. Please check your input.',
+                        'properties' => [''],
+                    ];
 
-                        return new JsonResponse($response);
-                    }
+                    return new JsonResponse($response);
                 }
+
                 if ($duplicate) {
                     $record->setName('Duplicate from ' . $record->getId() . ' - ' . $record->getName());
                     $record->setId(null);

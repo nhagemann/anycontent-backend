@@ -4,7 +4,6 @@ namespace AnyContent\Backend\Modules\Exchange\Controller;
 
 use AnyContent\Backend\Controller\AbstractAnyContentBackendController;
 use AnyContent\Backend\Modules\Exchange\Importer;
-use AnyContent\Client\Repository;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,7 +19,6 @@ class ImportController extends AbstractAnyContentBackendController
     {
         $vars = [];
 
-        /** @var Repository $repository */
         $repository = $this->repositoryManager->getRepositoryByContentTypeAccessHash($contentTypeAccessHash);
 
         if ($repository) {
@@ -37,7 +35,6 @@ class ImportController extends AbstractAnyContentBackendController
     #[Route('/content/import/{contentTypeAccessHash}', 'anycontent_records_import')]
     public function executeImportRecords(Importer $importer, Request $request, $contentTypeAccessHash)
     {
-        /** @var Repository $repository */
         $repository = $this->repositoryManager->getRepositoryByContentTypeAccessHash($contentTypeAccessHash);
         $success    = false;
         $filename   = null;

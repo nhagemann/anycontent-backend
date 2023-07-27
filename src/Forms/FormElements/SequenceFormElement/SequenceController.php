@@ -6,13 +6,14 @@ use AnyContent\Backend\Controller\AbstractAnyContentBackendController;
 use AnyContent\Client\Record;
 use AnyContent\Client\Repository;
 use CMDL\ClippingDefinition;
+use CMDL\DataTypeDefinition;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class Controller extends AbstractAnyContentBackendController
+class SequenceController extends AbstractAnyContentBackendController
 {
     #[Route('/sequence/edit/{dataType}/{dataTypeAccessHash}/{viewName}/{insertName}/{recordId}/{property}', 'anycontent_sequence_edit', methods: ['GET'])]
     public function editSequence(
@@ -274,7 +275,7 @@ class Controller extends AbstractAnyContentBackendController
         return new Response('');
     }
 
-    protected function getRepository($dataType, $dataTypeAccessHash): Repository
+    protected function getRepository($dataType, $dataTypeAccessHash): ?Repository
     {
         if ($dataType == 'content') {
             $repository = $this->repositoryManager->getRepositoryByContentTypeAccessHash($dataTypeAccessHash);
@@ -293,23 +294,17 @@ class Controller extends AbstractAnyContentBackendController
         Repository $repository,
         $dataType,
         $dataTypeAccessHash
-    ) {
-        if ($repository) {
-            if ($dataType == 'content') {
-                $dataTypeDefinition = $repository->getContentTypeDefinition();
-                $this->contextManager->setCurrentContentType($dataTypeDefinition);
-            } else {
-                $dataTypeDefinition = $this->repositoryManager->getConfigTypeDefinitionByConfigTypeAccessHash(
-                    $dataTypeAccessHash
-                );
+    ): ?DataTypeDefinition {
+        if ($dataType == 'content') {
+            $dataTypeDefinition = $repository->getContentTypeDefinition();
+            $this->contextManager->setCurrentContentType($dataTypeDefinition);
+        } else {
+            $dataTypeDefinition = $this->repositoryManager->getConfigTypeDefinitionByConfigTypeAccessHash($dataTypeAccessHash);
 
-                $this->contextManager->setCurrentConfigType($dataTypeDefinition);
-            }
-
-            return $dataTypeDefinition;
+            $this->contextManager->setCurrentConfigType($dataTypeDefinition);
         }
 
-        return false;
+        return $dataTypeDefinition;
     }
 
     protected function getFormElementDefinition(Request $request, $contentTypeDefinition, $insertName, $property)

@@ -191,10 +191,7 @@ class ContextManager
         $this->record = $record;
     }
 
-    /**
-     * @return Record
-     */
-    public function getCurrentRecord()
+    public function getCurrentRecord(): ?Record
     {
         return $this->record;
     }
@@ -204,15 +201,12 @@ class ContextManager
         $this->config = $config;
     }
 
-    /**
-     * @return Config
-     */
-    public function getCurrentConfig()
+    public function getCurrentConfig(): ?Config
     {
         return $this->config;
     }
 
-    public function setFilesContext()
+    public function setFilesContext(): void
     {
         $this->context = 'files';
     }

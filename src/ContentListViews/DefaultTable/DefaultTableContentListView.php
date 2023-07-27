@@ -15,8 +15,7 @@ class DefaultTableContentListView implements ContentListViewInterface, DefaultIm
         private ContextManager $contextManager,
         private CellRenderer $cellRenderer,
         private PagingHelper $pagingHelper,
-        private FilterUtil $filterUtil,
-        private RequestStack $requestStack
+        private FilterUtil $filterUtil
     ) {
     }
 
@@ -37,20 +36,10 @@ class DefaultTableContentListView implements ContentListViewInterface, DefaultIm
 
     public function __invoke(&$vars)
     {
-        //parent::apply($contextManager,$vars);
-
         // reset chained save operations (e.g. 'save-insert') to 'save' only upon listing of a content type
         if (key($this->contextManager->getCurrentSaveOperation()) != 'save-list') {
             $this->contextManager->setCurrentSaveOperation('save', 'Save');
         }
-
-        // reset sorting order and search query if listing button has been pressed inside a listing
-//        var_dump($this->requestStack->getMainRequest()->get('_route'));
-//        if ($this->getRequest()->get('_route') == 'listRecordsReset')
-//        {
-//            $this->contextManager->setCurrentSortingOrder('.info.lastchange.timestamp-', false);
-//            $this->contextManager->setCurrentSearchTerm('');
-//        }
 
         $filter = $this->getFilter();
 
@@ -87,14 +76,14 @@ class DefaultTableContentListView implements ContentListViewInterface, DefaultIm
     {
         $sorting = $this->contextManager->getCurrentSortingOrder();
 
-        $map = ['.lastchange' => '.info.lastchange.timestamp', '.lastchange+' => '.info.lastchange.timestamp', '.lastchange-' => '.info.lastchange.timestamp-',
-            'change' => '.info.lastchange.timestamp', 'change+' => '.info.lastchange.timestamp', 'change-' => '.info.lastchange.timestamp-',
-            'pos' => 'position', 'pos+' => 'position', 'pos-' => 'position-',
-        ];
-
-        if (array_key_exists($sorting, $map)) {
-            $sorting = $map[$sorting];
-        }
+//        $map = ['.lastchange' => '.info.lastchange.timestamp', '.lastchange+' => '.info.lastchange.timestamp', '.lastchange-' => '.info.lastchange.timestamp-',
+//            'change' => '.info.lastchange.timestamp', 'change+' => '.info.lastchange.timestamp', 'change-' => '.info.lastchange.timestamp-',
+//            'pos' => 'position', 'pos+' => 'position', 'pos-' => 'position-',
+//        ];
+//
+//        if (array_key_exists($sorting, $map)) {
+//            $sorting = $map[$sorting];
+//        }
 
         return $sorting;
     }

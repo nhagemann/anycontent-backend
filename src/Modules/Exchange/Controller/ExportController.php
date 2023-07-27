@@ -4,7 +4,6 @@ namespace AnyContent\Backend\Modules\Exchange\Controller;
 
 use AnyContent\Backend\Controller\AbstractAnyContentBackendController;
 use AnyContent\Backend\Modules\Exchange\Exporter;
-use AnyContent\Client\Repository;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,7 +19,6 @@ class ExportController extends AbstractAnyContentBackendController
     {
         $vars = [];
 
-        /** @var Repository $repository */
         $repository = $this->repositoryManager->getRepositoryByContentTypeAccessHash($contentTypeAccessHash);
 
         if ($repository) {
@@ -51,7 +49,6 @@ class ExportController extends AbstractAnyContentBackendController
     {
         $token = $request->get('token');
 
-        /** @var Repository $repository */
         $repository = $this->repositoryManager->getRepositoryByContentTypeAccessHash($contentTypeAccessHash);
 
         if ($repository) {

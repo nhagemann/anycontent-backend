@@ -28,7 +28,7 @@ class RepositoryManager
         $repositoryAdder->addRepositories($this);
     }
 
-    public function addRepository($name, Repository $repository, $title = '')
+    public function addRepository($name, Repository $repository, $title = ''): void
     {
         $repository->setName($name);
         $repository->setTitle($title);
@@ -83,7 +83,7 @@ class RepositoryManager
         }
     }
 
-    public function setUserInfo(UserInfo $userInfo)
+    public function setUserInfo(UserInfo $userInfo): void
     {
         $this->userInfo = $userInfo;
         foreach ($this->repositories as $repository) {
@@ -91,7 +91,7 @@ class RepositoryManager
         }
     }
 
-    public function listRepositories()
+    public function listRepositories(): array
     {
         $repositories = [];
         foreach ($this->repositories as $repository) {
@@ -109,7 +109,7 @@ class RepositoryManager
         return $repositories;
     }
 
-    public function listContentTypes($id)
+    public function listContentTypes($id): array
     {
         $contentTypes = [];
 
@@ -128,7 +128,7 @@ class RepositoryManager
         return $contentTypes;
     }
 
-    public function listConfigTypes($id)
+    public function listConfigTypes($id): array
     {
         $configTypes = [];
 
@@ -147,7 +147,7 @@ class RepositoryManager
         return $configTypes;
     }
 
-    public function hasFiles($id)
+    public function hasFiles($id): bool
     {
         if (array_key_exists($id, $this->repositories)) {
             $repository = $this->repositories[$id];
@@ -158,21 +158,16 @@ class RepositoryManager
         return false;
     }
 
-    public function getRepositoryById($id)
+    public function getRepositoryById($id): ?Repository
     {
         if (array_key_exists($id, $this->repositories)) {
             return $this->repositories[$id];
         }
 
-        return false;
+        return null;
     }
 
-    /**
-     * @param $hash
-     *
-     * @return Repository|bool
-     */
-    public function getRepositoryByRepositoryAccessHash($hash)
+    public function getRepositoryByRepositoryAccessHash($hash): ?Repository
     {
         if (array_key_exists($hash, $this->repositoryAccessHashes)) {
             $id = $this->repositoryAccessHashes[$hash]['repositoryId'];
@@ -180,15 +175,10 @@ class RepositoryManager
             return $this->getRepositoryById($id);
         }
 
-        return false;
+        return null;
     }
 
-    /**
-     * @param $hash
-     *
-     * @return Repository|bool
-     */
-    public function getRepositoryByContentTypeAccessHash($hash)
+    public function getRepositoryByContentTypeAccessHash($hash): ?Repository
     {
         if (array_key_exists($hash, $this->contentTypeAccessHashes)) {
             $id              = $this->contentTypeAccessHashes[$hash]['repositoryId'];
@@ -200,7 +190,7 @@ class RepositoryManager
             return $repository;
         }
 
-        return false;
+        return null;
     }
 
     public function getRepositoryByConfigTypeAccessHash($hash): ?Repository
