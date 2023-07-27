@@ -46,7 +46,7 @@ class FormElementTime extends \AnyContent\Backend\Forms\FormElements\FormElement
         return parent::render($twig);
     }
 
-    public function parseFormInput($input)
+    public function parseFormInput(string|array $input): string
     {
         $value = '';
 

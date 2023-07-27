@@ -39,11 +39,8 @@ class FormElementNumber extends FormElementDefault
      * interprets '.' as well as ',' as decimal separator, reflects them and constructs a computer readable
      * "number string" with '.'
      *
-     * @param $input
-     *
-     * @return mixed|string
      */
-    public function parseFormInput($input)
+    public function parseFormInput(string|array $input): string
     {
         $value = str_replace(',', '.', $input);
 
@@ -55,8 +52,8 @@ class FormElementNumber extends FormElementDefault
         }
 
         $value = trim($value);
-        if ($value != '') {
-            $value = number_format($value, $this->definition->getDigits(), '.', '');
+        if ($value !== '') {
+            $value = number_format((float)$value, $this->definition->getDigits(), '.', '');
         }
 
         return $value;

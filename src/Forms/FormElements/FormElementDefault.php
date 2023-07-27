@@ -75,7 +75,7 @@ class FormElementDefault implements FormElementInterface
         return $default;
     }
 
-    public function parseFormInput($input)
+    public function parseFormInput(string|array $input): string
     {
         return $input;
     }

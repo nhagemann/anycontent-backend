@@ -125,3 +125,7 @@ idea:
 - $this->denyAccessUnlessGranted(PostVoter::VIEW, $post);
 - webp
 - help
+
+bugs:
+- no save message when saving config with sequence
+- add when editing record with sequence broken

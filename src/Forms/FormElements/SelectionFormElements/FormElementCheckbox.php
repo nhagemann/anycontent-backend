@@ -25,7 +25,7 @@ class FormElementCheckbox extends FormElementDefault
         return parent::render($twig);
     }
 
-    public function parseFormInput($input)
+    public function parseFormInput(string|array $input): string
     {
         $value = 0;
 

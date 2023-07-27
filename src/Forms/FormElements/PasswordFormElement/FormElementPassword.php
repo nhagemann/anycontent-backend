@@ -12,7 +12,7 @@ class FormElementPassword extends FormElementDefault
 
     protected string $template = '@AnyContentBackend/Forms/formelement-password.html.twig';
 
-    public function parseFormInput($input)
+    public function parseFormInput(string|array $input): string
     {
         $value = '';
 
@@ -23,7 +23,7 @@ class FormElementPassword extends FormElementDefault
                 $value = $input[0];
                 $type = $this->definition->getType();
 
-                $salt = md5(uniqid(mt_rand(), true));
+                $salt = md5(uniqid((string)mt_rand(), true));
 
                 switch ($type) {
                     case 'md5':

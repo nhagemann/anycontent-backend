@@ -11,7 +11,7 @@ class FormElementColor extends FormElementDefault
     protected $definition;
     protected string $template = '@AnyContentBackend/Forms/formelement-color.html.twig';
 
-    public function parseFormInput($input)
+    public function parseFormInput(string|array $input): string
     {
         $value = '';
 
