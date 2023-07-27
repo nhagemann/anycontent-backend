@@ -12,7 +12,7 @@ class FormElementPassword extends FormElementDefault
 
     protected string $template = '@AnyContentBackend/Forms/formelement-password.html.twig';
 
-    public function parseFormInput(string|array $input): string
+    public function parseFormInput(mixed $input): string
     {
         $value = '';
 

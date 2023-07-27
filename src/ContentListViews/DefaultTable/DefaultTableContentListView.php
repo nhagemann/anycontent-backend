@@ -7,7 +7,6 @@ use AnyContent\Backend\DependencyInjection\DefaultImplementation;
 use AnyContent\Backend\Modules\Listing\PagingHelper;
 use AnyContent\Backend\Services\ContextManager;
 use CMDL\CMDLParserException;
-use Symfony\Component\HttpFoundation\RequestStack;
 
 class DefaultTableContentListView implements ContentListViewInterface, DefaultImplementation
 {
@@ -74,18 +73,7 @@ class DefaultTableContentListView implements ContentListViewInterface, DefaultIm
      */
     public function getSortingOrder()
     {
-        $sorting = $this->contextManager->getCurrentSortingOrder();
-
-//        $map = ['.lastchange' => '.info.lastchange.timestamp', '.lastchange+' => '.info.lastchange.timestamp', '.lastchange-' => '.info.lastchange.timestamp-',
-//            'change' => '.info.lastchange.timestamp', 'change+' => '.info.lastchange.timestamp', 'change-' => '.info.lastchange.timestamp-',
-//            'pos' => 'position', 'pos+' => 'position', 'pos-' => 'position-',
-//        ];
-//
-//        if (array_key_exists($sorting, $map)) {
-//            $sorting = $map[$sorting];
-//        }
-
-        return $sorting;
+        return $this->contextManager->getCurrentSortingOrder();
     }
 
     public function getFilter()

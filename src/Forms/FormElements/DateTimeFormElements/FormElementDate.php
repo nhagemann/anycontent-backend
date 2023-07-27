@@ -77,7 +77,7 @@ class FormElementDate extends FormElementDefault
         }
     }
 
-    public function parseFormInput(string|array $input): string
+    public function parseFormInput(mixed $input): string
     {
         $value = '';
 

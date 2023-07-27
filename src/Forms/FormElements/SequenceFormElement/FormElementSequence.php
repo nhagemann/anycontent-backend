@@ -6,6 +6,7 @@ use AnyContent\Backend\Forms\FormElements\FormElementDefault;
 use AnyContent\Backend\Services\ContextManager;
 use AnyContent\Backend\Services\FormManager;
 use AnyContent\Backend\Services\RepositoryManager;
+use AnyContent\Client\Record;
 use CMDL\FormElementDefinitions\SequenceFormElementDefinition;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -18,13 +19,15 @@ class FormElementSequence extends FormElementDefault
 
     public function init(RepositoryManager $repositoryManager, ContextManager $contextManager, FormManager $formManager, UrlGeneratorInterface $urlGenerator): void
     {
+        $recordId = '-';
         if ($contextManager->isConfigContext()) {
-            $dataTypeAccessHash = $contextManager->getCurrentConfigTypeAccessHash();
-            $recordId = '-';
             $dataType = 'config';
+            $dataTypeAccessHash = $contextManager->getCurrentConfigTypeAccessHash();
         } else {
             $dataTypeAccessHash = $contextManager->getCurrentContentTypeAccessHash();
-            $recordId = $contextManager->getCurrentRecord()->getId();
+            if ($contextManager->getCurrentRecord() instanceof Record) {
+                $recordId = $contextManager->getCurrentRecord()->getId();
+            }
             $dataType = 'content';
         }
 

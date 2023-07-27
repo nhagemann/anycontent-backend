@@ -40,7 +40,7 @@ class FormElementNumber extends FormElementDefault
      * "number string" with '.'
      *
      */
-    public function parseFormInput(string|array $input): string
+    public function parseFormInput(mixed $input): string
     {
         $value = str_replace(',', '.', $input);
 

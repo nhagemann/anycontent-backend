@@ -68,7 +68,7 @@ class FormElementTable extends FormElementDefault
         return '';
     }
 
-    public function parseFormInput(string|array $input): string
+    public function parseFormInput(mixed $input): string
     {
         $c = count($this->definition->getColumnHeadings());
 

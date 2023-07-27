@@ -25,7 +25,7 @@ class FormElementCheckbox extends FormElementDefault
         return parent::render($twig);
     }
 
-    public function parseFormInput(string|array $input): string
+    public function parseFormInput(mixed $input): string
     {
         $value = 0;
 
@@ -33,6 +33,6 @@ class FormElementCheckbox extends FormElementDefault
             $value = 1;
         }
 
-        return $value;
+        return (string)$value;
     }
 }

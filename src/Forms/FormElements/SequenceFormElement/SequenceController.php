@@ -7,6 +7,7 @@ use AnyContent\Client\Record;
 use AnyContent\Client\Repository;
 use CMDL\ClippingDefinition;
 use CMDL\DataTypeDefinition;
+use CMDL\FormElementDefinition;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,15 +16,15 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SequenceController extends AbstractAnyContentBackendController
 {
-    #[Route('/sequence/edit/{dataType}/{dataTypeAccessHash}/{viewName}/{insertName}/{recordId}/{property}', 'anycontent_sequence_edit', methods: ['GET'])]
+    #[Route('/sequence/edit/{dataType}/{dataTypeAccessHash}/{viewName}/{insertName}/{recordId}/{property}', name:'anycontent_sequence_edit', methods: ['GET'])]
     public function editSequence(
         Request $request,
         $dataType,
         $dataTypeAccessHash,
-        $recordId,
         $viewName,
         $insertName,
-        $property
+        $property,
+        string $recordId
     ) {
         $vars = [];
         $vars['action']['submit'] = $this->generateUrl(
@@ -33,7 +34,7 @@ class SequenceController extends AbstractAnyContentBackendController
                 'dataTypeAccessHash' => $dataTypeAccessHash,
                 'viewName' => 'default',
                 'insertName' => $insertName,
-                'recordId' => $recordId,
+                //'recordId' => $recordId,
                 'property' => $property,
             ]
         );
@@ -55,6 +56,11 @@ class SequenceController extends AbstractAnyContentBackendController
         $repository = $this->getRepository($dataType, $dataTypeAccessHash);
 
         $dataTypeDefinition = $this->getDataTypeDefinition($repository, $dataType, $dataTypeAccessHash);
+
+        // set recordId to null for sequences of not yet stored records
+        if ($recordId === '-') {
+            $recordId = null;
+        }
 
         if ($repository && $dataTypeDefinition) {
             $repository->selectWorkspace($this->contextManager->getCurrentWorkspace());
@@ -81,7 +87,9 @@ class SequenceController extends AbstractAnyContentBackendController
                             $record = $repository->getRecord($recordId);
                             $sequence = $record->getProperty($property, []);
                         } else {
-                            $sequence = $formElementDefinition->getDefaultValue();
+                            if (is_array($formElementDefinition->getDefaultValue())) {
+                                $sequence = $formElementDefinition->getDefaultValue();
+                            }
                         }
 
                         if (is_string($sequence)) {
@@ -167,7 +175,7 @@ class SequenceController extends AbstractAnyContentBackendController
         return new Response('Error getting repository from dataTypeAccessHash.');
     }
 
-    #[Route('/sequence/edit/{dataType}/{dataTypeAccessHash}/{viewName}/{insertName}/{recordId}/{property}', 'anycontent_sequence_post', methods: ['POST'])]
+    #[Route('/sequence/edit/{dataType}/{dataTypeAccessHash}/{viewName}/{insertName}/{property}', name:'anycontent_sequence_post', methods: ['POST'])]
     public function postSequence(
         Request $request,
         $dataType,
@@ -307,7 +315,7 @@ class SequenceController extends AbstractAnyContentBackendController
         return $dataTypeDefinition;
     }
 
-    protected function getFormElementDefinition(Request $request, $contentTypeDefinition, $insertName, $property)
+    protected function getFormElementDefinition(Request $request, $contentTypeDefinition, $insertName, $property): ?FormElementDefinition
     {
         $formElementDefinition = null;
         if ($insertName != '-') {

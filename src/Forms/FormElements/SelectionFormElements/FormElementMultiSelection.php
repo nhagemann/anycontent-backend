@@ -32,7 +32,7 @@ class FormElementMultiSelection extends FormElementDefault
         return $this->definition->getOptions();
     }
 
-    public function parseFormInput(string|array $input): string
+    public function parseFormInput(mixed $input): string
     {
         $value = '';
         if (is_array($input)) {

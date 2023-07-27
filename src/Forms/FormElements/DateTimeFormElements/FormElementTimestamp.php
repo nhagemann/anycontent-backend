@@ -53,7 +53,7 @@ class FormElementTimestamp extends \AnyContent\Backend\Forms\FormElements\FormEl
         return parent::render($twig);
     }
 
-    public function parseFormInput(string|array $input): string
+    public function parseFormInput(mixed $input): string
     {
         $value = '';
 
