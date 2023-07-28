@@ -118,19 +118,19 @@ class SequenceController extends AbstractAnyContentBackendController
                     $vars['inserts'] = $inserts;
 
                     // silently render all potential inserts to add their Javascript-Files to the Layout
-                    foreach (array_keys($inserts) as $k) {
-                        $clippingDefinition = $dataTypeDefinition->getClippingDefinition($k);
-                        $this->formManager->renderFormElements(
-                            'form_sequence',
-                            $clippingDefinition->getFormElementDefinitions(),
-                            [],
-                            [
-                                'language' => $this->contextManager->getCurrentLanguage(),
-                                'workspace' => $this->contextManager->getCurrentWorkspace(),
-                            ],
-                            null
-                        );
-                    }
+//                    foreach (array_keys($inserts) as $k) {
+//                        $clippingDefinition = $dataTypeDefinition->getClippingDefinition($k);
+//                        $this->formManager->renderFormElements(
+//                            'form_sequence',
+//                            $clippingDefinition->getFormElementDefinitions(),
+//                            [],
+//                            [
+//                                'language' => $this->contextManager->getCurrentLanguage(),
+//                                'workspace' => $this->contextManager->getCurrentWorkspace(),
+//                            ],
+//                            null
+//                        );
+//                    }
 
                     $i = 0;
                     foreach ($sequence as $item) {

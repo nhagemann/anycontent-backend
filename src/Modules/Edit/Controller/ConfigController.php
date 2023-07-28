@@ -19,23 +19,26 @@ class ConfigController extends AbstractAnyContentBackendController
         $configTypeDefinition = $this->repositoryManager->getConfigTypeDefinitionByConfigTypeAccessHash($configTypeAccessHash);
         $repositoryAccessHash = $this->repositoryManager->getRepositoryAccessHash($repository);
 
-        $vars = [];
-        $vars['repository'] = $repository;
-        $vars['definition'] = $configTypeDefinition;
-
-        $vars['links']['repository'] = $this->generateUrl('anycontent_repository', ['repositoryAccessHash' => $repositoryAccessHash]);
-        $vars['links']['timeshift'] = $this->generateUrl('anycontent_timeshift_config_edit', ['configTypeAccessHash' => $configTypeAccessHash]);
-
         $record = $repository->getConfig($configTypeDefinition->getName());
         $record->setRepository($repository);
-
         $this->contextManager->setCurrentConfig($record);
+
+        $vars = [];
+        $this->addRepositoryLinks($vars, $repository);
+
+        //$vars['repository'] = $repository;
+        $vars['definition'] = $configTypeDefinition;
         $vars['record'] = $record;
+
+        //$vars['links']['repository'] = $this->generateUrl('anycontent_repository', ['repositoryAccessHash' => $repositoryAccessHash]);
 
         $viewDefinition = $configTypeDefinition->getViewDefinition();
 
         $vars['form'] = $this->formManager->renderFormElements('form_edit', $viewDefinition->getFormElementDefinitions(), $record->getProperties());
 
+        // context links
+
+        $vars['links']['timeshift'] = $this->generateUrl('anycontent_timeshift_config_edit', ['configTypeAccessHash' => $configTypeAccessHash]);
         $vars['links']['workspaces'] = $this->generateUrl('anycontent_config_edit_change_workspace', ['configTypeAccessHash' => $configTypeAccessHash]);
         $vars['links']['languages'] = $this->generateUrl('anycontent_config_edit_change_language', ['configTypeAccessHash' => $configTypeAccessHash]);
         $vars['links']['revisions'] = $this->generateUrl('anycontent_config_revisions', ['configTypeAccessHash' => $configTypeAccessHash, 'workspace' => $this->contextManager->getCurrentWorkspace(), 'language' => $this->contextManager->getCurrentLanguage()]);

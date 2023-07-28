@@ -24,7 +24,7 @@ class RecordsController extends AbstractAnyContentBackendController
     #[Route('/content/edit/{contentTypeAccessHash}/{recordId}/{workspace}/{language}', name:'anycontent_record_edit', methods: ['GET'])]
     public function editRecord($contentTypeAccessHash, ?int $recordId, $workspace = null, $language = null, bool $addRecord = false)
     {
-        $repository = $this->updateContext($contentTypeAccessHash, $workspace, $language);
+        $repository = $this->updateContextByContentTypeAccessHash($contentTypeAccessHash, $workspace, $language);
         $contentTypeDefinition = $repository->getContentTypeDefinition();
         $repositoryAccessHash = $this->repositoryManager->getRepositoryAccessHash($repository);
 
@@ -328,7 +328,7 @@ class RecordsController extends AbstractAnyContentBackendController
         $recordId = (int)$recordId;
 
         if ($recordId) {
-            $repository = $this->updateContext($contentTypeAccessHash, $workspace, $language);
+            $repository = $this->updateContextByContentTypeAccessHash($contentTypeAccessHash, $workspace, $language);
 
             if ($repository->deleteRecord($recordId)) {
                 $this->contextManager->addSuccessMessage('Record ' . $recordId . ' deleted.');
@@ -356,7 +356,7 @@ class RecordsController extends AbstractAnyContentBackendController
         $workspace,
         $language
     ) {
-        $repository = $this->updateContext($contentTypeAccessHash, $workspace, $language);
+        $repository = $this->updateContextByContentTypeAccessHash($contentTypeAccessHash, $workspace, $language);
 
         $vars = [];
         $vars['record'] = false;
@@ -404,7 +404,7 @@ class RecordsController extends AbstractAnyContentBackendController
         $workspace,
         $language
     ) {
-        $repository = $this->updateContext($contentTypeAccessHash, $workspace, $language);
+        $repository = $this->updateContextByContentTypeAccessHash($contentTypeAccessHash, $workspace, $language);
 
         $recordId = (int)$recordId;
 

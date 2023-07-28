@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-class Controller extends AbstractAnyContentBackendController
+class LinkTestController extends AbstractAnyContentBackendController
 {
     #[Route('/formelement/link/check/', 'anycontent_formelement_link_check', methods: ['GET'])]
     public static function check(Request $request)

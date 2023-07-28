@@ -26,7 +26,7 @@ class RevisionsController extends AbstractAnyContentBackendController
 
         // Context
 
-        $repository = $this->updateContext($contentTypeAccessHash, $workspace, $language);
+        $repository = $this->updateContextByContentTypeAccessHash($contentTypeAccessHash, $workspace, $language);
         $vars['repository'] = $repository;
 
         $contentTypeDefinition = $repository->getContentTypeDefinition();
