@@ -7,6 +7,7 @@ use AnyContent\Backend\Services\RepositoryManager;
 use AnyContent\Client\Repository;
 use AnyContent\Connection\Configuration\ContentArchiveConfiguration;
 use AnyContent\Connection\Configuration\MySQLSchemalessConfiguration;
+use AnyContent\Connection\Configuration\RecordFilesConfiguration;
 use AnyContent\Connection\Configuration\RecordsFileConfiguration;
 use AnyContent\Connection\FileManager\DirectoryBasedFilesAccess;
 
@@ -25,7 +26,8 @@ class RepositoryAdder
     {
         $this->repositoryManager = $repositoryManager;
 
-        $recordFiles = [];
+        $recordsFileConnections = [];
+        $recordFilesConnections = [];
 
         foreach ($this->connections as $connection) {
             $name = $connection['name'];
@@ -38,11 +40,14 @@ class RepositoryAdder
                     $dataType = isset($connection['content_file']) ? 'content' : 'config';
                     $dataFile = $connection['content_file'] ?? $connection['config_file'];
                     $filesPath = $connection['files_path'] ?? null;
-                    $recordFiles[$name][] = ['cmdl_file' => $connection['cmdl_file'], 'data_type' => $dataType, 'data_file' => $dataFile, 'files_path' => $filesPath];
+                    $recordsFileConnections[$name][] = ['cmdl_file' => $connection['cmdl_file'], 'data_type' => $dataType, 'data_file' => $dataFile, 'files_path' => $filesPath];
                     break;
                 case 'recordfiles':
-                    //$path = $connection['path'];
-                    //$repository = $this->addRecordFilesConnection($name, $path);
+                    $dataType = isset($connection['content_path']) ? 'content' : 'config';
+                    $contentPath = $connection['content_path'] ?? null;
+                    $configFile = $connection['config_file'] ?? null;
+                    $filesPath = $connection['files_path'] ?? null;
+                    $recordFilesConnections[$name][] = ['cmdl_file' => $connection['cmdl_file'], 'data_type' => $dataType, 'content_path' => $contentPath, 'config_file' => $configFile, 'files_path' => $filesPath];
                     break;
                 case 'contentarchive':
                     $path = $connection['data_path'];
@@ -67,13 +72,14 @@ class RepositoryAdder
                 $this->addFileManager($repository, $connection['files_path']);
             }
 
-            $this->addRecordsFileConnection($recordFiles);
+            $this->addRecordFilesConnections($recordFilesConnections);
+            $this->addRecordsFileConnections($recordsFileConnections);
         }
     }
 
-    private function addRecordsFileConnection($recordFiles): void
+    private function addRecordsFileConnections($connections): void
     {
-        foreach ($recordFiles as $name => $dataTypes) {
+        foreach ($connections as $name => $dataTypes) {
             $filesPath = null;
             $configuration = new RecordsFileConfiguration();
             foreach ($dataTypes as $dataType) {
@@ -82,6 +88,29 @@ class RepositoryAdder
                 }
                 if ($dataType['data_type'] === 'config') {
                     $configuration->addConfigType(basename($dataType['cmdl_file'], '.cmdl'), $dataType['cmdl_file'], $dataType['data_file']);
+                }
+                $filesPath = $dataType['files_path'] ?? $filesPath;
+            }
+            $connection = $configuration->createReadWriteConnection();
+            $repository = new Repository($name, $connection);
+            $this->repositoryManager->addRepository($name, $repository);
+            if ($filesPath !== null) {
+                $this->addFileManager($repository, $filesPath);
+            }
+        }
+    }
+
+    private function addRecordFilesConnections($connections): void
+    {
+        foreach ($connections as $name => $dataTypes) {
+            $filesPath = null;
+            $configuration = new RecordFilesConfiguration();
+            foreach ($dataTypes as $dataType) {
+                if ($dataType['data_type'] === 'content') {
+                    $configuration->addContentType(basename($dataType['cmdl_file'], '.cmdl'), $dataType['cmdl_file'], $dataType['content_path']);
+                }
+                if ($dataType['data_type'] === 'config') {
+                    $configuration->addConfigType(basename($dataType['cmdl_file'], '.cmdl'), $dataType['cmdl_file'], $dataType['config_file']);
                 }
                 $filesPath = $dataType['files_path'] ?? $filesPath;
             }

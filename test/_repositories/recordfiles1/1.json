@@ -1,0 +1,21 @@
+{
+    "id": 1,
+    "properties": {
+        "name": "test1"
+    },
+    "info": {
+        "revision": 1,
+        "creation": {
+            "timestamp": 1690534124,
+            "username": "",
+            "firstname": "",
+            "lastname": ""
+        },
+        "lastchange": {
+            "timestamp": 1690534124,
+            "username": "",
+            "firstname": "",
+            "lastname": ""
+        }
+    }
+}

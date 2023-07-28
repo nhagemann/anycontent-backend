@@ -1,0 +1,25 @@
+{
+    "records": {
+        "1": {
+            "id": 1,
+            "properties": {
+                "name": ""
+            },
+            "info": {
+                "revision": 1,
+                "creation": {
+                    "timestamp": 1690529948,
+                    "username": "",
+                    "firstname": "",
+                    "lastname": ""
+                },
+                "lastchange": {
+                    "timestamp": 1690529948,
+                    "username": "",
+                    "firstname": "",
+                    "lastname": ""
+                }
+            }
+        }
+    }
+}

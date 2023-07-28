@@ -136,7 +136,6 @@ class RecordsController extends AbstractAnyContentBackendController
 
         $saveOperationTitle = 'Save';
         $saveOperation = 'save';
-        $save = true;
         $duplicate = false;
         $insert = false;
         $list = false;
