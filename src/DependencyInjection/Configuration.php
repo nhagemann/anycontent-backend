@@ -49,8 +49,6 @@ class Configuration implements ConfigurationInterface
             ->end()
             ->end();
 
-        // ToDo: Think about key repositories, to restrict repositories and role to restrict connections
-
         return $treeBuilder;
     }
 }

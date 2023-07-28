@@ -60,13 +60,6 @@ class MenuManager
     {
         $vars = ['items' => $items, 'id' => $id];
 
-//        $event = new MenuMainMenuRenderEvent($this->app, 'core_menu_dropdown.twig', $vars);
-//
-//        /** @var MenuMainMenuRenderEvent $event */
-//        $event    = $this->app['dispatcher']->dispatch(Module::EVENT_MENU_MAINMENU_RENDER, $event);
-//        $template = $event->getTemplate();
-//        $vars     = $event->getVars();
-
         $template = '@AnyContentBackend\Menu\core_menu_dropdown.twig';
 
         return $this->twig->render($template, $vars);
@@ -75,13 +68,6 @@ class MenuManager
     public function renderButtonGroup($buttons)
     {
         ksort($buttons);
-
-//        /** @var MenuButtonGroupRenderEvent $event */
-//        $event = new MenuButtonGroupRenderEvent($this->app, $buttons);
-//
-//        $event = $this->app['dispatcher']->dispatch(Module::EVENT_MENU_BUTTONGROUP_RENDER, $event);
-//
-//        $buttons = $event->getButtons();
 
         return $this->twig->render('@AnyContentBackend\Menu\core_menu_buttongroup.twig', ['buttons' => $buttons]);
     }

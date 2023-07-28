@@ -129,7 +129,6 @@ class RecordsController extends AbstractAnyContentBackendController
     #[Route('/content/edit/{contentTypeAccessHash}/{recordId}/{workspace}/{language}', name:'anycontent_record_save', methods: ['POST'])]
     #[Route('/content/add/{contentTypeAccessHash}/{workspace}/{language}', name:'anycontent_record_insert', methods: ['POST'])]
     #[Route('/content/add/{contentTypeAccessHash}/{recordId}/{workspace}/{language}', name:'anycontent_record_insert_distinct', methods: ['POST'])]
-    //#[Route('/content/add/{contentTypeAccessHash}', 'anycontent_record_insert', methods: ['POST'])]
     public function saveRecord(Request $request, $contentTypeAccessHash, $recordId = null)
     {
         $hidden = $request->get('$hidden');

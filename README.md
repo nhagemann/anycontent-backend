@@ -105,16 +105,15 @@ config/packages/security.yaml
 
 
 todo:
-- limit mysql configuration to lowercase, allow title 
 - remove revisions command
 - admin routes
-- additional connection types
+- events
 
 ignored:
-- import/export/archive commands Core/Edit/Exchange + Admin/Excelbackup
 - events
 - formelement geolocation, content list view map
 - formelement sourcecode
+- import/export/archive commands Core/Edit/Exchange + Admin/Excelbackup
 
 idea:
 - https://symfony.com/doc/current/service_container/tags.html
@@ -129,3 +128,5 @@ idea:
 - allow selective adding of javascript/css files
 - auto adding of form elements
 - repositories instead of connection in config
+- allow to only have subset of content/config types for contentarchive/mysql connections
+- advanced validation of connection configuration, e.g. lowercase a-z0-9 only names for mysql connections
