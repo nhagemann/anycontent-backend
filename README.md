@@ -106,8 +106,6 @@ config/packages/security.yaml
 
 todo:
 - remove revisions command
-- admin routes
-- events
 
 ignored:
 - formelement geolocation, content list view map
@@ -116,6 +114,7 @@ ignored:
 - import/export/archive commands (Core/Edit/Exchange + Admin/Excelbackup)
 
 ideas:
+- admin routes with ANYCONTENT_ADMIN role
 - auto adding of form elements
 - advanced rights: repository: read / admin | record: create / read / update / delete / sort | config: read / update (via Voter $this->denyAccessUnlessGranted(PostVoter::VIEW, $post) https://symfony.com/doc/current/security/voters.html)
 - webp

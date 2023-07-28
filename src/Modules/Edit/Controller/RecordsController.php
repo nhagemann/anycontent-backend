@@ -248,11 +248,11 @@ class RecordsController extends AbstractAnyContentBackendController
                     return new JsonResponse($response);
                 }
 
-                    $this->dispatcher->dispatch(new RecordBeforeSaveEvent($record));
+                    $this->dispatcher->dispatch(new RecordBeforeSaveEvent($record, 'edit'));
 
                     $recordId = $repository->saveRecord($record);
 
-                    $this->dispatcher->dispatch(new RecordSavedEvent($record));
+                    $this->dispatcher->dispatch(new RecordSavedEvent($record, 'edit'));
 
                     $this->contextManager->resetTimeShift();
                 if ($recordId) {
@@ -430,7 +430,11 @@ class RecordsController extends AbstractAnyContentBackendController
             $repository->selectLanguage($this->contextManager->getCurrentLanguage());
             $repository->setTimeShift(0);
 
+            $this->dispatcher->dispatch(new RecordBeforeSaveEvent($record, 'transfer'));
+
             $recordId = $repository->saveRecord($record);
+
+            $this->dispatcher->dispatch(new RecordSavedEvent($record, 'transfer'));
 
             $this->contextManager->resetTimeShift();
 

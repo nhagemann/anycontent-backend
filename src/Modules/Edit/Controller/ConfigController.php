@@ -3,6 +3,8 @@
 namespace AnyContent\Backend\Modules\Edit\Controller;
 
 use AnyContent\Backend\Controller\AbstractAnyContentBackendController;
+use AnyContent\Backend\Modules\Edit\Events\ConfigBeforeSaveEvent;
+use AnyContent\Backend\Modules\Edit\Events\ConfigSavedEvent;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -81,7 +83,11 @@ class ConfigController extends AbstractAnyContentBackendController
                 $repository->selectWorkspace($this->contextManager->getCurrentWorkspace());
                 $repository->selectLanguage($this->contextManager->getCurrentLanguage());
 
+                $this->dispatcher->dispatch(new ConfigBeforeSaveEvent($record, 'edit'));
+
                 $result = $repository->saveConfig($record);
+
+                $this->dispatcher->dispatch(new ConfigSavedEvent($record, 'edit'));
 
                 $this->contextManager->resetTimeShift();
                 if ($result) {

@@ -3,6 +3,8 @@
 namespace AnyContent\Backend\Modules\Revisions\Controller;
 
 use AnyContent\Backend\Controller\AbstractAnyContentBackendController;
+use AnyContent\Backend\Modules\Edit\Events\RecordBeforeSaveEvent;
+use AnyContent\Backend\Modules\Edit\Events\RecordSavedEvent;
 use AnyContent\Client\AbstractRecord;
 use AnyContent\Client\Record;
 use CMDL\DataTypeDefinition;
@@ -316,7 +318,12 @@ class RevisionsController extends AbstractAnyContentBackendController
 
             if ($record) {
                 $revisionNumber = $record->getRevision();
+
+                $this->dispatcher->dispatch(new RecordBeforeSaveEvent($record, 'revision'));
+
                 $repository->saveRecord($record);
+
+                $this->dispatcher->dispatch(new RecordSavedEvent($record, 'revision'));
 
                 $this->contextManager->addAlertMessage('Created new revision based on existing revision ' . $revisionNumber . '.');
 
