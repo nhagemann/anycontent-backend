@@ -20,9 +20,9 @@ class FormElementWindowsExcelDate extends FormElementDefault implements CustomFo
 
     protected string $template = '@AnyContentBackend/Forms/Custom/formelement-exceldate.html.twig';
 
-    public function init(FormElementDefinition $definition, ?string $id, mixed $value = ''): void
+    public function init(FormElementDefinition $definition, ?string $formId = null, ?string $formName = null, mixed $value = ''): void
     {
-        parent::init($definition, $id, $value);
+        parent::init($definition, $formId, $formName, $value);
 
         $this->vars['date'] = '';
         if (is_numeric($this->value)) {

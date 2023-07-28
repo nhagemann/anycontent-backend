@@ -71,8 +71,7 @@ class FormManager
                 $name = trim($prefix, '_') . '_' . $name;
             }
             $id = $formId . '_' . $type . '_' . $name;
-
-            $formElement = $this->initFormElement($formElementDefinition, $id, $value);
+            $formElement = $this->initFormElement($formElementDefinition, $id, $name, $value);
 
             if ($i == 1) {
                 $formElement->setIsFirstElement(true);
@@ -90,7 +89,7 @@ class FormManager
         return $html;
     }
 
-    private function initFormElement(FormElementDefinition $formElementDefinition, ?string $id = null, mixed $value = null)
+    private function initFormElement(FormElementDefinition $formElementDefinition, ?string $formId = null, ?string $formName = null, mixed $value = null)
     {
         if ($formElementDefinition->getFormElementType() === 'custom') {
             assert($formElementDefinition instanceof CustomFormElementDefinition);
@@ -105,7 +104,7 @@ class FormManager
 
         assert($formElement instanceof FormElementInterface);
 
-        $formElement->init($formElementDefinition, $id, $value);
+        $formElement->init($formElementDefinition, $formId, $formName, $value);
 
         return $formElement;
     }

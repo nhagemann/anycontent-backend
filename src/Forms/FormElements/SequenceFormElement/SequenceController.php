@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SequenceController extends AbstractAnyContentBackendController
 {
-    #[Route('/sequence/edit/{dataType}/{dataTypeAccessHash}/{viewName}/{insertName}/{recordId}/{property}', name:'anycontent_sequence_edit', methods: ['GET'])]
+    #[Route('/sequence/edit/{dataType}/{dataTypeAccessHash}/{viewName}/{insertName}/{property}/{recordId}', name:'anycontent_sequence_edit', methods: ['GET'])]
     public function editSequence(
         Request $request,
         $dataType,
@@ -24,7 +24,7 @@ class SequenceController extends AbstractAnyContentBackendController
         $viewName,
         $insertName,
         $property,
-        ?string $recordId
+        ?string $recordId = null
     ) {
         $vars = [];
         $vars['action']['submit'] = $this->generateUrl(

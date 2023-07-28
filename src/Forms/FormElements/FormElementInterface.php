@@ -21,7 +21,5 @@ interface FormElementInterface
 
     public function parseFormInput(mixed $input): string;
 
-    public function init(FormElementDefinition $definition, ?string $id, mixed $value = ''): void;
-
-    //public function initOld(RepositoryManager $repositoryManager, ContextManager $contextManager, FormManager $formManager, UrlGeneratorInterface $urlGenerator): void;
+    public function init(FormElementDefinition $definition, ?string $formId = null, ?string $formName = null, mixed $value = ''): void;
 }

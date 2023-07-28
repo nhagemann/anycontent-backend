@@ -22,9 +22,9 @@ class FormElementSequence extends FormElementDefault
     {
     }
 
-    public function init(FormElementDefinition $definition, ?string $id, mixed $value = ''): void
+    public function init(FormElementDefinition $definition, ?string $formId = null, ?string $formName = null, mixed $value = ''): void
     {
-        parent::init($definition, $id, $value);
+        parent::init($definition, $formId, $formName, $value);
         $recordId = '-';
         if ($this->contextManager->isConfigContext()) {
             $dataType = 'config';

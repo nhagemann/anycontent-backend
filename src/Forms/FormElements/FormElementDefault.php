@@ -75,11 +75,11 @@ class FormElementDefault implements FormElementInterface
         return $input;
     }
 
-    public function init(FormElementDefinition $definition, ?string $id, mixed $value = ''): void
+    public function init(FormElementDefinition $definition, ?string $formId = null, ?string $formName = null, mixed $value = ''): void
     {
         $this->definition = $definition;
-        $this->name = $definition->getName();
-        $this->id = $id;
+        $this->name = $formName;
+        $this->id = $formId;
         $this->value = $value;
 
         $this->vars = [];
