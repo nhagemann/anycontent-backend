@@ -106,10 +106,7 @@ config/packages/security.yaml
 
 todo:
 - remove revisions command
-- auto adding of form elements
 - retest all form elements
-  - bug image selection shows non images
-  - 7_sequence
  
 ignored:
 - formelement geolocation, content list view map
