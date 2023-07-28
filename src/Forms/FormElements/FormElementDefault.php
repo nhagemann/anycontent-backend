@@ -8,6 +8,9 @@ use AnyContent\Backend\Services\RepositoryManager;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twig\Environment;
 
+/**
+ * @SuppressWarnings(PHPMD.NumberOfChildren)
+ */
 class FormElementDefault implements FormElementInterface
 {
     protected string $template = '@AnyContentBackend/Forms/formelement-default.html.twig';
