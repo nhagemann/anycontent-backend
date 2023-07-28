@@ -44,6 +44,7 @@ class FilesController extends AbstractAnyContentBackendController
         $vars['links']['newwindow'] = $this->generateUrl('anycontent_files', ['repositoryAccessHash' => $repositoryAccessHash, 'path' => $path]);
 
         $repository = $this->repositoryManager->getRepositoryByRepositoryAccessHash($repositoryAccessHash);
+        $this->addRepositoryLinks($vars, $repository);
 
         if ($repository) {
             $this->contextManager->setCurrentRepository($repository);

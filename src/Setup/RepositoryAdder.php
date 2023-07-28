@@ -5,11 +5,13 @@ namespace AnyContent\Backend\Setup;
 use AnyContent\Backend\Exception\AnyContentBackendException;
 use AnyContent\Backend\Services\RepositoryManager;
 use AnyContent\Client\Repository;
+use AnyContent\Client\UserInfo;
 use AnyContent\Connection\Configuration\ContentArchiveConfiguration;
 use AnyContent\Connection\Configuration\MySQLSchemalessConfiguration;
 use AnyContent\Connection\Configuration\RecordFilesConfiguration;
 use AnyContent\Connection\Configuration\RecordsFileConfiguration;
 use AnyContent\Connection\FileManager\DirectoryBasedFilesAccess;
+use Symfony\Bundle\SecurityBundle\Security;
 
 /**
  * Adds all configured repositories
@@ -18,13 +20,16 @@ class RepositoryAdder
 {
     private RepositoryManager $repositoryManager;
 
-    public function __construct(private array $connections)
+    public function __construct(private array $connections, private Security $security)
     {
     }
 
     public function addRepositories(RepositoryManager $repositoryManager)
     {
         $this->repositoryManager = $repositoryManager;
+
+        $userInfo = new UserInfo($this->security->getUser()->getUserIdentifier());
+        $this->repositoryManager->setUserInfo($userInfo);
 
         $recordsFileConnections = [];
         $recordFilesConnections = [];
