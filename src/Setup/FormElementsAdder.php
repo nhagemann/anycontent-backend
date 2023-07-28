@@ -43,12 +43,12 @@ class FormElementsAdder
 
     public function setupFormElements(FormManager $formManager)
     {
-        foreach ($this->getFormElementClasses() as $type => $class) {
-            $formManager->registerFormElement($type, $class);
-        }
-        foreach ($this->getCustomFormElementClasses() as $type => $class) {
-            $formManager->registerCustomFormElement($type, $class);
-        }
+//        foreach ($this->getFormElementClasses() as $type => $class) {
+//            $formManager->registerFormElement($type, $class);
+//        }
+//        foreach ($this->getCustomFormElementClasses() as $type => $class) {
+//            $formManager->registerCustomFormElement($type, $class);
+//        }
     }
 
     private function getFormElementClasses(): array

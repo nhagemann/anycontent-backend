@@ -3,6 +3,7 @@
 namespace AnyContent\Backend\Forms\FormElements\LayoutFormElements;
 
 use AnyContent\Backend\Forms\FormElements\FormElementDefault;
+use AnyContent\Backend\Services\FormManager;
 use CMDL\FormElementDefinitions\TabNextFormElementDefinition;
 use Twig\Environment;
 
@@ -10,6 +11,12 @@ class FormElementTabNext extends FormElementDefault
 {
     /** @var  TabNextFormElementDefinition */
     protected $definition;
+
+    protected string $type = 'tab-next';
+
+    public function __construct(private FormManager $formManager){
+
+    }
 
     protected function fetchTabContent()
     {

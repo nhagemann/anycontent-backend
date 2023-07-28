@@ -9,5 +9,7 @@ class FormElementImage extends FormElementFile
     /** @var  ImageFormElementDefinition */
     protected $definition;
 
+    protected string $type = 'image';
+
     protected string $template = '@AnyContentBackend/Forms/formelement-image.html.twig';
 }

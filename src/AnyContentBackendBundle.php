@@ -3,6 +3,7 @@
 namespace AnyContent\Backend;
 
 use AnyContent\Backend\Setup\ContentListViewCompilerPass;
+use AnyContent\Backend\Setup\FormElementsCompilerPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
@@ -18,5 +19,6 @@ class AnyContentBackendBundle extends Bundle
         parent::build($container);
 
         $container->addCompilerPass(new ContentListViewCompilerPass());
+        $container->addCompilerPass(new FormElementsCompilerPass());
     }
 }

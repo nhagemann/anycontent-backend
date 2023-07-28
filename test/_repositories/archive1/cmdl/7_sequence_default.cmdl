@@ -1,0 +1,9 @@
+name
+sequence1 = sequence (type1, type2)
+
++++ type1 +++
+text1
+
++++ type2 +++
+text1
+text2

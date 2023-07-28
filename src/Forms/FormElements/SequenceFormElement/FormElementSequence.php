@@ -7,6 +7,7 @@ use AnyContent\Backend\Services\ContextManager;
 use AnyContent\Backend\Services\FormManager;
 use AnyContent\Backend\Services\RepositoryManager;
 use AnyContent\Client\Record;
+use CMDL\FormElementDefinition;
 use CMDL\FormElementDefinitions\SequenceFormElementDefinition;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -15,18 +16,25 @@ class FormElementSequence extends FormElementDefault
     /** @var  SequenceFormElementDefinition */
     protected $definition;
 
+    protected string $type = 'sequence';
+
     protected string $template = '@AnyContentBackend/Forms/formelement-sequence.html.twig';
 
-    public function init(RepositoryManager $repositoryManager, ContextManager $contextManager, FormManager $formManager, UrlGeneratorInterface $urlGenerator): void
+    public function __construct(private  ContextManager $contextManager, private UrlGeneratorInterface $urlGenerator){
+
+    }
+
+    public function init(FormElementDefinition $definition, ?string $id, mixed $value = ''): void
     {
+        parent::init($definition, $id, $value);
         $recordId = '-';
-        if ($contextManager->isConfigContext()) {
+        if ($this->contextManager->isConfigContext()) {
             $dataType = 'config';
-            $dataTypeAccessHash = $contextManager->getCurrentConfigTypeAccessHash();
+            $dataTypeAccessHash = $this->contextManager->getCurrentConfigTypeAccessHash();
         } else {
-            $dataTypeAccessHash = $contextManager->getCurrentContentTypeAccessHash();
-            if ($contextManager->getCurrentRecord() instanceof Record) {
-                $recordId = $contextManager->getCurrentRecord()->getId();
+            $dataTypeAccessHash = $this->contextManager->getCurrentContentTypeAccessHash();
+            if ($this->contextManager->getCurrentRecord() instanceof Record) {
+                $recordId = $this->contextManager->getCurrentRecord()->getId();
             }
             $dataType = 'content';
         }
@@ -38,7 +46,11 @@ class FormElementSequence extends FormElementDefault
                 $insertName = $this->definition->getInsertedByInsertName();
             }
 
-            $url = $urlGenerator->generate('anycontent_sequence_edit', [
+            if ($recordId==='-'){
+                $recordId =null;
+            }
+
+            $url = $this->urlGenerator->generate('anycontent_sequence_edit', [
                 'dataType' => $dataType,
                 'dataTypeAccessHash' => $dataTypeAccessHash,
                 'viewName' => 'default',
@@ -51,5 +63,6 @@ class FormElementSequence extends FormElementDefault
         }
 
         $this->template = '@AnyContentBackend/Forms/formelement-sequence-not-found.html.twig';
+
     }
 }

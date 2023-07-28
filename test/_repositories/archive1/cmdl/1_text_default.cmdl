@@ -1,0 +1,7 @@
+name
+text1 = textfield
+text2 = password
+text3 = email
+text4 = link
+text5 = textarea
+text6 = richtext

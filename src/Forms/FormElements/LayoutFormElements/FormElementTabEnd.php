@@ -3,6 +3,7 @@
 namespace AnyContent\Backend\Forms\FormElements\LayoutFormElements;
 
 use AnyContent\Backend\Forms\FormElements\FormElementDefault;
+use AnyContent\Backend\Services\FormManager;
 use CMDL\FormElementDefinitions\TabEndFormElementDefinition;
 use Twig\Environment;
 
@@ -11,8 +12,13 @@ class FormElementTabEnd extends FormElementDefault
     /** @var  TabEndFormElementDefinition */
     protected $definition;
 
+    protected string $type = 'tab-end';
+
     protected string $template = '@AnyContentBackend/Forms/formelement-tab.html.twig';
 
+    public function __construct(private FormManager $formManager){
+
+    }
     public function render(Environment $twig)
     {
         $this->fetchTabContent();

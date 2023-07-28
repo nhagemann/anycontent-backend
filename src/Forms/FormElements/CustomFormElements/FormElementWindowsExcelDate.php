@@ -2,10 +2,12 @@
 
 namespace AnyContent\Backend\Forms\FormElements\CustomFormElements;
 
+use AnyContent\Backend\Forms\FormElements\CustomFormElementInterface;
 use AnyContent\Backend\Forms\FormElements\FormElementDefault;
 use AnyContent\Backend\Services\ContextManager;
 use AnyContent\Backend\Services\FormManager;
 use AnyContent\Backend\Services\RepositoryManager;
+use CMDL\FormElementDefinition;
 use CMDL\FormElementDefinitions\CustomFormElementDefinition;
 use DateTime;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -13,15 +15,19 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 /**
  * This is an exemplary custom form element
  */
-class FormElementWindowsExcelDate extends FormElementDefault
+class FormElementWindowsExcelDate extends FormElementDefault implements CustomFormElementInterface
 {
     /** @var  CustomFormElementDefinition */
     protected $definition;
 
+    protected string $type = 'exceldate';
+
     protected string $template = '@AnyContentBackend/Forms/Custom/formelement-exceldate.html.twig';
 
-    public function init(RepositoryManager $repositoryManager, ContextManager $contextManager, FormManager $formManager, UrlGeneratorInterface $urlGenerator): void
+    public function init(FormElementDefinition $definition, ?string $id, mixed $value = ''): void
     {
+        parent::init($definition,$id,$value);
+
         $this->vars['date'] = '';
         if (is_numeric($this->value)) {
             $t = $this->excelToTimeStamp($this->value);

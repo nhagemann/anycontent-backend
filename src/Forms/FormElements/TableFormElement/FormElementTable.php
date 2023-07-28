@@ -11,6 +11,8 @@ class FormElementTable extends FormElementDefault
     /** @var  TableFormElementDefinition */
     protected $definition;
 
+    protected string $type = 'table';
+
     protected string $template = '@AnyContentBackend/Forms/formelement-table.html.twig';
 
     public function render(Environment $twig)

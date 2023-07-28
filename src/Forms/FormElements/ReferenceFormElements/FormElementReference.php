@@ -3,17 +3,26 @@
 namespace AnyContent\Backend\Forms\FormElements\ReferenceFormElements;
 
 use AnyContent\Backend\Forms\FormElements\SelectionFormElements\FormElementSelection;
+use AnyContent\Backend\Services\ContextManager;
+use AnyContent\Backend\Services\RepositoryManager;
 use AnyContent\Client\DataDimensions;
 use CMDL\FormElementDefinitions\ReferenceFormElementDefinition;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class FormElementReference extends FormElementSelection
 {
     /** @var  ReferenceFormElementDefinition */
     protected $definition;
 
+    protected string $type = 'reference';
+
     protected string $template = '@AnyContentBackend/Forms/formelement-reference.html.twig';
 
     protected $optionsForSelectBox = false;
+
+    public function __construct(private ContextManager $contextManager, private RepositoryManager $repositoryManager, private UrlGeneratorInterface $urlGenerator)
+    {
+    }
 
     protected function getOptionsForSelectBox()
     {

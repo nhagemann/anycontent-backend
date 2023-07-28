@@ -10,5 +10,7 @@ class FormElementRichtext extends FormElementTextArea
     /** @var  RichtextFormElementDefinition */
     protected $definition;
 
+    protected string $type = 'richtext';
+
     protected string $template = '@AnyContentBackend/Forms/formelement-richtext.html.twig';
 }

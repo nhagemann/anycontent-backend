@@ -3,14 +3,25 @@
 namespace AnyContent\Backend\Forms\FormElements\FileFormElements;
 
 use AnyContent\Backend\Forms\FormElements\FormElementDefault;
+use AnyContent\Backend\Services\ContextManager;
 use CMDL\FormElementDefinitions\FileFormElementDefinition;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twig\Environment;
 
 class FormElementFile extends FormElementDefault
 {
     /** @var  FileFormElementDefinition */
     protected $definition;
+
+    protected string $type = 'file';
     protected string $template = '@AnyContentBackend/Forms/formelement-file.html.twig';
+
+    public function __construct(
+        private ContextManager $contextManager,
+        private UrlGeneratorInterface $urlGenerator
+    ){
+
+    }
 
     public function render(Environment $twig)
     {

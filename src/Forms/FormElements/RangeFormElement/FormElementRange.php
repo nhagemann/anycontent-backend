@@ -11,6 +11,8 @@ class FormElementRange extends FormElementDefault
     /** @var  RangeFormElementDefinition */
     protected $definition;
 
+    protected string $type = 'range';
+
     protected string $template = '@AnyContentBackend/Forms/formelement-range.html.twig';
 
     public function render(Environment $twig)

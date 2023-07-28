@@ -11,6 +11,8 @@ class FormElementMultiSelection extends FormElementDefault
     /** @var MultiSelectionFormElementDefinition */
     protected $definition;
 
+    protected string $type = 'multiselection';
+
     protected string $template = '@AnyContentBackend/Forms/formelement-multiselection.html.twig';
 
     public function render(Environment $twig)

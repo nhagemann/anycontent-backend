@@ -3,6 +3,7 @@
 namespace AnyContent\Backend\Forms\FormElements\DateTimeFormElements;
 
 use AnyContent\Backend\Forms\FormElements\FormElementDefault;
+use AnyContent\Backend\Services\ContextManager;
 use CMDL\FormElementDefinitions\DateFormElementDefinition;
 use Twig\Environment;
 
@@ -11,7 +12,14 @@ class FormElementDate extends FormElementDefault
     /** @var DateFormElementDefinition */
     protected $definition;
 
+    protected string $type = 'date';
+
     protected string $template = '@AnyContentBackend/Forms/formelement-datetime.html.twig';
+
+
+    public function __construct(private ContextManager $contextManager)
+    {
+    }
 
     public function render(Environment $twig)
     {

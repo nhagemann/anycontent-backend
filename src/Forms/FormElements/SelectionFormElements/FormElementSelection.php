@@ -11,9 +11,9 @@ class FormElementSelection extends FormElementDefault
     /** @var  SelectionFormElementDefinition */
     protected $definition;
 
+    protected string $type = 'selection';
+
     protected string $template = '@AnyContentBackend/Forms/formelement-selection.html.twig';
-
-
 
     protected $autocompleteThreshold = 20;
 

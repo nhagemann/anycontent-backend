@@ -11,6 +11,8 @@ class FormElementNumber extends FormElementDefault
     /** @var  NumberFormElementDefinition */
     protected $definition;
 
+    protected string $type = 'number';
+
     protected string $template = '@AnyContentBackend/Forms/formelement-number.html.twig';
 
     public function render(Environment $twig)

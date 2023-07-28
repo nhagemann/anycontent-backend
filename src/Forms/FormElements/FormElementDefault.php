@@ -5,6 +5,7 @@ namespace AnyContent\Backend\Forms\FormElements;
 use AnyContent\Backend\Services\ContextManager;
 use AnyContent\Backend\Services\FormManager;
 use AnyContent\Backend\Services\RepositoryManager;
+use CMDL\FormElementDefinition;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twig\Environment;
 
@@ -14,27 +15,22 @@ use Twig\Environment;
 class FormElementDefault implements FormElementInterface
 {
     protected string $template = '@AnyContentBackend/Forms/formelement-default.html.twig';
+
+    protected string $type = 'default';
+
     protected array $vars = [];
 
     protected bool $isFirstElement = false;
 
-    protected RepositoryManager $repositoryManager;
-    protected ContextManager $contextManager;
-    protected FormManager $formManager;
-    protected UrlGeneratorInterface $urlGenerator;
+    protected $definition = null;
+    protected ?string $id;
+    protected ?string $name;
+    protected mixed $value;
 
-    public function __construct(
-        protected ?string $id,
-        protected ?string $name,
-        protected $definition,
-        protected mixed $value = '',
-        protected array $options = []
-    ) {
-        $this->vars['id']         = $this->id;
-        $this->vars['name']       = $this->name;
-        $this->vars['definition'] = $this->definition;
-        $this->vars['value']      = $this->value;
-    }
+//    protected RepositoryManager $repositoryManager;
+//    protected ContextManager $contextManager;
+//    protected FormManager $formManager;
+//    protected UrlGeneratorInterface $urlGenerator;
 
     public function render(Environment $twig)
     {
@@ -64,6 +60,11 @@ class FormElementDefault implements FormElementInterface
         return $this->value;
     }
 
+    public function getType()
+    {
+        return $this->type;
+    }
+
     public function getOption($key, $default = null)
     {
         if (array_key_exists($key, $this->options)) {
@@ -78,15 +79,31 @@ class FormElementDefault implements FormElementInterface
         return $input;
     }
 
-    public function init(
-        RepositoryManager $repositoryManager,
-        ContextManager $contextManager,
-        FormManager $formManager,
-        UrlGeneratorInterface $urlGenerator
-    ): void {
-        $this->repositoryManager = $repositoryManager;
-        $this->contextManager = $contextManager;
-        $this->formManager = $formManager;
-        $this->urlGenerator = $urlGenerator;
+    public function init(FormElementDefinition $definition, ?string $id, mixed $value = ''): void
+    {
+        $this->definition = $definition;
+        $this->name = $definition->getName();
+        $this->id = $id;
+        $this->value = $value;
+
+        $this->vars=[];
+        $this->vars['id'] = $this->id;
+        $this->vars['name'] = $this->name;
+        $this->vars['definition'] = $this->definition;
+        $this->vars['value'] = $this->value;
     }
+
+
+//    public function initOld(
+//        RepositoryManager     $repositoryManager,
+//        ContextManager        $contextManager,
+//        FormManager           $formManager,
+//        UrlGeneratorInterface $urlGenerator
+//    ): void
+//    {
+//        $this->repositoryManager = $repositoryManager;
+//        $this->contextManager = $contextManager;
+//        $this->formManager = $formManager;
+//        $this->urlGenerator = $urlGenerator;
+//    }
 }

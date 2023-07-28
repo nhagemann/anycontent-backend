@@ -3,14 +3,22 @@
 namespace AnyContent\Backend\Forms\FormElements\ReferenceFormElements;
 
 use AnyContent\Backend\Forms\FormElements\SelectionFormElements\FormElementMultiSelection;
+use AnyContent\Backend\Services\ContextManager;
+use AnyContent\Backend\Services\RepositoryManager;
 use AnyContent\Client\DataDimensions;
 use CMDL\FormElementDefinitions\MultiReferenceFormElementDefinition;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class FormElementMultiReference extends FormElementMultiSelection
 {
     /** @var  MultiReferenceFormElementDefinition */
     protected $definition;
 
+    protected string $type = 'multireference';
+
+    public function __construct(private ContextManager $contextManager, private RepositoryManager $repositoryManager, private UrlGeneratorInterface $urlGenerator)
+    {
+    }
     protected function getOptionsForSelectBox()
     {
         $repository = $this->contextManager->getCurrentRepository();

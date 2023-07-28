@@ -24,7 +24,7 @@ class SequenceController extends AbstractAnyContentBackendController
         $viewName,
         $insertName,
         $property,
-        string $recordId
+        ?string $recordId
     ) {
         $vars = [];
         $vars['action']['submit'] = $this->generateUrl(

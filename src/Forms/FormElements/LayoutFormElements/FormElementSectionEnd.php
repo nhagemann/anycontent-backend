@@ -10,5 +10,7 @@ class FormElementSectionEnd extends FormElementDefault
     /** @var  SectionEndFormElementDefinition */
     protected $definition;
 
+    protected string $type = 'section-end';
+
     protected string $template = '@AnyContentBackend/Forms/formelement-section-end.html.twig';
 }

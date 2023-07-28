@@ -1,0 +1,6 @@
+name
+select1 = checkbox
+select2 = selection (option1,option2,option3)
+select3 = multiselection (option1,option2,option3)
+select4 = reference 1_text_default
+select5 = multireference 1_text_default

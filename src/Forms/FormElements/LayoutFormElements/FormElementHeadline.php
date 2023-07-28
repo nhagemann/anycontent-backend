@@ -11,6 +11,8 @@ class FormElementHeadline extends FormElementDefault
     /** @var  HeadlineFormElementDefinition */
     protected $definition;
 
+    protected string $type = 'headline';
+
     protected string $template = '@AnyContentBackend/Forms/formelement-headline.html.twig';
 
     public function render(Environment $twig)

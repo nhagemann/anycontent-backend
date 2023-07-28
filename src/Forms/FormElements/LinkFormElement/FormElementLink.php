@@ -10,5 +10,7 @@ class FormElementLink extends FormElementDefault
     /** @var  LinkFormElementDefinition */
     protected $definition;
 
+    protected string $type = 'link';
+
     protected string $template = '@AnyContentBackend/Forms/formelement-link.html.twig';
 }

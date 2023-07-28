@@ -12,6 +12,8 @@ class FormElementInsert extends FormElementDefault
     /** @var  InsertFormElementDefinition */
     protected $definition;
 
+    protected string $type = 'insert';
+
     public function render(Environment $twig)
     {
         return '';

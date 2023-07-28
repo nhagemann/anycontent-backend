@@ -11,6 +11,8 @@ class FormElementCheckbox extends FormElementDefault
     /** @var CheckboxFormElementDefinition */
     protected $definition;
 
+    protected string $type = 'checkbox';
+
     protected string $template = '@AnyContentBackend/Forms/formelement-checkbox.html.twig';
 
     public function render(Environment $twig)

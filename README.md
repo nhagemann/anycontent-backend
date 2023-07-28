@@ -106,21 +106,26 @@ config/packages/security.yaml
 
 todo:
 - remove revisions command
-
+- auto adding of form elements
+- retest all form elements
+  - bug image selection shows non images
+  - 7_sequence
+ 
 ignored:
 - formelement geolocation, content list view map
 - formelement sourcecode
-- granular access rights (only skeleton code)
-- import/export/archive commands (Core/Edit/Exchange + Admin/Excelbackup)
+- admin routes
+- granular access rights (very rudimental implementation, only few cases, not generic)
+- import/export/archive commands (very specific implementation, which most probably nobody used, as you did backup the database instead)
 
 ideas:
 - admin routes with ANYCONTENT_ADMIN role
-- auto adding of form elements
 - advanced rights: repository: read / admin | record: create / read / update / delete / sort | config: read / update (via Voter $this->denyAccessUnlessGranted(PostVoter::VIEW, $post) https://symfony.com/doc/current/security/voters.html)
 - webp
 - help text
 - FormElementDefinitionInterface in Parser
-- AnyContent Client return $this->getFileManager()->getBinary($file); // getBinary returntype must be string
 - allow selective adding of javascript/css files
 - allow to only have subset of content/config types for contentarchive/mysql connections
 - advanced validation of connection configuration, e.g. lowercase a-z0-9 only names for mysql connections
+- import/export/archive commands (Core/Edit/Exchange + Admin/Excelbackup)
+- Preview-Button/Annotation with POST URL before SAVE
