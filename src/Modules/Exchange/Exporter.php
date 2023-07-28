@@ -128,7 +128,7 @@ class Exporter
     protected function createExcelDocument($title)
     {
         // Create new PHPExcel object
-        $objPHPExcel = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
+        $objPHPExcel = new Spreadsheet();
 
         // Set document properties
         $objPHPExcel->getProperties()->setCreator("AnyContent CMCK")

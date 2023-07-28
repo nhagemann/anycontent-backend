@@ -9,6 +9,7 @@ use AnyContent\Client\Repository;
 use CMDL\ConfigTypeDefinition;
 use CMDL\ContentTypeDefinition;
 use CMDL\DataTypeDefinition;
+use DateTime;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Session;
 
@@ -305,7 +306,7 @@ class ContextManager
 
     public function setCurrentTimeShift($timestamp)
     {
-        $date = new \DateTime();
+        $date = new DateTime();
         if ($timestamp > $date->getTimestamp()) {
             $this->addErrorMessage('Cannot time shift into the future! - "Jesus, George, it was a wonder I was even born." (Marty McFly)');
         } else {

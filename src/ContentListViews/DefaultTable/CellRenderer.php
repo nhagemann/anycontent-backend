@@ -5,6 +5,7 @@ namespace AnyContent\Backend\ContentListViews\DefaultTable;
 use AnyContent\Backend\Services\ContextManager;
 use AnyContent\Client\Record;
 use AnyContent\Client\UserInfo;
+use DateTime;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twig\Environment;
 
@@ -16,16 +17,6 @@ class CellRenderer
         private UrlGeneratorInterface $urlGenerator
     ) {
     }
-
-//    public function getTwig()
-//    {
-//        return $this->twig;
-//    }
-//
-//    public function getUrlGenerator()
-//    {
-//        return $this->urlGenerator;
-//    }
 
     /**
      * @param BaseColumn $column
@@ -104,7 +95,7 @@ class CellRenderer
     {
         $vars = [];
         $vars['username'] = $userInfo->getName();
-        $date             = new \DateTime();
+        $date             = new DateTime();
         $date->setTimestamp($userInfo->getTimestamp());
         $vars['date']     = $date->format('d.m.Y H:i:s');
         $vars['gravatar'] = md5(trim($userInfo->getUsername()));

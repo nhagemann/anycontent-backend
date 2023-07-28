@@ -17,7 +17,6 @@ class ConfigController extends AbstractAnyContentBackendController
     {
         $repository = $this->updateContextByConfigTypeAccessHash($configTypeAccessHash, $workspace, $language);
         $configTypeDefinition = $this->repositoryManager->getConfigTypeDefinitionByConfigTypeAccessHash($configTypeAccessHash);
-        $repositoryAccessHash = $this->repositoryManager->getRepositoryAccessHash($repository);
 
         $record = $repository->getConfig($configTypeDefinition->getName());
         $record->setRepository($repository);
@@ -26,11 +25,8 @@ class ConfigController extends AbstractAnyContentBackendController
         $vars = [];
         $this->addRepositoryLinks($vars, $repository);
 
-        //$vars['repository'] = $repository;
         $vars['definition'] = $configTypeDefinition;
         $vars['record'] = $record;
-
-        //$vars['links']['repository'] = $this->generateUrl('anycontent_repository', ['repositoryAccessHash' => $repositoryAccessHash]);
 
         $viewDefinition = $configTypeDefinition->getViewDefinition();
 

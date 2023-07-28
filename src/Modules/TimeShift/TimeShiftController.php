@@ -3,6 +3,8 @@
 namespace AnyContent\Backend\Modules\TimeShift;
 
 use AnyContent\Backend\Controller\AbstractAnyContentBackendController;
+use DateTime;
+use Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -46,10 +48,10 @@ class TimeShiftController extends AbstractAnyContentBackendController
             $this->contextManager->resetTimeShift();
         } else {
             try {
-                $date = new \DateTime($request->get('date') . ' ' . $request->get('time'));
+                $date = new DateTime($request->get('date') . ' ' . $request->get('time'));
 
                 $this->contextManager->setCurrentTimeShift($date->getTimestamp());
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $this->contextManager->resetTimeShift();
             }
         }

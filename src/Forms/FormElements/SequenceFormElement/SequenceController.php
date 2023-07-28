@@ -90,7 +90,7 @@ class SequenceController extends AbstractAnyContentBackendController
                         }
 
                         if (is_string($sequence)) {
-                            $sequence = @json_decode($sequence, true);
+                            $sequence = json_decode($sequence, true);
                             if (json_last_error() != JSON_ERROR_NONE or !is_array($sequence)) {
                                 $sequence = [];
                             }
@@ -103,7 +103,7 @@ class SequenceController extends AbstractAnyContentBackendController
                         $sequence = $config->getProperty($property, []);
 
                         if (is_string($sequence)) {
-                            $sequence = @json_decode($sequence, true);
+                            $sequence = json_decode($sequence, true);
                             if (json_last_error() != JSON_ERROR_NONE or !is_array($sequence)) {
                                 $sequence = [];
                             }
