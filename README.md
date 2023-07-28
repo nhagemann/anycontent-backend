@@ -108,6 +108,9 @@ todo:
 - remove revisions command
 - admin routes
 - events
+- user name into user info
+- Breadcrumb Files
+- favicon
 
 ignored:
 - events

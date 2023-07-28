@@ -1,16 +1,6 @@
 {% extends "@AnyContentBackend/anycontent-backend.html.twig" %}
 
-{% block title %}{% if definition.Title %}{{ definition.Title }}{% else %}{{ definition.Name }}{% endif %}{% endblock %}
-
-{% block javascripts %}
-    {{ parent() }}
-    <!--<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
-            integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/nestedSortable/2.0.0/jquery.mjs.nestedSortable.min.js"
-            integrity="sha512-uAt5HkX8rwCV19v9HIeAocLUfQvQDfX0zuaMQr5HhGZc6GwhJoe9hzJYBxzsWTaDSMl4FazGovJwUbOA8rGuog=="
-            crossorigin="anonymous" referrerpolicy="no-referrer"></script>-->
-{% endblock %}
-
+{% block title %}{% if definition.Title %}{{ definition.Title }}{% else %}{{ definition.Name }}{% endif %} Sorting{% endblock %}
 
 {% macro sortableItem(record, definition, close = true) %}
 <li class="sortable-item" id="list_{{ record.id }}">

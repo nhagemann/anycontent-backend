@@ -1,11 +1,6 @@
 {% extends "@AnyContentBackend/anycontent-backend.html.twig" %}
 
-{% block title %}Start{% endblock %}
-
-{% block javascripts %}
-    {{ parent() }}
-    {# <script src="{{ asset('bundles/anycontentbackend/js/editrecord.js') }}" rel="stylesheet"></script>#}
-{% endblock %}
+{% block title %}Edit Record{% endblock %}
 
 {% block content %}
     {% include "@AnyContentBackend/Content/editrecord-breadcrumb.html.twig" %}
@@ -33,14 +28,9 @@
                         <ul class="dropdown-menu" id="form_edit_button_save_options">
                             <li><a href="#" data-operation="save">Save</a></li>
                             <li class="divider"></li>
-
-                            {# % if links.transfer is defined %#}
                                 <li><a href="#" data-operation="save-insert">Save & Insert</a></li>
-                                {#  % if record %#}
-                                    <li><a href="#" data-operation="save-duplicate">Save & Duplicate</a></li>
-                                {#  % endif %#}
+                                <li><a href="#" data-operation="save-duplicate">Save & Duplicate</a></li>
                                 <li class="divider"></li>
-                            {#  % endif %#}
                             <li><a href="#" data-operation="save-list">Save & List</a></li>
                         </ul>
                     </span>
