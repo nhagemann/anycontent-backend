@@ -1,9 +1,12 @@
 any_content_backend:
   connections:
-    - { name: 'recordsfile1', type: 'recordsfile', data: '%kernel.project_dir%/../_repositories/recordsfile1', cmdl: '%kernel.project_dir%/../_repositories/recordsfile1', files: '%kernel.project_dir%/../_repositories/_files' }
-    - { name: 'recordfiles1', type: 'recordfiles', data: '%kernel.project_dir%/../_repositories/recordfiles1', files: '%kernel.project_dir%/../_repositories/_files' }
-    - { name: 'archive1', type: 'contentarchive', path: '%kernel.project_dir%/../_repositories/archive1', files: '%kernel.project_dir%/../_repositories/_files' }
-    #- { name: 'mysql', type: 'mysql', db_host: 'anycontent-backend-mysql', db_name: 'anycontent', db_user: 'user', db_password: 'password', path: '%kernel.project_dir%/../_repositories/mysql', files: '%kernel.project_dir%/../_repositories/_files'}
+    - { name: 'recordsfile1', type: 'recordsfile', cmdl_file: '%kernel.project_dir%/../_repositories/recordsfile1/test1.cmdl', content_file: '%kernel.project_dir%/../_repositories/recordsfile1/test1.json', files_path: '%kernel.project_dir%/../_repositories/_files' }
+    - { name: 'recordsfile1', type: 'recordsfile', cmdl_file: '%kernel.project_dir%/../_repositories/recordsfile1/test2.cmdl', content_file: '%kernel.project_dir%/../_repositories/recordsfile1/test2.json'}
+    - { name: 'recordsfile1', type: 'recordsfile', cmdl_file: '%kernel.project_dir%/../_repositories/recordsfile1/config/test.cmdl', config_file: '%kernel.project_dir%/../_repositories/recordsfile1/config/test.json'}
+    #- { name: 'recordfiles1', type: 'recordfiles', cmdl_file: '%kernel.project_dir%/../_repositories/recordfiles1/test.cmdl', content_path: '%kernel.project_dir%/../_repositories/recordfiles1', files_path: '%kernel.project_dir%/../_repositories/_files' }
+    #- { name: 'recordfiles1', type: 'recordfiles', cmdl_file: '%kernel.project_dir%/../_repositories/recordfiles1/config/test.cmdl', config_file: '%kernel.project_dir%/../_repositories/recordfiles1/config/test.json', files_path: '%kernel.project_dir%/../_repositories/_files' }
+    #- { name: 'archive1', type: 'contentarchive', data_path: '%kernel.project_dir%/../_repositories/archive1', files_path: '%kernel.project_dir%/../_repositories/_files' }
+    #- { name: 'mysql', type: 'mysql', db_host: 'anycontent-backend-mysql', db_name: 'anycontent', db_user: 'user', db_password: 'password', cmdl_path: '%kernel.project_dir%/../_repositories/mysql', files_path: '%kernel.project_dir%/../_repositories/_files'}
     #- { name: 'anycontent', type: 'mysql', db_host: 'anycontent-backend-mysql', db_name: 'anycontent', db_user: 'user', db_password: 'password', path: '%kernel.project_dir%/../_repositories/hahnair/anycontent', files: '%kernel.project_dir%/../_repositories/_files'}
     #- { name: 'hrs2', type: 'mysql', db_host: 'anycontent-backend-mysql', db_name: 'anycontent', db_user: 'user', db_password: 'password', path: '%kernel.project_dir%/../_repositories/hahnair/hrs', files: '%kernel.project_dir%/../_repositories/_files'}
   formelements:
