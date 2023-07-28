@@ -14,8 +14,8 @@ class FormElementTabNext extends FormElementDefault
 
     protected string $type = 'tab-next';
 
-    public function __construct(private FormManager $formManager){
-
+    public function __construct(private FormManager $formManager)
+    {
     }
 
     protected function fetchTabContent()

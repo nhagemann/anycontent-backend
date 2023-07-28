@@ -4,8 +4,6 @@ namespace AnyContent\Backend\Forms\FormElements\SequenceFormElement;
 
 use AnyContent\Backend\Forms\FormElements\FormElementDefault;
 use AnyContent\Backend\Services\ContextManager;
-use AnyContent\Backend\Services\FormManager;
-use AnyContent\Backend\Services\RepositoryManager;
 use AnyContent\Client\Record;
 use CMDL\FormElementDefinition;
 use CMDL\FormElementDefinitions\SequenceFormElementDefinition;
@@ -20,8 +18,8 @@ class FormElementSequence extends FormElementDefault
 
     protected string $template = '@AnyContentBackend/Forms/formelement-sequence.html.twig';
 
-    public function __construct(private  ContextManager $contextManager, private UrlGeneratorInterface $urlGenerator){
-
+    public function __construct(private ContextManager $contextManager, private UrlGeneratorInterface $urlGenerator)
+    {
     }
 
     public function init(FormElementDefinition $definition, ?string $id, mixed $value = ''): void
@@ -46,8 +44,8 @@ class FormElementSequence extends FormElementDefault
                 $insertName = $this->definition->getInsertedByInsertName();
             }
 
-            if ($recordId==='-'){
-                $recordId =null;
+            if ($recordId === '-') {
+                $recordId = null;
             }
 
             $url = $this->urlGenerator->generate('anycontent_sequence_edit', [
@@ -63,6 +61,5 @@ class FormElementSequence extends FormElementDefault
         }
 
         $this->template = '@AnyContentBackend/Forms/formelement-sequence-not-found.html.twig';
-
     }
 }

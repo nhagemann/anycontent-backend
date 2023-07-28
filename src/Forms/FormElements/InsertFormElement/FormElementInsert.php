@@ -3,6 +3,7 @@
 namespace AnyContent\Backend\Forms\FormElements\InsertFormElement;
 
 use AnyContent\Backend\Forms\FormElements\FormElementDefault;
+use AnyContent\Backend\Services\ContextManager;
 use CMDL\DataTypeDefinition;
 use CMDL\FormElementDefinitions\InsertFormElementDefinition;
 use Twig\Environment;
@@ -13,6 +14,10 @@ class FormElementInsert extends FormElementDefault
     protected $definition;
 
     protected string $type = 'insert';
+
+    public function __construct(private ContextManager $contextManager)
+    {
+    }
 
     public function render(Environment $twig)
     {

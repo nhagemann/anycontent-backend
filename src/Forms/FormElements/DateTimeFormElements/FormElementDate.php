@@ -16,7 +16,6 @@ class FormElementDate extends FormElementDefault
 
     protected string $template = '@AnyContentBackend/Forms/formelement-datetime.html.twig';
 
-
     public function __construct(private ContextManager $contextManager)
     {
     }

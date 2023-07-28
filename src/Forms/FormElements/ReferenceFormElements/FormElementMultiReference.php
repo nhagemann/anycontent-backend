@@ -7,7 +7,6 @@ use AnyContent\Backend\Services\ContextManager;
 use AnyContent\Backend\Services\RepositoryManager;
 use AnyContent\Client\DataDimensions;
 use CMDL\FormElementDefinitions\MultiReferenceFormElementDefinition;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class FormElementMultiReference extends FormElementMultiSelection
 {
@@ -16,9 +15,10 @@ class FormElementMultiReference extends FormElementMultiSelection
 
     protected string $type = 'multireference';
 
-    public function __construct(private ContextManager $contextManager, private RepositoryManager $repositoryManager, private UrlGeneratorInterface $urlGenerator)
+    public function __construct(private ContextManager $contextManager, private RepositoryManager $repositoryManager)
     {
     }
+
     protected function getOptionsForSelectBox()
     {
         $repository = $this->contextManager->getCurrentRepository();

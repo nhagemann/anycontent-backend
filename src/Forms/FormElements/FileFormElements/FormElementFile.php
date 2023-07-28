@@ -19,8 +19,7 @@ class FormElementFile extends FormElementDefault
     public function __construct(
         private ContextManager $contextManager,
         private UrlGeneratorInterface $urlGenerator
-    ){
-
+    ) {
     }
 
     public function render(Environment $twig)

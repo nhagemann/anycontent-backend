@@ -5,7 +5,6 @@ namespace AnyContent\Backend\DependencyInjection;
 use AnyContent\Backend\ContentListViews\ContentListViewInterface;
 use AnyContent\Backend\Forms\FormElements\CustomFormElementInterface;
 use AnyContent\Backend\Forms\FormElements\FormElementInterface;
-use AnyContent\Backend\Setup\FormElementsAdder;
 use AnyContent\Backend\Setup\RepositoryAdder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;

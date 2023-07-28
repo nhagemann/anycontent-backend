@@ -3,7 +3,6 @@
 namespace AnyContent\Backend\Setup;
 
 use AnyContent\Backend\DependencyInjection\ServiceTags;
-use AnyContent\Backend\Services\ContentListViewsManager;
 use AnyContent\Backend\Services\FormManager;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -27,12 +26,10 @@ class FormElementsCompilerPass implements CompilerPassInterface
         $formElementClasses = array_keys($container->findTaggedServiceIds(ServiceTags::FORM_ELEMENT));
         $customFormElementClasses = array_keys($container->findTaggedServiceIds(ServiceTags::CUSTOM_FORM_ELEMENT));
 
-
         foreach ($formElementClasses as $className) {
-
-            if (in_array($className,$customFormElementClasses)){
-               $definition->addMethodCall('registerCustomFormElement', [new Reference($className)]);
-               continue;
+            if (in_array($className, $customFormElementClasses)) {
+                $definition->addMethodCall('registerCustomFormElement', [new Reference($className)]);
+                continue;
             }
 
             $definition->addMethodCall('registerFormElement', [new Reference($className)]);

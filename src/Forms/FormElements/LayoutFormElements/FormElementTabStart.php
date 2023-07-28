@@ -14,8 +14,8 @@ class FormElementTabStart extends FormElementDefault
 
     protected string $type = 'tab-start';
 
-    public function __construct(private FormManager $formManager){
-
+    public function __construct(private FormManager $formManager)
+    {
     }
 
     public function render(Environment $twig)

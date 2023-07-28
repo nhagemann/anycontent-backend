@@ -16,9 +16,10 @@ class FormElementTabEnd extends FormElementDefault
 
     protected string $template = '@AnyContentBackend/Forms/formelement-tab.html.twig';
 
-    public function __construct(private FormManager $formManager){
-
+    public function __construct(private FormManager $formManager)
+    {
     }
+
     public function render(Environment $twig)
     {
         $this->fetchTabContent();

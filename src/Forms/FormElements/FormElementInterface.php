@@ -2,15 +2,13 @@
 
 namespace AnyContent\Backend\Forms\FormElements;
 
-use AnyContent\Backend\Services\ContextManager;
-use AnyContent\Backend\Services\FormManager;
-use AnyContent\Backend\Services\RepositoryManager;
 use CMDL\FormElementDefinition;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twig\Environment;
 
 interface FormElementInterface
 {
+    public function getType();
+
     public function render(Environment $twig);
 
     public function setIsFirstElement($boolean);
@@ -20,8 +18,6 @@ interface FormElementInterface
     public function setValue($value);
 
     public function getValue();
-
-    public function getOption($key, $default = null);
 
     public function parseFormInput(mixed $input): string;
 

@@ -2,11 +2,7 @@
 
 namespace AnyContent\Backend\Forms\FormElements;
 
-use AnyContent\Backend\Services\ContextManager;
-use AnyContent\Backend\Services\FormManager;
-use AnyContent\Backend\Services\RepositoryManager;
 use CMDL\FormElementDefinition;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twig\Environment;
 
 /**
@@ -65,14 +61,14 @@ class FormElementDefault implements FormElementInterface
         return $this->type;
     }
 
-    public function getOption($key, $default = null)
-    {
-        if (array_key_exists($key, $this->options)) {
-            return $this->options[$key];
-        }
-
-        return $default;
-    }
+//    public function getOption($key, $default = null)
+//    {
+//        if (array_key_exists($key, $this->options)) {
+//            return $this->options[$key];
+//        }
+//
+//        return $default;
+//    }
 
     public function parseFormInput(mixed $input): string
     {
@@ -86,13 +82,12 @@ class FormElementDefault implements FormElementInterface
         $this->id = $id;
         $this->value = $value;
 
-        $this->vars=[];
+        $this->vars = [];
         $this->vars['id'] = $this->id;
         $this->vars['name'] = $this->name;
         $this->vars['definition'] = $this->definition;
         $this->vars['value'] = $this->value;
     }
-
 
 //    public function initOld(
 //        RepositoryManager     $repositoryManager,

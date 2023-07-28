@@ -16,8 +16,8 @@ class FormElementSectionStart extends FormElementDefault
 
     protected string $template = '@AnyContentBackend/Forms/formelement-section-start.html.twig';
 
-    public function __construct(private FormManager $formManager){
-
+    public function __construct(private FormManager $formManager)
+    {
     }
 
     public function render(Environment $twig)
