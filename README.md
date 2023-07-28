@@ -107,7 +107,6 @@ config/packages/security.yaml
 todo:
 - limit mysql configuration to lowercase, allow title 
 - remove revisions command
-- phpstan
 - admin routes
 - additional connection types
 
@@ -130,7 +129,3 @@ idea:
 - allow selective adding of javascript/css files
 - auto adding of form elements
 - repositories instead of connection in config
-
-bugs:
-- no save message when saving config with sequence
-- add when editing record with sequence broken

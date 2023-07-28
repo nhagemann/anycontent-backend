@@ -7,8 +7,13 @@ use AnyContent\Backend\Services\RepositoryManager;
 use AnyContent\Client\Repository;
 use AnyContent\Connection\Configuration\ContentArchiveConfiguration;
 use AnyContent\Connection\Configuration\MySQLSchemalessConfiguration;
+use AnyContent\Connection\Configuration\RecordsFileConfiguration;
 use AnyContent\Connection\FileManager\DirectoryBasedFilesAccess;
+use Symfony\Component\Finder\Finder;
 
+/**
+ * Adds all configured repositories
+ */
 class RepositoryAdder
 {
     private RepositoryManager $repositoryManager;
@@ -28,6 +33,15 @@ class RepositoryAdder
             $repository = null;
 
             switch ($type) {
+                case 'recordsfile':
+                    $data = $connection['data'];
+                    $cmdl = $connection['cmdl'];
+                    $repository = $this->addRecordsFileConnection($name, $data, $cmdl);
+                    break;
+                case 'recordfiles':
+                    //$path = $connection['path'];
+                    //$repository = $this->addRecordFilesConnection($name, $path);
+                    break;
                 case 'contentarchive':
                     $path = $connection['path'];
                     $repository = $this->addContentArchiveConnection($name, $path);
@@ -52,29 +66,44 @@ class RepositoryAdder
                 $this->addFileManager($repository, $files);
             }
         }
+    }
 
-//        $configuration = new RecordFilesConfiguration();
-//
-//        $configuration->addContentType('airline', __DIR__ . '/../../../_repositories/airlines.cmdl', __DIR__.'/../../../_repositories/records');
-//        $configuration->addContentType('otherct', __DIR__ . '/../../../_repositories/otherct.cmdl', __DIR__.'/../../../_repositories/records');
-//
-//        $connection = $configuration->createReadWriteConnection();
-//
-//        $repository = new Repository('demo', $connection);
-//        $repository->setPublicUrl('');
-//
-//        $repositoryManager->addRepository('demo',$repository);
-//
-//        $configuration = new RecordFilesConfiguration();
-//
-//        $configuration->addContentType('otherct', __DIR__ . '/../../../_repositories/otherct.cmdl', __DIR__.'/../../../_repositories/records');
-//
-//        $connection = $configuration->createReadWriteConnection();
-//
-//        $repository = new Repository('demo2', $connection);
-//        $repository->setPublicUrl('');
-//
-//        $repositoryManager->addRepository('demo2',$repository);
+    private function addRecordsFileConnection(string $name, string $dataFolder, string $cmdlFolder): Repository
+    {
+        if (!file_exists($cmdlFolder)) {
+            throw new AnyContentBackendException(sprintf('Cannot find cmdl folder %s for connection %s', $cmdlFolder, $name));
+        }
+        if (!file_exists($dataFolder)) {
+            throw new AnyContentBackendException(sprintf('Cannot find data folder %s for connection %s', $dataFolder, $name));
+        }
+
+        // Add all content types
+        $finder = new Finder();
+        $configuration = new RecordsFileConfiguration();
+        foreach ($finder->in($cmdlFolder)->depth(0)->name('*.cmdl')->files() as $file) {
+            $contentTypeName = $file->getFilenameWithoutExtension();
+            $dataFileName = sprintf('%s/%s.json', $file->getPath(), $file->getFilenameWithoutExtension());
+            $cmdlFilename = (string)$file->getRealPath();
+            $configuration->addContentType($contentTypeName, $cmdlFilename, $dataFileName);
+        }
+
+        // Add config types, if there is a config subfolder
+        $finder = new Finder();
+        $cmdlFolder = sprintf('%s/config', $cmdlFolder);
+        if (file_exists($cmdlFolder)) {
+            foreach ($finder->in($cmdlFolder)->depth(0)->name('*.cmdl')->files() as $file) {
+                $configTypeName = $file->getFilenameWithoutExtension();
+                $dataFileName = sprintf('%s/%s.json', $file->getPath(), $file->getFilenameWithoutExtension());
+                $cmdlFilename = (string)$file->getRealPath();
+                $configuration->addConfigType($configTypeName, $cmdlFilename, $dataFileName);
+            }
+        }
+
+        $connection = $configuration->createReadWriteConnection();
+
+        $repository = new Repository($name, $connection);
+        $this->repositoryManager->addRepository($name, $repository);
+        return $repository;
     }
 
     private function addContentArchiveConnection(string $name, string $path): Repository
@@ -88,13 +117,13 @@ class RepositoryAdder
         return $repository;
     }
 
-    private function addMySQLConnection(string $name, string $host, string $database, string $user, string $password, string $port, string $path): Repository
+    private function addMySQLConnection(string $name, string $host, string $database, string $user, string $password, string $port, string $cmdlFolderPath): Repository
     {
         $configuration = new MySQLSchemalessConfiguration();
 
         $configuration->initDatabase($host, $database, $user, $password, $port);
 
-        $configuration->setCMDLFolder($path);
+        $configuration->setCMDLFolder($cmdlFolderPath);
         $configuration->setRepositoryName($name);
         $configuration->addContentTypes();
         $configuration->addConfigTypes();

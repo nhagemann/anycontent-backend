@@ -8,6 +8,9 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
+/**
+ * Find all content list views and register within ContentListViewsManager during container compilation
+ */
 class ContentListViewCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container): void

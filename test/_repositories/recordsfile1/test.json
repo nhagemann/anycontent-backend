@@ -1,0 +1,46 @@
+{
+    "records": {
+        "1": {
+            "id": 1,
+            "properties": {
+                "name": "test 1"
+            },
+            "info": {
+                "revision": 2,
+                "creation": {
+                    "timestamp": 1690473729,
+                    "username": "",
+                    "firstname": "",
+                    "lastname": ""
+                },
+                "lastchange": {
+                    "timestamp": 1690475377,
+                    "username": "",
+                    "firstname": "",
+                    "lastname": ""
+                }
+            }
+        },
+        "2": {
+            "id": 2,
+            "properties": {
+                "name": "test 2"
+            },
+            "info": {
+                "revision": 1,
+                "creation": {
+                    "timestamp": 1690475382,
+                    "username": "",
+                    "firstname": "",
+                    "lastname": ""
+                },
+                "lastchange": {
+                    "timestamp": 1690475382,
+                    "username": "",
+                    "firstname": "",
+                    "lastname": ""
+                }
+            }
+        }
+    }
+}
