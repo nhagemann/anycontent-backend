@@ -28,8 +28,10 @@ class RepositoryAdder
     {
         $this->repositoryManager = $repositoryManager;
 
-        $userInfo = new UserInfo($this->security->getUser()->getUserIdentifier());
-        $this->repositoryManager->setUserInfo($userInfo);
+        if ($this->security->getUser()) {
+            $userInfo = new UserInfo($this->security->getUser()->getUserIdentifier());
+            $this->repositoryManager->setUserInfo($userInfo);
+        }
 
         $recordsFileConnections = [];
         $recordFilesConnections = [];

@@ -9,7 +9,7 @@
         "position": "1"
     },
     "info": {
-        "revision": 17,
+        "revision": 18,
         "creation": {
             "timestamp": null,
             "username": "",
@@ -17,8 +17,8 @@
             "lastname": ""
         },
         "lastchange": {
-            "timestamp": 1690398581,
-            "username": "",
+            "timestamp": 1690541584,
+            "username": "nils",
             "firstname": "",
             "lastname": ""
         }
