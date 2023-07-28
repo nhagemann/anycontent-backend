@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a443a7bcb455c53d6792351cec11c749",
+    "content-hash": "1060424e7cf2e63986ef9bc163b04379",
     "packages": [
         {
             "name": "d4h/finediff",
@@ -709,12 +709,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nhagemann/anycontent-client-php.git",
-                "reference": "e6a0d5c7cdeb2557490a43b5588576ddbd11b719"
+                "reference": "8ca7a1e7f5e41d1886b9c28dfc9f00ae4c6a3611"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nhagemann/anycontent-client-php/zipball/e6a0d5c7cdeb2557490a43b5588576ddbd11b719",
-                "reference": "e6a0d5c7cdeb2557490a43b5588576ddbd11b719",
+                "url": "https://api.github.com/repos/nhagemann/anycontent-client-php/zipball/8ca7a1e7f5e41d1886b9c28dfc9f00ae4c6a3611",
+                "reference": "8ca7a1e7f5e41d1886b9c28dfc9f00ae4c6a3611",
                 "shasum": ""
             },
             "require": {
@@ -762,7 +762,7 @@
                 "issues": "https://github.com/nhagemann/anycontent-client-php/issues",
                 "source": "https://github.com/nhagemann/anycontent-client-php/tree/analyze-for-robert"
             },
-            "time": "2023-07-25T18:56:12+00:00"
+            "time": "2023-07-28T13:57:43+00:00"
         },
         {
             "name": "nhagemann/cmdl-parser-php",
@@ -5482,16 +5482,16 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "9.2.26",
+            "version": "9.2.27",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "443bc6912c9bd5b409254a40f4b0f4ced7c80ea1"
+                "reference": "b0a88255cb70d52653d80c890bd7f38740ea50d1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/443bc6912c9bd5b409254a40f4b0f4ced7c80ea1",
-                "reference": "443bc6912c9bd5b409254a40f4b0f4ced7c80ea1",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/b0a88255cb70d52653d80c890bd7f38740ea50d1",
+                "reference": "b0a88255cb70d52653d80c890bd7f38740ea50d1",
                 "shasum": ""
             },
             "require": {
@@ -5547,7 +5547,8 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/php-code-coverage/issues",
-                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/9.2.26"
+                "security": "https://github.com/sebastianbergmann/php-code-coverage/security/policy",
+                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/9.2.27"
             },
             "funding": [
                 {
@@ -5555,7 +5556,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-03-06T12:58:08+00:00"
+            "time": "2023-07-26T13:44:30+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -7108,7 +7109,8 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=8.1"
+        "php": ">=8.1",
+        "ext-curl": "*"
     },
     "platform-dev": {
         "ext-pdo": "*",

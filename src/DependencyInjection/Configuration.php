@@ -12,6 +12,8 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder('any_content_backend');
 
         // https://stackoverflow.com/questions/34323106/symfony-config-treebuilder
+
+        //@phpstan-ignore-next-line
         $treeBuilder
             ->getRootNode()
                 ->children()
@@ -37,6 +39,7 @@ class Configuration implements ConfigurationInterface
                 ->end()
             ->end();
 
+        //@phpstan-ignore-next-line
         $treeBuilder
             ->getRootNode()
             ->children()
