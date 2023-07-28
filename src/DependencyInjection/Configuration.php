@@ -32,6 +32,7 @@ class Configuration implements ConfigurationInterface
                         ->scalarNode('db_password')->end()
                         ->scalarNode('db_port')->defaultValue('3306')->end()
                         ->scalarNode('files_path')->end()
+                        ->scalarNode('files_url')->end()
                     ->end()
                 ->end()
             ->end();

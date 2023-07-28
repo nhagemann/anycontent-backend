@@ -47,14 +47,16 @@ class RepositoryAdder
                     $dataType = isset($connection['content_file']) ? 'content' : 'config';
                     $dataFile = $connection['content_file'] ?? $connection['config_file'];
                     $filesPath = $connection['files_path'] ?? null;
-                    $recordsFileConnections[$name][] = ['cmdl_file' => $connection['cmdl_file'], 'data_type' => $dataType, 'data_file' => $dataFile, 'files_path' => $filesPath];
+                    $filesUrl = $connection['files_url'] ?? null;
+                    $recordsFileConnections[$name][] = ['cmdl_file' => $connection['cmdl_file'], 'data_type' => $dataType, 'data_file' => $dataFile, 'files_path' => $filesPath, 'files_url' => $filesUrl];
                     break;
                 case 'recordfiles':
                     $dataType = isset($connection['content_path']) ? 'content' : 'config';
                     $contentPath = $connection['content_path'] ?? null;
                     $configFile = $connection['config_file'] ?? null;
                     $filesPath = $connection['files_path'] ?? null;
-                    $recordFilesConnections[$name][] = ['cmdl_file' => $connection['cmdl_file'], 'data_type' => $dataType, 'content_path' => $contentPath, 'config_file' => $configFile, 'files_path' => $filesPath];
+                    $filesUrl = $connection['files_url'] ?? null;
+                    $recordFilesConnections[$name][] = ['cmdl_file' => $connection['cmdl_file'], 'data_type' => $dataType, 'content_path' => $contentPath, 'config_file' => $configFile, 'files_path' => $filesPath, 'files_url' => $filesUrl];
                     break;
                 case 'contentarchive':
                     $path = $connection['data_path'];
@@ -76,18 +78,19 @@ class RepositoryAdder
             }
 
             if (isset($connection['files_path'])) {
-                $this->addFileManager($repository, $connection['files_path']);
+                $this->addFileManager($repository, $connection['files_path'], $connection['files_url'] ?? null);
             }
-
-            $this->addRecordFilesConnections($recordFilesConnections);
-            $this->addRecordsFileConnections($recordsFileConnections);
         }
+
+        $this->addRecordFilesConnections($recordFilesConnections);
+        $this->addRecordsFileConnections($recordsFileConnections);
     }
 
     private function addRecordsFileConnections($connections): void
     {
         foreach ($connections as $name => $dataTypes) {
             $filesPath = null;
+            $filesUrl = null;
             $configuration = new RecordsFileConfiguration();
             foreach ($dataTypes as $dataType) {
                 if ($dataType['data_type'] === 'content') {
@@ -97,12 +100,13 @@ class RepositoryAdder
                     $configuration->addConfigType(basename($dataType['cmdl_file'], '.cmdl'), $dataType['cmdl_file'], $dataType['data_file']);
                 }
                 $filesPath = $dataType['files_path'] ?? $filesPath;
+                $filesUrl = $dataType['files_url'] ?? $filesUrl;
             }
             $connection = $configuration->createReadWriteConnection();
             $repository = new Repository($name, $connection);
             $this->repositoryManager->addRepository($name, $repository);
             if ($filesPath !== null) {
-                $this->addFileManager($repository, $filesPath);
+                $this->addFileManager($repository, $filesPath, $filesUrl);
             }
         }
     }
@@ -111,6 +115,7 @@ class RepositoryAdder
     {
         foreach ($connections as $name => $dataTypes) {
             $filesPath = null;
+            $filesUrl = null;
             $configuration = new RecordFilesConfiguration();
             foreach ($dataTypes as $dataType) {
                 if ($dataType['data_type'] === 'content') {
@@ -120,12 +125,13 @@ class RepositoryAdder
                     $configuration->addConfigType(basename($dataType['cmdl_file'], '.cmdl'), $dataType['cmdl_file'], $dataType['config_file']);
                 }
                 $filesPath = $dataType['files_path'] ?? $filesPath;
+                $filesUrl = $dataType['files_url'] ?? $filesUrl;
             }
             $connection = $configuration->createReadWriteConnection();
             $repository = new Repository($name, $connection);
             $this->repositoryManager->addRepository($name, $repository);
             if ($filesPath !== null) {
-                $this->addFileManager($repository, $filesPath);
+                $this->addFileManager($repository, $filesPath, $filesUrl);
             }
         }
     }
@@ -159,7 +165,7 @@ class RepositoryAdder
         return $repository;
     }
 
-    private function addFileManager(Repository $repository, string $files)
+    private function addFileManager(Repository $repository, string $files, ?string $filesUrl)
     {
         if ($files !== '') {
             if (!file_exists($files)) {
@@ -168,6 +174,10 @@ class RepositoryAdder
 
             $fileManager = new DirectoryBasedFilesAccess($files);
             $fileManager->enableImageSizeCalculation();
+
+            if ($filesUrl) {
+                $fileManager->setPublicUrl($filesUrl);
+            }
             $repository->setFileManager($fileManager);
         }
     }
