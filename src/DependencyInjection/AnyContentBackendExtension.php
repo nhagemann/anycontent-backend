@@ -27,9 +27,6 @@ class AnyContentBackendExtension extends Extension
         $service = $container->getDefinition(RepositoryAdder::class);
         $service->setArgument('$connections', $config['connections']);
 
-        $service = $container->getDefinition(FormElementsAdder::class);
-        $service->setArgument('$formElements', $config['formelements']);
-
         // tag content list views and (custom) form elements for auto registration
         $container->registerForAutoconfiguration(ContentListViewInterface::class)->addTag(ServiceTags::CONTENT_LIST_VIEW);
         $container->registerForAutoconfiguration(FormElementInterface::class)->addTag(ServiceTags::FORM_ELEMENT);

@@ -39,20 +39,6 @@ class Configuration implements ConfigurationInterface
                 ->end()
             ->end();
 
-        //@phpstan-ignore-next-line
-        $treeBuilder
-            ->getRootNode()
-            ->children()
-            ->arrayNode('formelements')
-                ->prototype('array')
-                    ->children()
-                    ->scalarNode('type')->isRequired()->end()
-                    ->scalarNode('class')->isRequired()->end()
-                    ->scalarNode('custom_type')->end()
-                ->end()
-            ->end()
-            ->end();
-
         return $treeBuilder;
     }
 }
