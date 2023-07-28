@@ -28,7 +28,7 @@ class ListingController extends AbstractAnyContentBackendController
         parent::__construct($this->repositoryManager, $this->contextManager, $this->formManager, $this->menuManager, $this->dispatcher);
     }
 
-    #[Route('/content/list/{contentTypeAccessHash}/{contentView}/{page}/{workspace}/{language}', name: 'anycontent_records', methods: ['GET'])]
+    #[Route('/content/list/{contentTypeAccessHash}/{contentView}/{page}/{workspace}/{language}', name:'anycontent_records', methods: ['GET'])]
     public function listRecords(#[CurrentUser] ?UserInterface $user, Request $request, ContentListViewsManager $contentViewsManager, $contentTypeAccessHash, $page = 1, $workspace = null, $language = null, $contentView = 'default')
     {
         $vars = [];

@@ -10,7 +10,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[IsGranted('ROLE_ANYCONTENT')]
 class HelpController extends AbstractAnyContentBackendController
 {
-    #[Route('/help', 'anycontent_help')]
+    #[Route('/help', name:'anycontent_help', methods: ['GET'])]
     public function help(): Response
     {
         return $this->render('@AnyContentBackend/Help/help.html.twig');

@@ -14,14 +14,14 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[IsGranted('ROLE_ANYCONTENT')]
 class RecordsController extends AbstractAnyContentBackendController
 {
-    #[Route('/content/add/{contentTypeAccessHash}/{workspace}/{language}', 'anycontent_record_add', methods: ['GET'])]
-    #[Route('/content/add/{contentTypeAccessHash}/{recordId}/{workspace}/{language}', 'anycontent_record_add_distinct', methods: ['GET'])]
+    #[Route('/content/add/{contentTypeAccessHash}/{workspace}/{language}', name:'anycontent_record_add', methods: ['GET'])]
+    #[Route('/content/add/{contentTypeAccessHash}/{recordId}/{workspace}/{language}', name:'nameanycontent_record_add_distinct', methods: ['GET'])]
     public function addRecord($contentTypeAccessHash, ?int $recordId = null, $workspace = null, $language = null)
     {
         return $this->editRecord($contentTypeAccessHash, $recordId, $workspace, $language, true);
     }
 
-    #[Route('/content/edit/{contentTypeAccessHash}/{recordId}/{workspace}/{language}', 'anycontent_record_edit', methods: ['GET'])]
+    #[Route('/content/edit/{contentTypeAccessHash}/{recordId}/{workspace}/{language}', name:'anycontent_record_edit', methods: ['GET'])]
     public function editRecord($contentTypeAccessHash, ?int $recordId, $workspace = null, $language = null, bool $addRecord = false)
     {
         $repository = $this->updateContext($contentTypeAccessHash, $workspace, $language);
@@ -126,9 +126,9 @@ class RecordsController extends AbstractAnyContentBackendController
         return $this->render('@AnyContentBackend/Content/editrecord.html.twig', $vars);
     }
 
-    #[Route('/content/edit/{contentTypeAccessHash}/{recordId}/{workspace}/{language}', 'anycontent_record_save', methods: ['POST'])]
-    #[Route('/content/add/{contentTypeAccessHash}/{workspace}/{language}', 'anycontent_record_insert', methods: ['POST'])]
-    #[Route('/content/add/{contentTypeAccessHash}/{recordId}/{workspace}/{language}', 'anycontent_record_insert_distinct', methods: ['POST'])]
+    #[Route('/content/edit/{contentTypeAccessHash}/{recordId}/{workspace}/{language}', name:'anycontent_record_save', methods: ['POST'])]
+    #[Route('/content/add/{contentTypeAccessHash}/{workspace}/{language}', name:'anycontent_record_insert', methods: ['POST'])]
+    #[Route('/content/add/{contentTypeAccessHash}/{recordId}/{workspace}/{language}', name:'anycontent_record_insert_distinct', methods: ['POST'])]
     //#[Route('/content/add/{contentTypeAccessHash}', 'anycontent_record_insert', methods: ['POST'])]
     public function saveRecord(Request $request, $contentTypeAccessHash, $recordId = null)
     {
@@ -318,7 +318,7 @@ class RecordsController extends AbstractAnyContentBackendController
         return new JsonResponse($response);
     }
 
-    #[Route('/content/delete/{contentTypeAccessHash}/{recordId}/{workspace}/{language}', 'anycontent_record_delete', methods: ['GET'])]
+    #[Route('/content/delete/{contentTypeAccessHash}/{recordId}/{workspace}/{language}', name:'anycontent_record_delete', methods: ['GET'])]
     public function deleteRecord(
         $contentTypeAccessHash,
         $recordId,
@@ -349,7 +349,7 @@ class RecordsController extends AbstractAnyContentBackendController
         }
     }
 
-    #[Route('/modal/content/transfer/{contentTypeAccessHash}/{recordId}/{workspace}/{language}', 'anycontent_record_transfer_modal', methods: ['GET'])]
+    #[Route('/modal/content/transfer/{contentTypeAccessHash}/{recordId}/{workspace}/{language}', name:'anycontent_record_transfer_modal', methods: ['GET'])]
     public function transferRecordModal(
         $contentTypeAccessHash,
         $recordId,
@@ -396,7 +396,7 @@ class RecordsController extends AbstractAnyContentBackendController
         return $this->render('@AnyContentBackend/Content/transferrecord-modal.twig', $vars);
     }
 
-    #[Route('/content/transfer/{contentTypeAccessHash}/{recordId}/{workspace}/{language}', 'anycontent_record_transfer', methods: ['POST'])]
+    #[Route('/content/transfer/{contentTypeAccessHash}/{recordId}/{workspace}/{language}', name:'anycontent_record_transfer', methods: ['POST'])]
     public function transferRecord(
         Request $request,
         $contentTypeAccessHash,

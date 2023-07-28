@@ -14,7 +14,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[IsGranted('ROLE_ANYCONTENT')]
 class ExportController extends AbstractAnyContentBackendController
 {
-    #[Route('/modal/content/export/{contentTypeAccessHash}', 'anycontent_records_export_modal')]
+    #[Route('/modal/content/export/{contentTypeAccessHash}', name:'anycontent_records_export_modal', methods: ['GET'])]
     public function modal(Request $request, $contentTypeAccessHash): Response
     {
         $vars = [];
@@ -44,7 +44,7 @@ class ExportController extends AbstractAnyContentBackendController
         return $this->render('@AnyContentBackend/Export/exportrecords-modal.html.twig', $vars);
     }
 
-    #[Route('/content/export/{contentTypeAccessHash}', 'anycontent_records_export')]
+    #[Route('/content/export/{contentTypeAccessHash}', name:'anycontent_records_export', methods: ['GET'])]
     public function executeExportRecords(Exporter $exporter, Request $request, $contentTypeAccessHash)
     {
         $token = $request->get('token');

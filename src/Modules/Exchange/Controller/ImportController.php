@@ -14,7 +14,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[IsGranted('ROLE_ANYCONTENT')]
 class ImportController extends AbstractAnyContentBackendController
 {
-    #[Route('/modal/content/import/{contentTypeAccessHash}', 'anycontent_records_import_modal')]
+    #[Route('/modal/content/import/{contentTypeAccessHash}', name:'anycontent_records_import_modal', methods: ['GET'])]
     public function start(Request $request, $contentTypeAccessHash): Response
     {
         $vars = [];
@@ -32,7 +32,7 @@ class ImportController extends AbstractAnyContentBackendController
         return $this->render('@AnyContentBackend/Export/importrecords-modal.html.twig', $vars);
     }
 
-    #[Route('/content/import/{contentTypeAccessHash}', 'anycontent_records_import')]
+    #[Route('/content/import/{contentTypeAccessHash}', name:'anycontent_records_import', methods: ['GET'])]
     public function executeImportRecords(Importer $importer, Request $request, $contentTypeAccessHash)
     {
         $repository = $this->repositoryManager->getRepositoryByContentTypeAccessHash($contentTypeAccessHash);

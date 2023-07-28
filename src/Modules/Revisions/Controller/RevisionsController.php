@@ -15,7 +15,7 @@ use Symfony\Component\Yaml\Yaml;
 #[IsGranted('ROLE_ANYCONTENT')]
 class RevisionsController extends AbstractAnyContentBackendController
 {
-    #[Route('/content/revisions/{contentTypeAccessHash}/{recordId}/{workspace}/{language}', 'anycontent_record_revisions')]
+    #[Route('/content/revisions/{contentTypeAccessHash}/{recordId}/{workspace}/{language}', name:'anycontent_record_revisions', methods: ['GET'])]
     public function listRecordRevisions($contentTypeAccessHash, $recordId, $workspace, $language)
     {
         $vars = [];
@@ -137,7 +137,7 @@ class RevisionsController extends AbstractAnyContentBackendController
         return $this->render('@AnyContentBackend\Content\record-not-found.html.twig', $vars);
     }
 
-    #[Route('/content/revisions/{configTypeAccessHash}/{workspace}/{language}', 'anycontent_config_revisions')]
+    #[Route('/content/revisions/{configTypeAccessHash}/{workspace}/{language}', name:'anycontent_config_revisions', methods: ['GET'])]
     public function listConfigRevisions($configTypeAccessHash, $workspace, $language)
     {
         $vars = [];
@@ -270,7 +270,7 @@ class RevisionsController extends AbstractAnyContentBackendController
         }
     }
 
-    #[Route('/content/revisions/{contentTypeAccessHash}/{recordId}/{workspace}/{language}/edit/{timeshift}', 'anycontent_revisions_record_timeshift')]
+    #[Route('/content/revisions/{contentTypeAccessHash}/{recordId}/{workspace}/{language}/edit/{timeshift}', name:'anycontent_revisions_record_timeshift', methods: ['GET'])]
     public function editRecordRevision($contentTypeAccessHash, $recordId, $workspace, $language, $timeshift)
     {
         $this->contextManager->setCurrentTimeShift($timeshift + 1);
@@ -278,7 +278,7 @@ class RevisionsController extends AbstractAnyContentBackendController
         return $this->redirect($this->generateUrl('anycontent_record_edit', ['contentTypeAccessHash' => $contentTypeAccessHash, 'recordId' => $recordId, 'workspace' => $workspace, 'language' => $language]));
     }
 
-    #[Route('/config/revisions/{configTypeAccessHash}/{workspace}/{language}/edit/{timeshift}', 'anycontent_revisions_config_timeshift')]
+    #[Route('/config/revisions/{configTypeAccessHash}/{workspace}/{language}/edit/{timeshift}', name:'anycontent_revisions_config_timeshift', methods: ['GET'])]
     public function editConfigRevision($configTypeAccessHash, $workspace, $language, $timeshift)
     {
         $this->contextManager->setCurrentTimeShift($timeshift + 1);
@@ -286,7 +286,7 @@ class RevisionsController extends AbstractAnyContentBackendController
         return $this->redirect($this->generateUrl('anycontent_config_edit', ['configTypeAccessHash' => $configTypeAccessHash, 'workspace' => $workspace, 'language' => $language]));
     }
 
-    #[Route('/content/revisions/{contentTypeAccessHash}/{recordId}/{workspace}/{language}/recreate/{timeshift}', 'anycontent_revisions_record_recreate')]
+    #[Route('/content/revisions/{contentTypeAccessHash}/{recordId}/{workspace}/{language}/recreate/{timeshift}', name:'anycontent_revisions_record_recreate', methods: ['GET'])]
     public function recreateRecordRevision($contentTypeAccessHash, $recordId, $workspace, $language, $timeshift)
     {
         $repository = $this->repositoryManager->getRepositoryByContentTypeAccessHash($contentTypeAccessHash);
@@ -329,7 +329,7 @@ class RevisionsController extends AbstractAnyContentBackendController
         return $this->render('forbidden.twig', []);
     }
 
-    #[Route('/config/revisions/{configTypeAccessHash}/{workspace}/{language}/recreate/{timeshift}', 'anycontent_revisions_config_recreate')]
+    #[Route('/config/revisions/{configTypeAccessHash}/{workspace}/{language}/recreate/{timeshift}', name:'anycontent_revisions_config_recreate', methods: ['GET'])]
     public function recreateConfigRevision($configTypeAccessHash, $workspace, $language, $timeshift)
     {
         $repository = $this->repositoryManager->getRepositoryByConfigTypeAccessHash($configTypeAccessHash);

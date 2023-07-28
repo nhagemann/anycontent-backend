@@ -10,7 +10,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[IsGranted('ROLE_ANYCONTENT')]
 class StartController extends AbstractAnyContentBackendController
 {
-    #[Route('/', 'anycontent_start')]
+    #[Route('/', name:'anycontent_start', methods: ['GET'])]
     public function start(): Response
     {
         $vars = [];
@@ -27,7 +27,7 @@ class StartController extends AbstractAnyContentBackendController
         return $this->render('@AnyContentBackend/Start/index.html.twig', $vars);
     }
 
-    #[Route('/repository/{repositoryAccessHash}', 'anycontent_repository')]
+    #[Route('/repository/{repositoryAccessHash}', name:'anycontent_repository', methods: ['GET'])]
     public function repository(string $repositoryAccessHash)
     {
         $vars = [];

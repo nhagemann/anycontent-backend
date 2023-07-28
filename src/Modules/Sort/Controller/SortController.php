@@ -12,7 +12,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[IsGranted('ROLE_ANYCONTENT')]
 class SortController extends AbstractAnyContentBackendController
 {
-    #[Route('/content/sort/{contentTypeAccessHash}/{workspace}/{language}', 'anycontent_records_sort', methods: ['GET'])]
+    #[Route('/content/sort/{contentTypeAccessHash}/{workspace}/{language}', name:'anycontent_records_sort', methods: ['GET'])]
     public function sortRecords($contentTypeAccessHash, $workspace = null, $language = null): Response
     {
         $vars = [];
@@ -64,7 +64,7 @@ class SortController extends AbstractAnyContentBackendController
         return $this->render('@AnyContentBackend/Sort/sort.html.twig', $vars);
     }
 
-    #[Route('/content/sort/{contentTypeAccessHash}/{workspace}/{language}', 'anycontent_records_sort_post', methods: ['POST'])]
+    #[Route('/content/sort/{contentTypeAccessHash}/{workspace}/{language}', name:'anycontent_records_sort_post', methods: ['POST'])]
     public function postSortRecords($contentTypeAccessHash, $workspace, $language, Request $request): Response
     {
         $hidden = $request->get('$hidden');
