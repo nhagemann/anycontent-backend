@@ -44,7 +44,7 @@ class ExportController extends AbstractAnyContentBackendController
         return $this->render('@AnyContentBackend/Export/exportrecords-modal.html.twig', $vars);
     }
 
-    #[Route('/content/export/{contentTypeAccessHash}', name:'anycontent_records_export', methods: ['GET'])]
+    #[Route('/content/export/{contentTypeAccessHash}', name:'anycontent_records_export', methods: ['POST'])]
     public function executeExportRecords(Exporter $exporter, Request $request, $contentTypeAccessHash)
     {
         $token = $request->get('token');
