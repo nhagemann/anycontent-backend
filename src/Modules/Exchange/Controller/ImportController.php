@@ -32,7 +32,7 @@ class ImportController extends AbstractAnyContentBackendController
         return $this->render('@AnyContentBackend/Export/importrecords-modal.html.twig', $vars);
     }
 
-    #[Route('/content/import/{contentTypeAccessHash}', name:'anycontent_records_import', methods: ['GET'])]
+    #[Route('/content/import/{contentTypeAccessHash}', name:'anycontent_records_import', methods: ['POST'])]
     public function executeImportRecords(Importer $importer, Request $request, $contentTypeAccessHash)
     {
         $repository = $this->repositoryManager->getRepositoryByContentTypeAccessHash($contentTypeAccessHash);

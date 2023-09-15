@@ -4,6 +4,7 @@ namespace AnyContent\Backend\Command;
 
 use AnyContent\Backend\Helper\ConsolePrinter;
 use AnyContent\Backend\Services\RepositoryManager;
+use AnyContent\Connection\Interfaces\RevisionWriteConnection;
 use AnyContent\Connection\MySQLSchemalessReadOnlyConnection;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -25,10 +26,12 @@ class DeleteRevisionsCommand extends Command
         parent::__construct(null);
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->printer->error('Not yet implemented');
-        return Command::FAILURE;
+        // todo confirmation, date selection, repository selection, content type selection
+
+        $truncateDate = new \DateTime();
+
         $repositories = $this->repositoryManager->listRepositories();
 
         foreach ($repositories as $repositoryInfo) {
@@ -36,10 +39,11 @@ class DeleteRevisionsCommand extends Command
 
             $connection = $repository->getWriteConnection();
 
-            if ($connection instanceof MySQLSchemalessReadOnlyConnection) {
+            if ($connection instanceof RevisionWriteConnection) {
                 $this->printer->h1($repositoryInfo['title']);
                 foreach ($repository->getContentTypeDefinitions() as $contentTypeDefinition) {
                     $this->printer->writeln($contentTypeDefinition->getName());
+                    $connection->truncateContentTypeRevisions($contentTypeDefinition,$truncateDate);
                 }
             }
 
