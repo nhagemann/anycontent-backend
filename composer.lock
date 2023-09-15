@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5bd0afa7b3ecf15b402545d6adabc5fc",
+    "content-hash": "7ce8e6e07d45d43726e3f2b5f4c73620",
     "packages": [
         {
             "name": "d4h/finediff",
@@ -6714,7 +6714,7 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=8.1",
+        "php": ">=8.0",
         "ext-curl": "*",
         "ext-zip": "*"
     },
