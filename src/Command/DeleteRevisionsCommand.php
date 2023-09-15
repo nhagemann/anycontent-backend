@@ -5,7 +5,6 @@ namespace AnyContent\Backend\Command;
 use AnyContent\Backend\Helper\ConsolePrinter;
 use AnyContent\Backend\Services\RepositoryManager;
 use AnyContent\Connection\Interfaces\RevisionWriteConnection;
-use AnyContent\Connection\MySQLSchemalessReadOnlyConnection;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -43,7 +42,7 @@ class DeleteRevisionsCommand extends Command
                 $this->printer->h1($repositoryInfo['title']);
                 foreach ($repository->getContentTypeDefinitions() as $contentTypeDefinition) {
                     $this->printer->writeln($contentTypeDefinition->getName());
-                    $connection->truncateContentTypeRevisions($contentTypeDefinition,$truncateDate);
+                    $connection->truncateContentTypeRevisions($contentTypeDefinition, $truncateDate);
                 }
             }
 

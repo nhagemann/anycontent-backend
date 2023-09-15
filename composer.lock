@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e989b474df9d9999ac0667e338dc4f94",
+    "content-hash": "5bd0afa7b3ecf15b402545d6adabc5fc",
     "packages": [
         {
             "name": "d4h/finediff",
@@ -380,23 +380,22 @@
         },
         {
             "name": "nhagemann/anycontent-client-php",
-            "version": "dev-analyze-for-robert",
+            "version": "5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nhagemann/anycontent-client-php.git",
-                "reference": "2636b4515d287a54f4cfa2c7adc77f4718e7b66d"
+                "reference": "5cb779be920dd65e68d649bdf69c83279d531b60"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nhagemann/anycontent-client-php/zipball/2636b4515d287a54f4cfa2c7adc77f4718e7b66d",
-                "reference": "2636b4515d287a54f4cfa2c7adc77f4718e7b66d",
+                "url": "https://api.github.com/repos/nhagemann/anycontent-client-php/zipball/5cb779be920dd65e68d649bdf69c83279d531b60",
+                "reference": "5cb779be920dd65e68d649bdf69c83279d531b60",
                 "shasum": ""
             },
             "require": {
                 "imagine/imagine": "^1.3",
-                "nhagemann/cmdl-parser-php": "dev-analyze-for-robert",
+                "nhagemann/cmdl-parser-php": "5.*",
                 "php": ">=8.0",
-                "psr/log": "1.*|2.*|3.*",
                 "symfony/cache": "4.*|5.*|6.*",
                 "symfony/filesystem": "4.*|5.*|6.*",
                 "symfony/finder": "4.*|5.*|6.*"
@@ -430,26 +429,26 @@
                     "homepage": "http://www.nilshagemann.de"
                 }
             ],
-            "description": "Client library to work with AnyContent repositories. Provides connectors for different repository types (file based, MySQL, restlike).",
+            "description": "Client library to work with AnyContent repositories. Provides connectors for different repository types (file based, MySQL).",
             "homepage": "http://www.nilshagemann.de",
             "support": {
                 "issues": "https://github.com/nhagemann/anycontent-client-php/issues",
-                "source": "https://github.com/nhagemann/anycontent-client-php/tree/analyze-for-robert"
+                "source": "https://github.com/nhagemann/anycontent-client-php/tree/5.0"
             },
-            "time": "2023-09-10T11:58:41+00:00"
+            "time": "2023-09-15T15:10:26+00:00"
         },
         {
             "name": "nhagemann/cmdl-parser-php",
-            "version": "dev-analyze-for-robert",
+            "version": "5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nhagemann/cmdl-parser-php.git",
-                "reference": "7c43778fd7086638fa2b31ed2dc2701e13e23e99"
+                "reference": "bf3557149f42eef82c677d0c4348431eacea01af"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nhagemann/cmdl-parser-php/zipball/7c43778fd7086638fa2b31ed2dc2701e13e23e99",
-                "reference": "7c43778fd7086638fa2b31ed2dc2701e13e23e99",
+                "url": "https://api.github.com/repos/nhagemann/cmdl-parser-php/zipball/bf3557149f42eef82c677d0c4348431eacea01af",
+                "reference": "bf3557149f42eef82c677d0c4348431eacea01af",
                 "shasum": ""
             },
             "require": {
@@ -469,34 +468,7 @@
                     "": "src/"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "Tests\\": "tests/"
-                }
-            },
-            "scripts": {
-                "phpunit": [
-                    "vendor/bin/phpunit"
-                ],
-                "phpcs": [
-                    "vendor/bin/phpcs"
-                ],
-                "phpcbf": [
-                    "vendor/bin/phpcbf"
-                ],
-                "phpstan4": [
-                    "vendor/bin/phpstan analyze --level 4 src tests"
-                ],
-                "phpstan5": [
-                    "vendor/bin/phpstan analyze --level 5 src tests"
-                ],
-                "phpstan": [
-                    "vendor/bin/phpstan analyze --level max src tests"
-                ],
-                "phpmd": [
-                    "vendor/bin/phpmd src ansi phpmd.xml"
-                ]
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -510,10 +482,10 @@
             "description": "Library to parse AnyContent CMDL files into an object representation",
             "homepage": "http://www.nilshagemann.de",
             "support": {
-                "source": "https://github.com/nhagemann/cmdl-parser-php/tree/analyze-for-robert",
-                "issues": "https://github.com/nhagemann/cmdl-parser-php/issues"
+                "issues": "https://github.com/nhagemann/cmdl-parser-php/issues",
+                "source": "https://github.com/nhagemann/cmdl-parser-php/tree/5.0"
             },
-            "time": "2023-09-15T14:49:21+00:00"
+            "time": "2023-09-15T14:52:44+00:00"
         },
         {
             "name": "phpoffice/phpspreadsheet",
@@ -6738,9 +6710,7 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "nhagemann/anycontent-client-php": 20
-    },
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
