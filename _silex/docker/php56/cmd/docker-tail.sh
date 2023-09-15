@@ -1,1 +1,0 @@
-docker logs -f anycontent-cms-construction-kit-php56

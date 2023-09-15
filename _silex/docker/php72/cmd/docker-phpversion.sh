@@ -1,1 +1,0 @@
-docker exec anycontent-cms-construction-kit-php72 php -v

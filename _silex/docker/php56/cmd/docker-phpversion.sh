@@ -1,1 +1,0 @@
-docker exec anycontent-cms-construction-kit-php56 php -v

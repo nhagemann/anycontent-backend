@@ -1,7 +1,0 @@
-<div class="menu-buttongroup">
-    {% for button in buttons %}
-        <a href="{{ button.url }}" class="btn btn-default"
-           role="button"{% if button.id is defined %} id="{{ button.id }}"{% endif %}><span
-                    class="glyphicon {{ button.glyphicon }}"></span> {{ button.label }}</a>
-    {% endfor %}
-</div>
