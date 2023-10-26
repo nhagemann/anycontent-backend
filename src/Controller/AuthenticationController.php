@@ -25,7 +25,7 @@ class AuthenticationController extends AbstractAnyContentBackendController
     }
 
     #[Route('/logout', name: 'anycontent_logout')]
-    public function logout(): never
+    public function logout(): void
     {
         // controller can be blank: it will never be called!
         throw new Exception('Don\'t forget to activate logout in security.yaml');
