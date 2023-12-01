@@ -10,7 +10,7 @@ of the Composer documentation.
 
 Require the package in the composer json:
 
-```json
+```console
 composer require nhagemann/anycontent-backend
 ```
 
