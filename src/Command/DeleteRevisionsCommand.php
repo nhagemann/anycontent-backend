@@ -43,7 +43,7 @@ class DeleteRevisionsCommand extends Command
         $this->input = $input;
         $this->output = $output;
         $questionHelper = $this->getHelper('question');
-        assert ($questionHelper instanceof QuestionHelper);
+        assert($questionHelper instanceof QuestionHelper);
         $this->questionHelper = $questionHelper;
 
         try {

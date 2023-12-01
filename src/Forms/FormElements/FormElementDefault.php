@@ -23,11 +23,6 @@ class FormElementDefault implements FormElementInterface
     protected ?string $name;
     protected mixed $value;
 
-//    protected RepositoryManager $repositoryManager;
-//    protected ContextManager $contextManager;
-//    protected FormManager $formManager;
-//    protected UrlGeneratorInterface $urlGenerator;
-
     public function render(Environment $twig)
     {
         // skip elements, that don't have a name, i.e. cannot get stored into a property, unless we are in a form element extended from default

@@ -6,23 +6,13 @@ Make sure Composer is installed globally, as explained in the
 of the Composer documentation.
 
 
-### Step 1: Download the Bundle
+### Step 1: Install via Composer
 
 Require the package in the composer json:
 
 ```json
-"nhagemann/anycontent-backend": "dev-main"
+composer require nhagemann/anycontent-backend
 ```
-
-Download the sourcecode and tell where to find it with:
-
-```json
-    "repositories": [
-        {"type": "path", "url":  "path/to/bundle"}
-    ]
-```
-
-Later on it will be a normal composer require
 
 
 ### Step 2: Enable the Bundle
@@ -96,33 +86,22 @@ config/packages/security.yaml
         users_in_memory:
                 memory:
                     users: # get new password hash via php -r "echo password_hash('****', PASSWORD_BCRYPT, ['cost' => 13]) . PHP_EOL;"
-                        nils: { password: '$2y$13$DSTS4mBmIIBzzgi/tXB0mOrNy4vX/k6hcCl2oLijJaM24tEkzMose', roles: [ 'ROLE_ANYCONTENT' ] }
-                        tim: { password: '$2y$13$DSTS4mBmIIBzzgi/tXB0mOrNy4vX/k6hcCl2oLijJaM24tEkzMose', roles: [ 'ROLE_ANYCONTENT' ] }
+                        yourusername: { password: 'puthashhere', roles: [ 'ROLE_ANYCONTENT' ] }
+
 ```
 
 ### Step 6: Configure Repositories
 
+Add section any_content_backend: to your config, here some examples for different connection types:
 
-
-todo:
-- remove revisions command
-- retest all form elements
- 
-ignored:
-- formelement geolocation, content list view map
-- formelement sourcecode
-- admin routes
-- granular access rights (very rudimental implementation, only few cases, not generic)
-- import/export/archive commands (very specific implementation, which most probably nobody used, as you did backup the database instead)
-
-ideas:
-- FormElementDefinitionInterface in Parser
-- admin routes with ANYCONTENT_ADMIN role
-- advanced rights: repository: read / admin | record: create / read / update / delete / sort | config: read / update (via Voter $this->denyAccessUnlessGranted(PostVoter::VIEW, $post) https://symfony.com/doc/current/security/voters.html)
-- webp
-- help text
-- allow selective adding of javascript/css files
-- allow to only have subset of content/config types for contentarchive/mysql connections
-- advanced validation of connection configuration, e.g. lowercase a-z0-9 only names for mysql connections
-- import/export/archive commands (Core/Edit/Exchange + Admin/Excelbackup)
-- Preview-Button/Annotation with POST URL before SAVE
+```yaml
+any_content_backend:
+  connections:
+    - { name: 'recordsfile1', type: 'recordsfile', cmdl_file: '%kernel.project_dir%/../_repositories/recordsfile1/test1.cmdl', content_file: '%kernel.project_dir%/../_repositories/recordsfile1/test1.json', files_path: '%kernel.project_dir%/../_repositories/_files' }
+    - { name: 'recordsfile1', type: 'recordsfile', cmdl_file: '%kernel.project_dir%/../_repositories/recordsfile1/test2.cmdl', content_file: '%kernel.project_dir%/../_repositories/recordsfile1/test2.json'}
+    - { name: 'recordsfile1', type: 'recordsfile', cmdl_file: '%kernel.project_dir%/../_repositories/recordsfile1/config/test.cmdl', config_file: '%kernel.project_dir%/../_repositories/recordsfile1/config/test.json'}
+    - { name: 'recordfiles1', type: 'recordfiles', cmdl_file: '%kernel.project_dir%/../_repositories/recordfiles1/test.cmdl', content_path: '%kernel.project_dir%/../_repositories/recordfiles1', files_path: '%kernel.project_dir%/../_repositories/_files' }
+    - { name: 'recordfiles1', type: 'recordfiles', cmdl_file: '%kernel.project_dir%/../_repositories/recordfiles1/config/test.cmdl', config_file: '%kernel.project_dir%/../_repositories/recordfiles1/config/test.json', files_path: '%kernel.project_dir%/../_repositories/_files' }
+    - { name: 'archive1', type: 'contentarchive', data_path: '%kernel.project_dir%/../_repositories/archive1', files_path: '%kernel.project_dir%/../_repositories/_files' }
+    - { name: 'mysql', type: 'mysql', db_host: 'anycontent-backend-mysql', db_name: 'anycontent', db_user: 'user', db_password: 'password', cmdl_path: '%kernel.project_dir%/../_repositories/mysql', files_path: '%kernel.project_dir%/../_repositories/_files'}
+  ```

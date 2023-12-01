@@ -2,7 +2,6 @@ Name
 Foundation Year = date
 Number of planes = number 0
 Captains Name {captain}
-Logo = image
 
 @languages (default:English,german:German)
 @workspaces (default:Draft,live:Live)
