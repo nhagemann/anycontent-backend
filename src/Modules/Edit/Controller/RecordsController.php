@@ -15,7 +15,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class RecordsController extends AbstractAnyContentBackendController
 {
     #[Route('/content/add/{contentTypeAccessHash}/{workspace}/{language}', name:'anycontent_record_add', methods: ['GET'])]
-    #[Route('/content/add/{contentTypeAccessHash}/{recordId}/{workspace}/{language}', name:'nameanycontent_record_add_distinct', methods: ['GET'])]
+    #[Route('/content/add/{contentTypeAccessHash}/{recordId}/{workspace}/{language}', name:'anycontent_record_add_distinct', methods: ['GET'])]
     public function addRecord($contentTypeAccessHash, ?int $recordId = null, $workspace = null, $language = null)
     {
         return $this->editRecord($contentTypeAccessHash, $recordId, $workspace, $language, true);
